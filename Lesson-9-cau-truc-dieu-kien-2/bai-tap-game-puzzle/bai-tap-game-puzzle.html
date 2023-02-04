@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Game puzzle</title>
+    <style>
+        img {
+            box-shadow: black 4px 4px 9px;
+            width: 600px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+<img id="img1" src=""><br>
+<img id="img2" src=""><br>
+<img id="img3" src=""><br>
+<img id="img4" src=""><br>
+<img id="img5" src=""><br>
+
+<script>
+    let img1 = document.getElementById("img1");
+    let img2 = document.getElementById("img2");
+    let img3 = document.getElementById("img3");
+    let img4 = document.getElementById("img4");
+    let img5 = document.getElementById("img5");
+    let imageArray = [
+        ["image/funny-cat1_part1x1.jpg", "image/panda_swap_part1x1.jpg", "image/monkey_part1x1.jpg"],
+        ["image/funny-cat1_part2x1.jpg", "image/panda_swap_part2x1.jpg", "image/monkey_part2x1.jpg"],
+        ["image/funny-cat1_part3x1.jpg", "image/panda_swap_part3x1.jpg", "image/monkey_part3x1.jpg"],
+        ["image/funny-cat1_part4x1.jpg", "image/panda_swap_part4x1.jpg", "image/monkey_part4x1.jpg"],
+        ["image/funny-cat1_part5x1.jpg", "image/panda_swap_part5x1.jpg", "image/monkey_part5x1.jpg"],
+    ]
+    let indexImg1 = Math.round(Math.random()*2);
+    let indexImg2 = Math.round(Math.random()*2);
+    let indexImg3 = Math.round(Math.random()*2);
+    let indexImg4 = Math.round(Math.random()*2);
+    let indexImg5 = Math.round(Math.random()*2);
+    function refreshImg () {
+        img1.src = imageArray[0][indexImg1];
+        img2.src = imageArray[1][indexImg2];
+        img3.src = imageArray[2][indexImg3];
+        img4.src = imageArray[3][indexImg4];
+        img5.src = imageArray[4][indexImg5];
+    }
+    window.onload = refreshImg();
+    function changeImg1 () {
+        if (indexImg1 == 2) {
+            indexImg1 = 0;
+            img1.src = imageArray[0][indexImg1];
+        } else {
+            indexImg1++;
+            img1.src = imageArray[0][indexImg1];
+        }
+        isWinGame();
+    }
+    document.querySelector("#img1").addEventListener("click", changeImg1);
+    function changeImg2 () {
+        if (indexImg2 == 2) {
+            indexImg2 = 0;
+            img2.src = imageArray[1][indexImg2];
+        } else {
+            indexImg2++;
+            img2.src = imageArray[1][indexImg2];
+        }
+        isWinGame();
+    }
+    document.querySelector("#img2").addEventListener("click", changeImg2);
+    function changeImg3 () {
+        if (indexImg3 == 2) {
+            indexImg3 = 0;
+            img3.src = imageArray[2][indexImg3];
+        } else {
+            indexImg3++;
+            img3.src = imageArray[2][indexImg3];
+        }
+        isWinGame();
+    }
+    document.querySelector("#img3").addEventListener("click", changeImg3);
+    function changeImg4 () {
+        if (indexImg4 == 2) {
+            indexImg4 = 0;
+            img4.src = imageArray[3][indexImg4];
+        } else {
+            indexImg4++;
+            img4.src = imageArray[3][indexImg4];
+        }
+        isWinGame();
+    }
+    document.querySelector("#img4").addEventListener("click", changeImg4);
+    function changeImg5 () {
+        if (indexImg5 == 2) {
+            indexImg5 = 0;
+            img5.src = imageArray[4][indexImg5];
+        } else {
+            indexImg5++;
+            img5.src = imageArray[4][indexImg5];
+        }
+        isWinGame();
+    }
+    document.querySelector("#img5").addEventListener("click", changeImg5);
+    function isWinGame () {
+        if (indexImg1 == indexImg2
+        && indexImg1 == indexImg3
+        && indexImg1 == indexImg4
+        && indexImg1 == indexImg5) {
+            document.querySelector("#img1").style.boxShadow = "red 4px 4px 9px";
+            document.querySelector("#img2").style.boxShadow = "red 4px 4px 9px";
+            document.querySelector("#img3").style.boxShadow = "red 4px 4px 9px";
+            document.querySelector("#img4").style.boxShadow = "red 4px 4px 9px";
+            document.querySelector("#img5").style.boxShadow = "red 4px 4px 9px";
+        }
+    }
+    // function changeImg1 () {
+    //     if (indexImg1 == 2) {
+    //         indexImg1 = 0;
+    //         img1.src = imageArray[0][indexImg1];
+    //     } else {
+    //         indexImg1++;
+    //         img1.src = imageArray[0][indexImg1];
+    //     }
+    // }
+    // document.querySelector("#img1").addEventListener("click", function() {
+    //     changeImg1();
+    //     isWinGame();
+    // });
+    // function changeImg2 () {
+    //     if (indexImg2 == 2) {
+    //         indexImg2 = 0;
+    //         img2.src = imageArray[1][indexImg2];
+    //     } else {
+    //         indexImg2++;
+    //         img2.src = imageArray[1][indexImg2];
+    //     }
+    // }
+    // document.querySelector("#img2").addEventListener("click", function() {
+    //     changeImg2();
+    //     isWinGame();
+    // });
+    // function changeImg3 () {
+    //     if (indexImg3 == 2) {
+    //         indexImg3 = 0;
+    //         img3.src = imageArray[2][indexImg3];
+    //     } else {
+    //         indexImg3++;
+    //         img3.src = imageArray[2][indexImg3];
+    //     }
+    // }
+    // document.querySelector("#img3").addEventListener("click", function() {
+    //     changeImg3();
+    //     isWinGame();
+    // });
+    // function changeImg4 () {
+    //     if (indexImg4 == 2) {
+    //         indexImg4 = 0;
+    //         img4.src = imageArray[3][indexImg4];
+    //     } else {
+    //         indexImg4++;
+    //         img4.src = imageArray[3][indexImg4];
+    //     }
+    // }
+    // document.querySelector("#img4").addEventListener("click", function() {
+    //     changeImg4();
+    //     isWinGame();
+    // });
+    // function changeImg5 () {
+    //     if (indexImg5 == 2) {
+    //         indexImg5 = 0;
+    //         img5.src = imageArray[4][indexImg5];
+    //     } else {
+    //         indexImg5++;
+    //         img5.src = imageArray[4][indexImg5];
+    //     }
+    // }
+    // document.querySelector("#img5").addEventListener("click", function() {
+    //     changeImg5();
+    //     isWinGame();
+    // });
+    // function isWinGame () {
+    //     if (indexImg1 == indexImg2
+    //         && indexImg1 == indexImg3
+    //         && indexImg1 == indexImg4
+    //         && indexImg1 == indexImg5) {
+    //         document.querySelector("#img1").style.boxShadow = "red 4px 4px 9px";
+    //         document.querySelector("#img2").style.boxShadow = "red 4px 4px 9px";
+    //         document.querySelector("#img3").style.boxShadow = "red 4px 4px 9px";
+    //         document.querySelector("#img4").style.boxShadow = "red 4px 4px 9px";
+    //         document.querySelector("#img5").style.boxShadow = "red 4px 4px 9px";
+    //     }
+    // }
+</script>
+</body>
+</html>

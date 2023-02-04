@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bài tập: Ứng dụng máy tính</title>
+</head>
+<body>
+<h1>Ứng dụng máy tính</h1>
+<input id="a" type="text" placeholder="Nhập số a">
+<input id="b" type="text" placeholder="Nhập số b">
+<br>
+<button onclick="tinhToan('+')" type="button">Cộng</button>
+<button onclick="tinhToan('-')" type="button">Trừ</button>
+<button onclick="tinhToan('*')" type="button">Nhân</button>
+<button onclick="tinhToan('/')" type="button">Chia</button>
+<!--<button id="cong" type="button" >Cộng</button>-->
+<!--<button id="tru" type="button">Trừ</button>-->
+<!--<button id="nhan" type="button">Nhân</button>-->
+<!--<button id="chia" type="button">Chia</button>-->
+<br>
+<p>Kết quả : </p><span></span>
+
+<script>
+    function tinhToan (opera) {
+        let a = Number(document.querySelector("#a").value);
+        let b = Number(document.querySelector("#b").value);
+        let result = eval(a + opera + b);
+        document.querySelector("span").innerText = result;
+    }
+
+    // function initCalculator() {
+    //     // document.querySelectorAll("button")[0].addEventListener("click", tinhToan("+"));
+    //     let cong = document.getElementById("cong");
+    //     cong.addEventListener("click", tinhToan("+"));
+    //     // document.querySelectorAll("button")[1].addEventListener("click", tinhToan("-"));
+    //     document.getElementById("tru").addEventListener("click", tinhToan("-"));
+    //     // document.querySelectorAll("button")[2].addEventListener("click", tinhToan("*"));
+    //     document.getElementById("nhan").addEventListener("click", tinhToan("*"));
+    //     // document.querySelectorAll("button")[3].addEventListener("click", tinhToan("/"));
+    //     document.getElementById("chia").addEventListener("click", tinhToan("/"));
+    // }
+    //
+    // initCalculator();
+
+</script>
+</body>
+</html>

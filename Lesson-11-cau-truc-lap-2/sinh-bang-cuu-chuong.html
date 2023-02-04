@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Sinh bảng cửu chương</title>
+</head>
+<body>
+  <h2>Bảng cửu chương</h2>
+  <script>
+    let table = "<table border='1' style='border-collapse: collapse; width: 100%'>"
+    for (let i = 1; i < 10; i++) {
+        table += "<tr>";
+      for (let j = 1; j < 10; j++) {
+        table += `<td>${i} x ${j} = ${i*j}</td>`;
+      }
+      table += "</tr>";
+    }
+    table += "</table>";
+    document.write(table);
+  </script>
+</body>
+</html>

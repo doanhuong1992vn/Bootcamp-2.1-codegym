@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Ứng dụng chuyển đổi tiền tệ
+    </title>
+</head>
+<body>
+<form>
+ <table>
+   <tr>
+     <th><label for="amount">Amount</label></th>
+     <th></th>
+     <th><label for="fromCur">From Currency</label></th>
+     <th></th>
+     <th><label for="toCur">To Currency</label></th>
+     <th></th>
+     <th></th>
+   </tr>
+   <tr>
+     <td><input id="amount" type="text" name="amount"></td>
+     <td></td>
+     <td>
+       <select id="fromCur" name="fromCur">
+         <option name="fromCur">VND</option>
+         <option name="fromCur">USD</option>
+       </select>
+     </td>
+     <td></td>
+     <td>
+       <select id="toCur" name="toCur">
+         <option name="toCur">USD</option>
+         <option name="toCur">VND</option>
+       </select>
+     </td>
+     <td></td>
+     <td>
+       <button type="button" onclick="convert()">Convert</button>
+     </td>
+   </tr>
+ </table>
+  <p id="result"></p>
+</form>
+</body>
+<script src="JS-Bai-tap-ung-dung-chuyen-doi-tien-te.js">
+
+</script>
+</html>

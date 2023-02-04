@@ -1,0 +1,67 @@
+
+body {
+    margin: 0;
+}
+.heading {
+    height: 20%;
+    font-size: 120%;
+    color: blue;
+    font-family: 'Open Sans', sans-serif;
+    text-align: center;
+    margin: 10px 20%;
+}
+h4 {
+    margin: 0;
+}
+.info {
+    height: 20%;
+    margin: 1% 5% 1% 5%;
+    width: 35%;
+    font-size: 90%;
+    color: blue;
+    font-family: system-ui;
+    float: left;
+}
+.timeInfo {
+    text-align: right;
+    width: 45%;
+    font-size: 90%;
+    color: blue;
+    font-family: system-ui;
+    margin: 1% 5% 1% 5%;
+    float: right;
+}
+table {
+    border-collapse: collapse;
+    width: 96%;
+    height: 40%;
+    margin: 1% 2% 1% 2%;
+}
+#tr01 {
+    font-size: 80%;
+}
+#tr02 {
+    font-size: 70%;
+    font-weight: bold ;
+    text-align: center;
+    background-color: orange;
+}
+#tr03, #tr04, #tr05 {
+    font-size: 65%;
+}
+th.col4, th.col5, th.col6 {
+    background-color: yellow;
+}
+.col1 {
+    width: 10%;
+    text-align: center;
+}
+.col2, col3 {
+    width: 15%;
+}
+.col4, .col5, col6 {
+    width: 20%;
+}
+.col456 {
+    width: 60%;
+}

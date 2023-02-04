@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Sự kiện chuột</title>
+    <style>
+        #nobita {
+            align-;
+        }
+    </style>
+</head>
+<body>
+<h2>[Thực hành] Sự kiện chuột</h2>
+<h3>Làm sử dụng sự kiện click chuột để di chuyển hình ảnh một quả bóng.
+  Mỗi lần click quả bóng sẽ được di chuyển sang trái/phải một khoảng cách.</h3>
+<img id="nobita"
+     src="https://james.codegym.vn/pluginfile.php/64922/mod_assign/intro/1.png"
+     alt="Hình ảnh nobita">
+<img id="myBall"
+     src="https://thuviendohoa.vn/upload/images/items/hinh-anh-qua-bong-vang-png-454.webp"
+     alt="Quả bóng vàng"
+     width="60px"
+     height="50px"><br>
+<label for="clickRight">
+    Click button below to move ball to right
+</label>
+<input id="clickRight"
+       type="button"
+       value="Click Me To Right"
+       onclick="moveBallRight()">
+<br>
+<label for="clickLeft">
+    Click button below to move ball to left
+</label>
+<input id="clickLeft"
+       type="button"
+       value="Click Me To Left"
+       onclick="moveBallLeft()">
+<script src="/./js/thuc-hanh-su-kien-chuot.js">
+</script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Ứng dụng good-fast-cheap
+    </title>
+    <style>
+      input {
+        width: 50px;
+
+      }
+    </style>
+</head>
+<body>
+  <input id="good" type="range" min="1" max="2" value="1">
+  <label for="good">Good</label>
+  <br>
+  <input id="fast" type="range" min="1" max="2" value="1">
+  <label for="fast">Fast</label>
+  <br>
+  <input id="cheap" type="range" min="1" max="2" value="1">
+  <label for="cheap">Cheap</label>
+
+<script>
+  var inputGood = document.querySelector("#good");
+  var inputFast = document.querySelector("#fast");
+  var inputCheap = document.querySelector("#cheap");
+  function playGood () {
+    if (inputGood.value == 2) {
+        if (inputFast.value == 2) {
+            inputCheap.value = 1;
+        }
+    }
+  }
+  inputGood.addEventListener("change", playGood);
+  function playFast () {
+      if (inputFast.value == 2) {
+          if (inputCheap.value == 2) {
+              inputGood.value = 1;
+          }
+      }
+  }
+  inputFast.addEventListener("change", playFast);
+  function playCheap () {
+      if (inputCheap.value == 2) {
+          if (inputGood.value == 2) {
+              inputFast.value = 1;
+          }
+      }
+  }
+  inputCheap.addEventListener("change", playCheap);
+</script>
+</body>
+</html>

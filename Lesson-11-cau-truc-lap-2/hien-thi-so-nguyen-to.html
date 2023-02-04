@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Hiển thị các số nguyên tố đầu tiên</title>
+</head>
+<body>
+  <h3>[Bài tập] Hiển thị các số nguyên tố đầu tiên</h3>
+  <input type="number" placeholder="Nhập số lượng số nguyên tố bạn muốn in ra" style="width: 300px">
+  <button type="button">Print</button>
+  <strong><p style="color: green"></p></strong>
+
+  <script>
+    function isPrimeNumber (num) {
+      if (num < 2) {
+        return false;
+      } else if (num == 2) {
+        return true;
+      } else {
+        for (let i = 3; i < num; i+=2) {
+          if (num % i == 0) {
+            return false;
+            break;
+          }
+        }
+        return true;
+      }
+    }
+    function printPrime () {
+      let inputNumber = parseInt(document.querySelector("input").value);
+      let count = 1;
+      let print = `${inputNumber} số nguyên tố đầu tiên là: 2`;
+      let number = 3;
+      while (count < inputNumber) {
+        if (isPrimeNumber(number)) {
+          print += ", " +number;
+          count++;
+        }
+        number += 2;
+      }
+      document.querySelector("p").innerText = print;
+    }
+    document.querySelector("button").addEventListener("click", printPrime);
+
+    //cách thứ 2:
+    // function printPrime () {
+    //     let inputNumber = parseInt(document.querySelector("input").value);
+    //     let count = 0; //Số lượng SNT đã tìm thấy
+    //     let divisor = 0; //Số lượng ước số
+    //     let print = "";
+    //     const MAX_VALUE = Number.MAX_SAFE_INTEGER;
+    //     for (let i = 2; i < MAX_VALUE; i++) {
+    //         if (count < inputNumber) {
+    //             for (let j = 1; j <= i; j++) {
+    //                 if (i % j == 0) {
+    //                     divisor++;
+    //                 }
+    //             } if (divisor == 2) {
+    //                 print += i + ", ";
+    //                 count++;
+    //             }
+    //             divisor = 0;
+    //         } else {
+    //             break;
+    //         }
+    //     }
+    //     document.querySelector("p").innerText = print;
+    // }
+  </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Tạo và thao tác với mảng</title>
+</head>
+<body>
+<h1>[Thực hành] Tạo và thao tác với mảng</h1>
+<input id="inputElement" type="text" placeholder="Enter element">
+<button id="addButton" type="button">Add</button>
+<button id="displayButton" type="button">Display</button>
+<strong><p id="toArr" style="color: green"></p></strong>
+<strong><p id="toElement" style="color: blue"></p></strong>
+
+
+<script>
+  // let arr = [];
+  // function addElements () {
+  //   let inputElement = document.getElementById("inputElement");
+  //   let stringElement = "";
+  //   let numberElement = Number(inputElement.value);
+  //   if (Number.isFinite(Number(inputElement.value))) {
+  //       arr.push(numberElement);
+  //   } else if (isNaN(inputElement.value)) {
+  //       stringElement += `'${inputElement.value}'`
+  //       arr.push(stringElement);
+  //   }
+  //   inputElement.value = "";
+  //   return arr;
+  // }
+  //Hàm phía trên khó tính hơn hàm phía dưới, giúp in ra element dạng chuỗi thì nằm trong dấu nháy đơn ''
+  let arr = [], i = 0;
+  function addElements () {
+      let inputElement = document.getElementById("inputElement");
+      arr.push(inputElement.value);
+      alert(`Element '${arr[i]}' added at index ${i}`);
+      i++;
+      inputElement.value = "";
+      return arr;
+  }
+
+  document.getElementById("addButton").addEventListener("click", addElements);
+  function displayElements () {
+    let element = "";
+    document.getElementById("toArr").innerHTML = `Arr = [${arr}]`;
+    for (let i in arr) {
+      element += `Element ${i}: ${arr[i]} <br>`;
+    }
+    document.querySelector("#toElement").innerHTML = element;
+  }
+  document.getElementById("displayButton").addEventListener("click", displayElements);
+</script>
+</body>
+</html>

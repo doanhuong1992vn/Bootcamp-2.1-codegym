@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Đảo ngược các phần tử trong mảng</title>
+</head>
+<body>
+<h1>[Thực hành] Đảo ngược các phần tử trong mảng</h1>
+<script>
+  let arr = [-3,5,1,3,2,10];
+  document.write(`[${arr}] <br>`);
+  let first = 0;
+  let last = arr.length -1;
+  while (first < last) {
+    let element = arr[first];
+    arr[first] = arr[last];
+    arr[last] = element;
+    first++;
+    last--;
+  }
+  document.write(`[${arr}]`);
+</script>
+</body>
+</html>

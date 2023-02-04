@@ -1,0 +1,9 @@
+let inputCel = prompt('Nhập vào giá trị nhiệt độ C: ');
+while (isNaN(inputCel)) {
+    inputCel = prompt('Vui lòng nhập giá trị là số thực: ');
+}
+let Cel = (Math.round(inputCel*10))/10;
+document.write('Nhiệt độ C: '+Cel+ '&#176;C <br>');
+let Fah = (Cel/5)*9+32;
+document.write('Quy đổi sang độ F = '+Fah+ '&#176;F <br>');
+alert(Cel+ '°C  = '+Fah+ '°F');

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Tinh dien tich</title>
+</head>
+<body>
+<script >
+    "use strict"
+    let inputWidth;
+    let inputHeight;
+    // k can gan bien van chay dc he thong?
+
+    inputWidth = prompt("Enter Width");
+    while (isNaN(inputWidth) || inputWidth<=0) {
+        inputWidth = prompt('Vui lòng nhập giá trị số thực > 0 : ')
+    }
+    inputHeight = prompt("Enter Height");
+    while (isNaN(inputHeight) || inputHeight<=0) {
+        inputHeight = prompt('Vui lòng nhập giá trị số thực > 0 : ')
+    }
+
+    let width = parseInt(inputWidth);
+    let height = parseInt(inputHeight);
+    let area = width * height;
+    document.write("The area is:" + area)
+</script>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Tạo bàn cờ caro đơn giản</title>
+</head>
+<body>
+<h1>[Thực hành] Tạo bàn cờ caro đơn giản</h1>
+<p></p>
+<button type="button">Lượt đi X</button>
+<button type="button">Lượt đi Y</button>
+
+<script>
+  let arr = [], print = "";
+  for (let i=0; i<10; i++) {
+    arr[i] = [];
+    for (let j=0; j<10; j++) {
+      arr[i][j] = '_';
+    }
+  }
+  for (let i=0; i<10; i++) {
+    for (let j=0; j<10; j++) {
+      print += arr[i][j] + "&nbsp;&nbsp;&nbsp;&nbsp;";
+    }
+    print += "<br>"
+  }
+  document.querySelector("p").innerHTML = print;
+  function playX () {
+    let x = parseInt(prompt("Thay đổi hàng nào?"));
+    let y = parseInt(prompt(`Thay đổi vị trí thứ mấy trong hàng ${x}?`));
+    arr[x-1][y-1] = "x";
+    print = "";
+    for (let i=0; i<10; i++) {
+      for (let j=0; j<10; j++) {
+        print += arr[i][j] + "&nbsp;&nbsp;&nbsp;&nbsp;";
+      }
+      print += "<br>";
+    }
+    document.querySelector("p").innerHTML = print;
+  }
+  document.querySelectorAll("button")[0].addEventListener("click", playX);
+  function playY () {
+    let x = parseInt(prompt("Thay đổi hàng nào?"));
+    let y = parseInt(prompt(`Thay đổi vị trí thứ mấy trong hàng ${x}?`));
+    arr[x-1][y-1] = "o";
+    print = "";
+    for (let i=0; i<10; i++) {
+      for (let j=0; j<10; j++) {
+        print += arr[i][j] + "&nbsp;&nbsp;&nbsp;&nbsp;";
+      }
+      print += "<br>";
+    }
+    document.querySelector("p").innerHTML = print;
+  }
+  document.querySelectorAll("button")[1].addEventListener("click", playY);
+
+</script>
+</body>
+</html>

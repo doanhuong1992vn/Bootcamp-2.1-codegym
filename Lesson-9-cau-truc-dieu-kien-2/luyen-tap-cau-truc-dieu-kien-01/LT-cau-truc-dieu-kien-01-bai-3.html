@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Luyện tập cấu trúc điều kiện 01</title>
+</head>
+<body>
+  <h1>
+    Bài 3: Nhập một số nguyên bất kỳ và in kết quả ra màn hình để nói cho người dùng biết số đó là lớn hay nhỏ hơn 0
+  </h1>
+  <strong><p></p></strong>
+  <strong><p id="printResult"></p></strong>
+
+  <script>
+    let a = Number(prompt("Nhập số nguyên a: "));
+    while (!Number.isInteger(a)) {
+      a = Number(prompt("Nhập lại số nguyên a: "));
+    }
+    document.querySelector("p").innerText = "Số a bạn đã nhập là: " +a;
+    let result;
+    switch (true) {
+      case a > 0 :
+        result = "a là số lớn hơn 0";
+        break;
+      case a == 0 :
+        result = "a = 0";
+        break;
+      default :
+        result = "a là số nhỏ hơn 0";
+    }
+    document.querySelector("#printResult").innerText = result;
+  </script>
+</body>
+</html>

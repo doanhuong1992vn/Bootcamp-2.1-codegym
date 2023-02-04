@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Luyện tập cấu trúc điều kiện 01
+    </title>
+</head>
+<body>
+    <h1>Bài 1: Nhập vào hai số a và b, và kiểm tra xem a có chia hết cho b hay không</h1>
+    <strong><p id="numberA"></p></strong>
+    <strong><p id="numberB"></p></strong>
+    <strong><p id="result"></p></strong>
+
+    <script>
+        let a = parseInt(prompt("Nhập số nguyên a:"));
+        while (isNaN(a)) {
+            a = parseInt(prompt("Nhập lại số nguyên a:"))
+        }
+        document.querySelector("#numberA").innerText = `Số a bạn đã nhập là : ${a}`;
+        let b = parseInt(prompt("Nhập số nguyên b:"));
+        while (isNaN(b)) {
+            b = parseInt(prompt("Nhập lại số nguyên b:"))
+        }
+        document.querySelector("#numberB").innerText = `Số b bạn đã nhập là : ${b}`;
+
+
+        if (a % b == 0) {
+            document.querySelector("#result").innerText = "Kết quả: a chia hết cho b";
+        } else {
+            document.querySelector("#result").innerText = "Kết quả: a không chia hết cho b";
+        }
+    </script>
+</body>
+</html>

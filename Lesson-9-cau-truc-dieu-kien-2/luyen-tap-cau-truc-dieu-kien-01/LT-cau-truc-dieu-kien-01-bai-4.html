@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Luyện tập cấu trúc điều kiện 01</title>
+</head>
+<body>
+  <h1>Bài 4: Nhập 3 số nguyên và tìm giá trị lớn nhất của ba số nguyên đó</h1>
+  <script>
+    let a = Number(prompt("Enter integer a:"));
+    while (!Number.isInteger(a)) {
+      a = Number(prompt("Re-enter integer a:"))
+    }
+    let b = Number(prompt("Enter integer b:"));
+    while (!Number.isInteger(b)) {
+      b = Number(prompt("Re-enter integer b:"))
+    }
+    let c = Number(prompt("Enter integer c:"));
+    while (!Number.isInteger(c)) {
+      c = Number(prompt("Re-enter integer c:"))
+    }
+    if (a > b && a > c) {
+      alert(`${a} là số lớn nhất trong 3 số ${a}, ${b}, ${c}`);
+    } else if (b > a && b > c) {
+      alert(`${b} là số lớn nhất trong 3 số ${a}, ${b}, ${c}`);
+    } else if (c > a && c > b) {
+      alert(`${c} là số lớn nhất trong 3 số ${a}, ${b}, ${c}`);
+    }
+
+  </script>
+</body>
+</html>

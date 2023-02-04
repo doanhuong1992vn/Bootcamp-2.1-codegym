@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Ứng dụng máy tính cơ bản</title>
+</head>
+<body>
+<form>
+    <table>
+        <tr>
+            <td colspan="2">
+                <input id="firstNumber"
+                       type="number"
+                       name="firstNumber"
+                       placeholder="Nhập số thứ nhất">
+            </td>
+            <td colspan="2">
+                <input id="secondNumber"
+                       type="number"
+                       name="secondNumber"
+                       placeholder="Nhập số thứ hai">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <button id="addition"
+                        type="button"
+                        name="addition"
+                        value="Addition(+)"
+                        onclick="getResult('+')">Addition(+)</button>
+<!--                        onclick="getResultAddition()">Addition(+)</button>-->
+            </td>
+            <td>
+                <button id="subtraction"
+                        type="button"
+                        name="subtraction"
+                        value="Subtraction(-)"
+                        onclick="getResult('-')">Subtraction(-)</button>
+<!--                        onclick="getResultSubtraction()">Subtraction(-)</button>-->
+            </td>
+            <td>
+                <button id="multiplication"
+                        type="button"
+                        name="multiplication"
+                        value="Multiplication(X)"
+                        onclick="getResult('*')">Multiplication(X)</button>
+            </td>
+            <td>
+                <button id="division"
+                        type="button"
+                        name="division"
+                        value="Division(/)"
+                        onclick="getResult('/')">Division(X)</button>
+            </td>
+        </tr>
+    </table>
+</form>
+<strong><p id="result"></p></strong>
+</body>
+<script src="JS-ung-dung-may-tinh-co-ban.js">
+</script>
+</html>

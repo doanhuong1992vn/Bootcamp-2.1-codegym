@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Luyện tập cấu trúc điều kiện 01</title>
+</head>
+<body>
+  <h1>Bài 2: Nhập tuổi và in ra kết quả nếu tuổi học sinh đó không đủ điều kiện vào học lớp 10.</h1>
+
+  <script>
+    let age = parseInt(prompt("Nhập số tuổi: "));
+    while (isNaN(age) || age <=0 ) {
+      age = parseInt(prompt("Nhập lại số tuổi: "))
+    }
+    if (age < 16) {
+      alert("Thật tiếc vì bạn chưa đủ tuổi vào lớp 10")
+    }
+  </script>
+</body>
+</html>

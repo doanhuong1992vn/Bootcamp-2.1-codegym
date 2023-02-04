@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Tạo form đơn giản</title>
+</head>
+<body>
+<style>
+    form {
+        font-family: monospace;
+    }
+</style>
+<form method="get">
+    <fieldset>
+        <table>
+        <tr>
+            <td colspan="4" style="background: orangered; color: white; text-align: center">SỞ THÍCH CỦA BẠN</td>
+        </tr>
+        <tr>
+            <td style="color: blue; text-align: right">Họ và tên</td>
+            <td colspan="2"><input style="width: 250px; border: inset" type="text" name="yourname"></td>
+        </tr>
+        <tr>
+            <td style="color: blue; text-align: right">Email</td>
+            <td colspan="2"><input style="width: 170px; border: inset" type="text" name="email"></td>
+        </tr>
+        <tr>
+            <td style="color: blue; text-align: right">Sở thích</td>
+            <td style="color: orange"><input type="checkbox" name="hobby">Thể thao</td>
+            <td style="color: orange"><input type="checkbox" name="hobby">Âm nhạc</td>
+            <td style="color: orange"><input type="checkbox" name="hobby">Đọc sách</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="color: orange"><input type="checkbox" name="hobby">Lướt web</td>
+            <td style="color: orange"><input type="checkbox" name="hobby">Chơi game</td>
+            <td style="color: orange"><input type="checkbox" name="hobby">Điện ảnh</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td style="color: orange"><input type="checkbox" name="hobby">Du lịch</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td><input style="border: outset" type="submit" value="Gửi thông tin"></td>
+            <td><input style="border: outset" type="reset" value="Nhập lại"></td>
+        </tr>
+    </table>
+    </fieldset>
+</form>
+<br><br><br>
+
+<form method="get" style="background: lightyellow">
+    <fieldset>
+        <table>
+            <tr>
+                <th colspan="3" style="background: darkseagreen; color: blue; text-align: left">ĐĂNG KÝ HỌC VIÊN</th>
+            </tr>
+            <tr>
+                <td style="color: blue">Họ và tên</td>
+                <td colspan="2"><input style="border: inset" type="text" name="yourname"></td>
+            </tr>
+            <tr>
+                <td style="color: blue">Ngày sinh</td>
+                <td colspan="2"><input style="border: inset" type="text" name="birtday"></td>
+            </tr>
+            <tr>
+                <td style="color: blue">Giới tính</td>
+                <td><input style="border: inset" type="radio" name="gender" value="male">Nam</td>
+                <td><input style="border: inset" type="radio" name="gender" value="female">Nữ</td>
+            </tr>
+            <tr>
+                <td style="color: blue">Địa chỉ</td>
+                <td colspan="2"><textarea style="border: inset" type="text" name="adress"></textarea></td>
+            </tr>
+            <tr>
+                <td style="color: blue">Lớp</td>
+                <td colspan="2"><select style="border: inset" name="class">
+                    <option>--Chọn lớp--</option>
+                    <option value="C10">C10</option>
+                    <option value="C11">C11</option>
+                    <option value="C12">C12</option>
+                </select></td>
+            </tr>
+            <tr>
+                <td style="color: blue">Email</td>
+                <td colspan="2"><input style="border: inset" type="text" name="email"></td>
+            </tr>
+            <tr>
+                <td style="color: blue">Điện thoại</td>
+                <td colspan="2"><input style="border: inset" type="text" name="phone"> </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input style="border: outset" type="submit" value="Đăng ký"></td>
+                <td><input style="border: outset" type="reset" value="Nhập lại"></td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+
+</body>
+</html>

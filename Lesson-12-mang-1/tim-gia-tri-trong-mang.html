@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Tìm giá trị trong mảng</title>
+</head>
+<body>
+<h1>[Thực hành] Tìm giá trị trong mảng</h1>
+<script>
+    let arr = [-3, 5, 1, 3, 2, 10];
+    let n = parseInt(prompt("Nhập giá trị cần tìm"));
+    //cách 1:
+    // for (let i in arr) {
+    //     if (n == arr[i]) {
+    //         document.write(`Arr = [${arr}]<br>`);
+    //         document.write(`${n} is element at index ${i}`);
+    //         break;
+    //     }
+    // }
+    //cách 2 (vẫn đúng khi tìm được nhưng trả lời hơi ngu học khi không tìm được giá trị thỏa mãn)
+    function checkElement (element) {
+        return element == n;
+    }
+    alert(`${arr.find(checkElement)} is element at index ${arr.findIndex(checkElement)}`);
+    document.write(`Arr = [${arr}]`);
+</script>
+</body>
+</html>

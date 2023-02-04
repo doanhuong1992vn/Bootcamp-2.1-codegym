@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Luyện tập cấu trúc điều kiện 01</title>
+</head>
+<body>
+  <h1>
+    Bài 5: Xếp hạng học lực của học sinh dựa trên các điểm bài kiểm tra, điểm thi giữa kỳ, điểm thi cuối kỳ. Nếu:
+  </h1>
+  <ul>
+    <li>Điểm trung bình >= 9.0 là hạng A</li>
+    <li>Điểm trung bình >= 7.0 và < 9.0 là hạng B</li>
+    <li>Điểm trung bình >= 5.0 và < 7.0 là hạng C</li>
+    <li>Điểm trung bình < 5.0 là hạng D</li>
+  </ul>
+
+  <script>
+    let testScore = Number(prompt("Nhập điểm bài kiểm tra: "));
+    while (isNaN(testScore) || testScore <0) {
+      testScore = Number(prompt("Nhập lại điểm bài kiểm tra: "))
+    }
+    let midScore = Number(prompt("Nhập điểm thi giữa kỳ: "));
+    while (isNaN(midScore) || midScore <0) {
+      midScore = Number(prompt("Nhập lại điểm thi giữa kỳ: "))
+    }
+    let lastScore = Number(prompt("Nhập điểm thi cuối kỳ: "));
+    while (isNaN(lastScore) || lastScore <0) {
+      lastScore = Number(prompt("Nhập lại điểm thi cuối kỳ: "))
+    }
+    let average = (testScore + midScore + lastScore)/3;
+    if (average >= 9) {
+      alert("Xin chúc mừng! Bạn đã đạt hạng A");
+    } else if (average >= 7) {
+      alert("Bạn đã đạt hạng B");
+    } else if (average >= 5) {
+      alert("Bạn đã đạt hạng C");
+    } else {
+      alert("Thật tiếc! Bạn chỉ được hạng D");
+    }
+  </script>
+</body>
+</html>

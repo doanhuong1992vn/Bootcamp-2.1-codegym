@@ -1,0 +1,14 @@
+button {
+    border: 2px outset;
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    margin: 10px;
+    box-sizing: border-box;
+}
+input {
+    border: 1px solid;
+    width: 210px;
+    padding: 10px;
+    margin: 10px;
+}

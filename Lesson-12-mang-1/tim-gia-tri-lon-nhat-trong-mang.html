@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Tìm giá trị lớn nhất trong mảng</title>
+</head>
+<body>
+<h1>[Thực hành] Tìm giá trị lớn nhất trong mảng</h1>
+
+<script>
+  let arr = [-3, 5, 1, 3, 2, 10];
+  let max = arr[0];
+  let index = 0;
+  for (let i in arr) {
+    if (arr[i] > max) {
+        max = arr[i];
+        index = i;
+    }
+  }
+  document.write(`Arr = [${arr}]<br>`);
+  document.write(`Max = ${max} at index ${index}`);
+</script>
+</body>
+</html>

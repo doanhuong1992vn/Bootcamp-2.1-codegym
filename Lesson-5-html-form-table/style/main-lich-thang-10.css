@@ -1,0 +1,33 @@
+body {
+    margin: 1% 1%;
+}
+div {
+    width: 100%;
+    margin: 10px 0;
+    text-align: center;
+    font-size: 250%;
+    font-family: 'Open Sans', sans-serif;
+    color: blue;
+}
+table {
+    width: 98%;
+    height: 700px;
+    margin: 10px 1% 10px 1%;
+    text-align: center;
+    border-collapse: collapse;
+    font-size: 250%;
+}
+.hangThu {
+    font-family: 'Open Sans', sans-serif;
+    color: white;
+    background-color: darkorange;
+}
+.hangSo {
+    border: 7px;
+    border-style: ridge;
+}
+.oThu {
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #ffffff;
+
+}

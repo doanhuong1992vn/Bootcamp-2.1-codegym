@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Luyện tập cấu trúc điều kiện 01</title>
+</head>
+<body>
+  <h1>Bài 6: Tính hoa hồng nhận được tuỳ theo mức doanh số bán hàng</h1>
+  <pre>
+    Cửa hàng của bạn nhận gửi bán sản phẩm cho một công ty khác và sau mỗi tháng bạn cần tính toán số tiền hoa hồng bạn nhận được.
+    Với mức hoa hồng theo doanh số bán hàng như sau:
+      5% nếu tổng doanh số nhỏ hơn hoặc bằng 100 triệu.
+      10% nếu tổng doanh số nhỏ hơn hoặc bằng 300 triệu.
+      20 % nếu tổng doanh số là lớn hơn 300 triệu.
+    Dựa vào dữ liệu trên, bạn viết chương trình để tính hoa hồng đại lý bạn sẽ nhận được.
+  </pre>
+  <p></p>
+
+  <script>
+    let a = Number(prompt("Nhập doanh số bán hàng của bạn: (Đơn vị: triệu đồng)"));
+    while (isNaN(a)) {
+      a = Number(prompt("Nhập lại doanh số bán hàng của bạn: (Đơn vị: triệu đồng)"))
+    }
+    let b;
+    if (a <= 100) {
+      b = (a * 0.05).toFixed(2);
+    } else if (a <= 300) {
+      b = (a * 0.1).toFixed(2);
+    } else if (a > 300) {
+      b = (a * 0.2).toFixed(2);
+    }
+    document.querySelector("p").innerText = "Hoa hồng của bạn nhận được là: " +b + " triệu đồng.";
+  </script>
+</body>
+</html>

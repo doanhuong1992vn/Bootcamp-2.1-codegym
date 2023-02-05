@@ -213,7 +213,7 @@ function printRetangle (d, r) {
 document.querySelector("#button4").addEventListener("click", printRetangle);
 //Kết thúc bài 4
 
-
+//không làm bài 5 vì ko thích tính lãi ngân hàng :v
 
 //Bài 6: In hình trái tim:
 function printHeart () {
@@ -234,6 +234,7 @@ function printHeart () {
     document.querySelector("#toResult6").innerHTML = result;
 }
 document.querySelector("#button6").addEventListener("click", printHeart);
+//kết thúc bài 6
 
 
 

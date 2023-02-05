@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Sử dụng các hàm có sẵn của mảng</title>
+</head>
+<body>
+<h1>[Bài tập] Sử dụng các hàm có sẵn của mảng</h1>
+<h3><pre>Bài 1: Viết một chương trình Javascript để nối tất cả các phần tử trong một mảng chuỗi lại với nhau.
+    Ví dụ có mảng chuỗi như sau: myColor = ["Red", "Green", "White", "Black"];
+    Sau khi thực thi chương trình sẽ trả về dạng như sau :
+
+    "Red,Green,White,Black"
+</pre></h3>
+<p>myColor = ["Red", "Green", "White", "Black"]</p>
+<p id="toResult1a"></p>
+<p id="toResult1b"></p>
+<p id="toResult1c"></p>
+
+
+<h3>Bài 2: Viết một chương trình nhận một số nhập vào và chèn dấu (-) giữa 2  số chẵn.
+    Ví dụ nếu bạn nhập vào 025468 thì kết quả của chương trình sẽ là 0-254-6-8.
+</h3>
+<input id="input2" type="number" placeholder="Nhập vào dãy số">
+<button id="button2">Chuyển đổi</button>
+<p id="toError2" style="color: red"></p>
+<p id="toResult2" style="color: green"></p>
+
+
+<h3>
+    Bài 3: Viết một chương trình nhập vào một chuỗi
+    và chuyển các ký tự chữ thường trong chuỗi vừa nhập sang thành dạng chữ hoa.
+    Ví dụ: nếu bạn nhập vào chuỗi 'The Quick Brown Fox' kết quả của chương trình là 'tHE qUICK bROWN fOX'.
+</h3>
+<input id="input3" type="text" placeholder="Enter your text">
+<button id="button3">Chuyển chữ thường thành chữ in hoa</button>
+<p id="toError3" style="color: red"></p>
+<p>Trường hợp 1: Tất cả thành chữ in hoa: <span id="toResult3a" style="color: green"></span></p>
+<p>Trường hợp 2: Hoa thành thường - Thường thành hoa: <span id="toResult3b" style="color: blue"></span></p>
+
+<script>
+    /*
+    Bài 1: Viết một chương trình Javascript để nối tất cả các phần tử trong một mảng chuỗi lại với nhau.
+    Ví dụ có mảng chuỗi như sau: myColor = ["Red", "Green", "White", "Black"];
+    Sau khi thực thi chương trình sẽ trả về dạng như sau :
+
+    "Red,Green,White,Black"
+     */
+    let myColor = ["Red", "Green", "White", "Black"];
+    //Cách 1 - Dùng join():
+    //ưu điểm: thêm đc các ký tự mong muốn vào giữa các phần tử trong mảng
+    let result1a = myColor.join(", ");
+    console.log(result1a);
+    document.querySelector("#toResult1a").innerHTML = `Cách 1 - Dùng join(): ${result1a}`;
+    //Cách 2 - Dùng toString():
+    let result1b = myColor.toString();
+    document.querySelector("#toResult1b").innerHTML = `Cách 2 - Dùng toString(): ${result1b}`;
+    console.log(result1b);
+    //Cách 3 - Dùng concat():
+    let string1c = "";
+    let result1c = string1c.concat(myColor);
+    document.querySelector("#toResult1c").innerHTML = `Cách 3 - Dùng concat(): ${result1c}`;
+    console.log(result1c);
+
+
+    /*
+    Bài 2: Viết một chương trình nhận một số nhập vào và chèn dấu (-) giữa 2  số chẵn.
+    Ví dụ nếu bạn nhập vào 025468 thì kết quả của chương trình sẽ là 0-254-6-8.
+     */
+    function convertToString () {
+        let inputNumber = document.querySelector("#input2");
+        let toError = document.querySelector("#toError2");
+        toError.innerHTML = "";
+        let toResult = document.querySelector("#toResult2");
+        toResult.innerHTML = "";
+        if (inputNumber.value == "") {
+            toError.innerHTML = "Vui lòng nhập dữ liệu";
+        } else {
+            let myString = inputNumber.value;
+            let myArray = [myString[0]];
+            for (let i=1; i<myString.length; i++) {
+                if (myString[i-1] % 2 == 0 && myString[i] %2 == 0) {
+                    myArray.push('-', myString[i]);
+                } else {
+                    myArray.push(myString[i]);
+                }
+            }
+            toResult.innerHTML = myArray.join('');
+        }
+    }
+    document.querySelector("#button2").addEventListener("click", convertToString);
+
+
+
+    /*
+    Bài 3: Viết một chương trình nhập vào một chuỗi
+    và chuyển các ký tự chữ thường trong chuỗi vừa nhập sang thành dạng chữ hoa.
+    Ví dụ: nếu bạn nhập vào chuỗi 'The Quick Brown Fox' kết quả của chương trình là 'tHE qUICK bROWN fOX'.
+     */
+    function toUpperCase () {
+        let inputText = document.querySelector("#input3");
+        let toError = document.querySelector("#toError3");
+        toError.innerHTML = "";
+        let toResult1 = document.querySelector("#toResult3a");
+        toResult1.innerHTML = "";
+        let toResult2 = document.querySelector("#toResult3b");
+        toResult2.innerHTML = "";
+        if (inputText.value == "") {
+            toError.innerHTML = "Vui lòng nhập dữ liệu";
+        } else {
+            let str = inputText.value;
+            //Trường hợp 1: Tất cả thành chữ in hoa:
+            let newString = str.toUpperCase();
+            toResult1.innerHTML = newString;
+            //Trường hợp 2: Hoa thành thường - Thường thành hoa:
+            const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+            const LOWER = "abcdefghijklmnopqrstuvwxyz";
+            let newArray = []
+            for (let i=0; i<str.length; i++) {
+                if (UPPER.indexOf(str[i]) !== -1) {
+                    newArray.push(str[i].toLowerCase());
+                } else if (LOWER.indexOf(str[i]) !== -1) {
+                    newArray.push(str[i].toUpperCase());
+                } else {
+                    newArray.push(str[i]);
+                }
+            }
+            toResult2.innerHTML = newArray.join('');
+        }
+    }
+    document.querySelector("#button3").addEventListener("click", toUpperCase)
+
+
+</script>
+</body>
+</html>

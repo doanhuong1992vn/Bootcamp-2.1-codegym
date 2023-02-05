@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Ứng dụng vui Faking Textarea on Typing</title>
+</head>
+<body>
+<h1>[*Bài tập] Ứng dụng vui Faking Textarea on Typing</h1>
+<h1>Hãy viết gì đó đi</h1>
+<form name="f">
+    <textarea name="txt" id="troll" style="width: 500px; height: 250px" onkeydown="trollGame()"></textarea>
+</form>
+
+<script>
+    const TROLL_STRING = "Cố gắng gõ tiếp đi bạn tôi ơi!!!";
+    let trollArray = [];
+    for (let i = 0; i < TROLL_STRING.length; i++) {
+        trollArray.push(TROLL_STRING.slice(i, i + 1));
+    }
+    console.log(trollArray);
+
+    function trollGame() {
+        let result = "";
+        let inputText = document.f.txt.value;
+        let lengthInput = inputText.length;
+        if (lengthInput > 0) {
+            for (let i=0; i<lengthInput; i++) {
+                result += trollArray[i];
+                if (i = trollArray.length-1) {
+                    document.f.txt.value = "";
+                    result = "";
+                }
+            }
+        }
+        document.querySelector("#textarea").innerHTML = result;
+        result = "";
+        setTimeout("trollGame()", 1)
+    }
+    document.querySelector("textarea").addEventListener("keydown", trollGame)
+</script>
+</body>
+</html>

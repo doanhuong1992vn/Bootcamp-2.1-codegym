@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <title>[*Bài tập] Ứng dụng vui Faking Textarea on Typing</title>
 </head>
-<body>
+<body style="text-align: center">
 <h1>[*Bài tập] Ứng dụng vui Faking Textarea on Typing</h1>
 <h1>Hãy viết gì đó đi</h1>
 <form name="f">
-    <textarea name="txt" id="troll" style="width: 500px; height: 250px" onkeydown="trollGame()"></textarea>
+    <textarea name="txt" id="troll" style="width: 500px; height: 250px"></textarea>
 </form>
 
 <script>
@@ -17,22 +17,20 @@
     for (let i = 0; i < TROLL_STRING.length; i++) {
         trollArray.push(TROLL_STRING.slice(i, i + 1));
     }
-    console.log(trollArray);
-
     function trollGame() {
         let result = "";
-        let inputText = document.f.txt.value;
-        let lengthInput = inputText.length;
+        let inputText = document.querySelector("textarea");
+        let lengthInput = inputText.value.length;
         if (lengthInput > 0) {
             for (let i=0; i<lengthInput; i++) {
                 result += trollArray[i];
-                if (i = trollArray.length-1) {
-                    document.f.txt.value = "";
+                if (i == trollArray.length-1) {
+                    inputText.value = "";
                     result = "";
                 }
             }
         }
-        document.querySelector("#textarea").innerHTML = result;
+        inputText.value = result;
         result = "";
         setTimeout("trollGame()", 1)
     }

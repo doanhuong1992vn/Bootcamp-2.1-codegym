@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Luyện tập mảng 01</title>
+</head>
+<body>
+<h1>[*Bài tập] Luyện tập mảng 01</h1>
+<h3>
+    Bài 1- Viết chương trình khởi tạo mảng số nguyên gồm 10 phần tử.
+    Chương trình thực hiện tính và hiển thị xem có bao nhiêu số nguyên lớn hơn hoặc bằng 10.
+</h3>
+<p>Mảng ban đầu: <span id="print1a" style="color: green;"></span></p>
+<p>Có <span id="print1b" style="color: green;"></span> số nguyên >= 10 :</p>
+<p id="print1c"></p>
+
+
+<h3>
+    Bài 2- Viết chương trình khởi tạo mảng số nguyên gồm 10 phần tử khác nhau.
+    Chương trình hiển thị ra được phần tử có giá trị lớn nhất trong mảng và vị trí của phần tử đó.
+</h3>
+<p>Mảng ban đầu: <span id="print2a" style="color: green;"></span></p>
+<p>Max value: <span id="print2b" style="color: green;"></span></p>
+
+
+<h3>
+    Bài 3- Viết chương trình khởi tạo mảng số nguyên.
+    Hiển hiện giá trị lớn nhất trong mảng đó.
+    In ra giá trị trung bình của các phần tử trong mảng.
+</h3>
+<p>Mảng ban đầu: <span id="print3a" style="color: green;"></span></p>
+<p>Max value: <span id="print3b" style="color: green;"></span></p>
+<p>Tổng giá trị các phần tử trong mảng: <span id="print3c" style="color: green;"></span></p>
+<p>Giá trị trung bình trong mảng: <span id="print3d" style="color: green;"></span></p>
+<script>
+    /*
+    Bài 1- Viết chương trình khởi tạo mảng số nguyên gồm 10 phần tử.
+    Chương trình thực hiện tính và hiển thị xem có bao nhiêu số nguyên lớn hơn hoặc bằng 10.
+     */
+    let myArr1 = [8, 10, 12, 4, 20, -9, 100, 11, 15, 7];
+    let count = 0, print = '';
+    for (let i in myArr1) {
+        if (myArr1[i] >= 10) {
+            print += `Element ${i}: ${myArr1[i]}<br>`;
+            count++
+        }
+    }
+    document.querySelector("#print1a").innerHTML = `[${myArr1}]`;
+    document.querySelector("#print1b").innerHTML = count;
+    document.querySelector("#print1c").innerHTML = print;
+    //kết thúc bài 1
+
+
+    /*
+    Bài 2- Viết chương trình khởi tạo mảng số nguyên gồm 10 phần tử khác nhau.
+    Chương trình hiển thị ra được phần tử có giá trị lớn nhất trong mảng và vị trí của phần tử đó.
+     */
+    document.querySelector("#print2a").innerHTML = `[${myArr1}]`;
+    let max = myArr1[0], sumValue = 0;
+    for (let i in myArr1) {
+        sumValue += myArr1[i];
+        if (max < myArr1[i]) {
+            max = myArr1[i];
+        }
+    }
+    document.querySelector("#print2b").innerHTML = `${max} at index ${myArr1.indexOf(max)}`;
+    //kết thúc bài 2
+
+
+    /*
+    Bài 3- Viết chương trình khởi tạo mảng số nguyên.
+    Hiển hiện giá trị lớn nhất trong mảng đó.
+    In ra giá trị trung bình của các phần tử trong mảng.
+     */
+    document.querySelector("#print3a").innerHTML = `[${myArr1}]`;
+    document.querySelector("#print3b").innerHTML = `${max} at index ${myArr1.indexOf(max)}`;
+    document.querySelector("#print3c").innerHTML = sumValue;
+        let avrValue = sumValue/myArr1.length;
+    document.querySelector("#print3d").innerHTML = avrValue;
+    //kết thúc bài 3
+
+
+
+</script>
+</body>
+</html>

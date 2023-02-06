@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Luyện tập mảng 02</title>
+</head>
+<body>
+<h1>[*Bài tập] Luyện tập mảng 02</h1>
+<h3>Bài 1: Viết chương trình khởi tạo mảng 2 chiều,
+    gồm một bộ các phần tử có sẵn,
+    in ra các phần tử trong mảng.
+    Chú ý: Sử dụng vòng lặp for lồng nhau
+</h3>
+<strong><p id="p1" style="color: green"></p></strong>
+<hr>
+<h3>
+    Bài 2: Viết một chương trình để in các ký tự trong một mảng theo thứ tự đảo ngược.
+    Ví dụ, nếu một mảng chứa các ký tự  [ 'c', 's', 'c', '2', '6', '1' ]
+    sau khi thực hiện đảo ngược sẽ là "162csc"
+</h3>
+<strong><p id="p2a" style="color: cornflowerblue"></p></strong>
+<strong><p id="p2b" style="color: darkslateblue"></p></strong>
+<hr>
+<h3>
+    Bài 3: Viết một chương trình khai báo một mảng ký tự và kích thước của mảng.
+    Chương trình này đếm số ký tự số trong mảng.
+</h3>
+<strong><p id="p3a" style="color: cornflowerblue"></p></strong>
+<strong><p id="p3b" style="color: darkslateblue"></p></strong>
+<hr>
+<h3>Bài 4: Viết một chương trình để đếm số từ trong một chuỗi</h3>
+<strong><p id="p4a" style="color: cornflowerblue"></p></strong>
+<strong><p id="p4b" style="color: darkslateblue"></p></strong>
+<script>
+    //Bài 1:
+    let myArr = [], intNum = [1,2,3,4,5,6,7,8,9,10], text = '';
+    for (let i = 0; i<10; i++) {
+        myArr[i] = [];
+        text += `Row ${i} : `
+        for (let j=0; j<10; j++) {
+            myArr[i][j] = intNum[i];
+            intNum[i] *= 2;
+            if (j == 9) {
+                text += `${myArr[i][j]}`;
+            } else {
+                text += `${myArr[i][j]}, `;
+            }
+        }
+        text += "<br>";
+    }
+    document.querySelector("#p1").innerHTML = text;
+    //kết thúc bài 1
+
+    //bài 2:
+    let myArr2 = [ 'c', 's', 'c', '2', '6', '1' ];
+    document.querySelector("#p2a").innerHTML = `Initial Array = [${myArr2}]`;
+    document.querySelector("#p2b").innerHTML = `Reverse Array = [${myArr2.reverse()}]`;
+    //kết thúc bài 2
+
+    //bài 3:
+    let myArr3 = [ 'c', 's', 'c', '2', '6', '1', '3', 'y', '5', '7'];
+    document.querySelector("#p3a").innerHTML = `Initial Array = [${myArr3}]`;
+    let count3 = 0;
+    for (let i in myArr3) {
+        if (Number.isInteger(Number(myArr3[i]))) {
+            count3++
+        }
+    }
+    document.querySelector("#p3b").innerHTML = `Initial Array có ${count3} ký tự số`;
+    //kết thúc bài 3
+
+    //bài 4:
+    let myStr = "Cố gắng code tiếp đi bạn tôi ơi";
+    let count4 = 1;
+    document.querySelector("#p4a").innerHTML = `Initial String = "${myStr}";`;
+    for (let i in myStr) {
+        if (myStr[i] == " ") {
+            count4++;
+        }
+    }
+    document.querySelector("#p4b").innerHTML = `Trong Initial String có ${count4} từ`;
+    //bài 5 và 6 quá nhạt nên lười làm
+</script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Game puzzle</title>
+    <style>
+        img {
+            box-shadow: black 4px 4px 9px;
+            width: 600px;
+            height: 150px;
+        }
+    </style>
+</head>
+<body>
+<img id="img1" src=""><br>
+<img id="img2" src=""><br>
+<img id="img3" src=""><br>
+<img id="img4" src=""><br>
+<img id="img5" src=""><br>
+
+<script>
+    let img1 = document.getElementById("img1");
+    let img2 = document.getElementById("img2");
+    let img3 = document.getElementById("img3");
+    let img4 = document.getElementById("img4");
+    let img5 = document.getElementById("img5");
+    let imageArray = [
+        //khai báo mảng imageArray chứa link hình ảnh để xuống dưới gán làm các giá trị của src trong thẻ <img>
+        ["image/funny-cat1_part1x1.jpg", "image/panda_swap_part1x1.jpg", "image/monkey_part1x1.jpg"],
+        ["image/funny-cat1_part2x1.jpg", "image/panda_swap_part2x1.jpg", "image/monkey_part2x1.jpg"],
+        ["image/funny-cat1_part3x1.jpg", "image/panda_swap_part3x1.jpg", "image/monkey_part3x1.jpg"],
+        ["image/funny-cat1_part4x1.jpg", "image/panda_swap_part4x1.jpg", "image/monkey_part4x1.jpg"],
+        ["image/funny-cat1_part5x1.jpg", "image/panda_swap_part5x1.jpg", "image/monkey_part5x1.jpg"],
+    ]
+    //khai báo 5 biến là số random từ 0-2 để gán làm chỉ mục thứ 2 trong mảng imageArray
+    let indexImg1 = Math.round(Math.random()*2);
+    let indexImg2 = Math.round(Math.random()*2);
+    let indexImg3 = Math.round(Math.random()*2);
+    let indexImg4 = Math.round(Math.random()*2);
+    let indexImg5 = Math.round(Math.random()*2);
+    function refreshImg () {
+        //tạo hàm refreshImg và gọi mỗi khi window onload để xuất hiện các hình ảnh ngẫu nhiên mỗi lần F5
+        img1.src = imageArray[0][indexImg1];
+        img2.src = imageArray[1][indexImg2];
+        img3.src = imageArray[2][indexImg3];
+        img4.src = imageArray[3][indexImg4];
+        img5.src = imageArray[4][indexImg5];
+        isWinGame();
+    }
+    window.onload = refreshImg();
+    function isWinGame () {
+        //tạo hàm isWinGame để luôn luôn check xem các ảnh có cùng loại với nhau ko rồi thay đổi css box-shadow của ảnh
+        //khi các chỉ mục trong mảng bằng nhau thì chứng tỏ 5 ảnh là cùng loại -> win
+        if (indexImg1 == indexImg2
+            && indexImg1 == indexImg3
+            && indexImg1 == indexImg4
+            && indexImg1 == indexImg5) {
+            document.querySelector("#img1").style.boxShadow = "red 4px 4px 9px";
+            document.querySelector("#img2").style.boxShadow = "red 4px 4px 9px";
+            document.querySelector("#img3").style.boxShadow = "red 4px 4px 9px";
+            document.querySelector("#img4").style.boxShadow = "red 4px 4px 9px";
+            document.querySelector("#img5").style.boxShadow = "red 4px 4px 9px";
+        } else {
+            document.querySelector("#img1").style.boxShadow = "black 4px 4px 9px";
+            document.querySelector("#img2").style.boxShadow = "black 4px 4px 9px";
+            document.querySelector("#img3").style.boxShadow = "black 4px 4px 9px";
+            document.querySelector("#img4").style.boxShadow = "black 4px 4px 9px";
+            document.querySelector("#img5").style.boxShadow = "black 4px 4px 9px";
+        }
+    }
+    /*
+    5 hàm phía dưới để bắt sự kiện onlick khi người dùng click vào ảnh
+    khi chỉ mục đang là 2 thì gán nó về 0 và dùng chỉ mục 0 để thay đổi hình ảnh hiển thị
+    khi chỉ mục < 2 thì tăng chỉ mục lên 1 rồi thực hiện thay đổi hình ảnh
+     */
+    function changeImg1 () {
+        if (indexImg1 == 2) {
+            indexImg1 = 0;
+            img1.src = imageArray[0][indexImg1];
+        } else {
+            indexImg1++;
+            img1.src = imageArray[0][indexImg1];
+        }
+        isWinGame();
+    }
+    document.querySelector("#img1").addEventListener("click", changeImg1);
+    function changeImg2 () {
+        if (indexImg2 == 2) {
+            indexImg2 = 0;
+            img2.src = imageArray[1][indexImg2];
+        } else {
+            indexImg2++;
+            img2.src = imageArray[1][indexImg2];
+        }
+        isWinGame();
+    }
+    document.querySelector("#img2").addEventListener("click", changeImg2);
+    function changeImg3 () {
+        if (indexImg3 == 2) {
+            indexImg3 = 0;
+            img3.src = imageArray[2][indexImg3];
+        } else {
+            indexImg3++;
+            img3.src = imageArray[2][indexImg3];
+        }
+        isWinGame();
+    }
+    document.querySelector("#img3").addEventListener("click", changeImg3);
+    function changeImg4 () {
+        if (indexImg4 == 2) {
+            indexImg4 = 0;
+            img4.src = imageArray[3][indexImg4];
+        } else {
+            indexImg4++;
+            img4.src = imageArray[3][indexImg4];
+        }
+        isWinGame();
+    }
+    document.querySelector("#img4").addEventListener("click", changeImg4);
+    function changeImg5 () {
+        if (indexImg5 == 2) {
+            indexImg5 = 0;
+            img5.src = imageArray[4][indexImg5];
+        } else {
+            indexImg5++;
+            img5.src = imageArray[4][indexImg5];
+        }
+        isWinGame();
+    }
+    document.querySelector("#img5").addEventListener("click", changeImg5);
+</script>
+</body>
+</html>

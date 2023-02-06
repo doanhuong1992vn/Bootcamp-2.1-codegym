@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Từ điển</title>
+</head>
+<body>
+<h3>[Bài tập] Từ điển</h3>
+<h5>Hơi phèn nên chỉ có thể tra cứu các từ sau: Banana, Orange, Apple, Pen, Pencil, Book</h5>
+<input type="text" placeholder="Nhập từ cần tra">
+<button type="button">Tra cứu</button>
+<p id="toError" style="color: red"></p>
+<p id="toResult" style="color: green"></p>
+
+<script>
+  let arrEng = ["banana", "apple", "orange", "pen", "pencil", "book"];
+  let arrVie = ["chuối", "táo", "cam", "bút", "bút chì", "sách"];
+  function lookupDictionary () {
+    let inputText = document.querySelector("input").value;
+    let toError = document.querySelector("#toError");
+    toError.innerHTML = "";
+    let toResult = document.querySelector("#toResult");
+    toResult.innerHTML = "";
+    if (arrEng.indexOf(inputText) === -1) {
+      toError.innerHTML = "Không tìm thấy";
+    } else {
+      toResult.innerHTML = arrVie[arrEng.indexOf(inputText)];
+    }
+  }
+  document.querySelector("button").addEventListener("click", lookupDictionary);
+</script>
+</body>
+</html>

@@ -213,9 +213,28 @@ function printRetangle (d, r) {
 document.querySelector("#button4").addEventListener("click", printRetangle);
 //Kết thúc bài 4
 
+//không làm bài 5 vì ko thích tính lãi ngân hàng :v
 
-
-
+//Bài 6: In hình trái tim:
+function printHeart () {
+    let result = "";
+    for (let i=1; i<7; i++) {
+        for (let j=1; j<=7; j++) {
+            if (!((i==1 && (j==1 || j==4 || j==7))
+            || (i==4 && (j==1 || j==7))
+            || (i==5 && (j==1 || j==2 || j==6 || j==7))
+            || (i==6 && (j==1 || j==2 || j==3 || j==5 || j==6 || j==7)))) {
+                result += "&nbsp;*&nbsp;";
+            } else {
+                result += "&nbsp;&nbsp;&nbsp;&nbsp;";
+            }
+        }
+        result += "<br>";
+    }
+    document.querySelector("#toResult6").innerHTML = result;
+}
+document.querySelector("#button6").addEventListener("click", printHeart);
+//kết thúc bài 6
 
 
 

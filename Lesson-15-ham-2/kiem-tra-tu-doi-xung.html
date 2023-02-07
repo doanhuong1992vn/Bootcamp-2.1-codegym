@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Kiểm tra từ đối xứng</title>
+</head>
+<body>
+<script>
+  let inputStr = prompt("Nhập từ muốn kiểm tra đối xứng: ", "rotor").trim();
+  function checkPalindrome (text) {
+    let arr = text.split('');
+    let firstCharacter = arr[0];
+    let lastCharacter = arr[arr.length-1];
+    if (firstCharacter === lastCharacter) {
+      arr.pop();
+      arr.shift();
+      if (isEndCharacter(arr)) {
+        return true;
+      } else {
+        let newText = arr.join('');
+        return checkPalindrome(newText);
+      }
+    } else {
+      return false;
+    }
+  }
+  function isEndCharacter (arr) {
+    return arr.length === 0 || arr.length === 1;
+  }
+  alert(`${inputStr} là từ đối xứng: ${checkPalindrome(inputStr)}`);
+</script>
+</body>
+</html>

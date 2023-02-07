@@ -112,7 +112,6 @@ let toError9 = document.querySelector("#toError9");
 let toArrA = document.querySelector("#toArrA");
 let toArrB = document.querySelector("#toArrB");
 let toArrC = document.querySelector("#toArrC");
-//Bài 4:
 function addElementA() {
     if (input9a.value == '') {
         toError9.innerHTML = "Vui lòng nhập dữ liệu";

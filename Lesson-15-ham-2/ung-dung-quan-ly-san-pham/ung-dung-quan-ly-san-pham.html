@@ -6,14 +6,17 @@
     <link rel="stylesheet" href="css-ung-dung-quan-ly-san-pham.css">
 </head>
 <body>
-<h1>[*Bài tập] Ứng dụng quản lý sản phẩm sử dụng hàm</h1>
+<h1 style="text-align: center">Ứng dụng quản lý sản phẩm</h1>
 <label><strong>Add New Product</strong></label><br>
+<div style="background-color: #dddddd; width: 30%">
 <input id="newProduct" type="text" placeholder="New Product">
 <button id="addProduct" type="button">Add</button><br>
-<p id="toError" style="color: red"></p>
-<p id="addedProduct" style="color: limegreen"></p>
+</div>
+<strong><p id="toError" style="color: red"></p></strong>
+<strong><p id="addedProduct" style="color: limegreen"></p></strong>
 <button id="printTable" type="button">Display All Products</button>
 <button id="hideTable" type="button">Hide All Products</button>
+<button id="countProducts" type="button" value=""></button>
 <p id="showTable"></p>
 
 
@@ -34,6 +37,7 @@
     ];
     let table = '';
     function printTable () {
+        //hàm in ra mảng table ra màn hình
         table += "<table>" +
             "<tr id='headingRow'>" +
             "<th class='ordinalNumbers'>Ordinal numbers</th>" +
@@ -44,20 +48,28 @@
         for (let i=1; i<=products.length; i++) {
             table += `<tr>
             <td>${i}</td>
-            <td  class='product'>${products[i-1]}</td>
-            <td><button type="button">Edit</button></td>
-            <td><button type="button">Delete</button></td>
+            <td  id="newValue${i}">${products[i-1]}</td>
+            <td><button
+            id="editButton${i}"
+            type="button"
+            onclick="showInputToEdit(${i})">Edit</button></td>
+            <td><button
+            id="deleteButton${i}"
+            type="button"
+            onclick="deleteProduct(${i-1})">Delete</button></td>
             </tr>`;
         }
         table += "</table>";
+        document.querySelector("#countProducts").innerHTML =
+            `The number of products: ${products.length}`;
         document.querySelector("#showTable").innerHTML = table;
-        // document.querySelector("#printTable").removeEventListener("click", printTable);
         table = '';
     }
     document.querySelector("#printTable").addEventListener("click", printTable);
 
     function addProduct () {
-        let newProduct = document.querySelector("#newProduct").value;
+        //hàm để thêm sản phẩm và hiển thị lại bảng danh sách sản phẩm
+        let newProduct = document.querySelector("#newProduct").value.trim();
         let toError = document.querySelector("#toError");
         let addedProduct = document.querySelector("#addedProduct");
         let checkProduct = products.some(function(product) {
@@ -68,17 +80,76 @@
         } else if (checkProduct) {
             toError.innerHTML = "Sản phẩm đã có trong danh sách rồi!";
         } else {
-            products.push(newProduct);
+            products.unshift(newProduct);
             toError.innerHTML = '';
-            addedProduct.innerHTML = `Sản phẩm ${newProduct} đã được thêm vào cuối danh sách.`;
+            addedProduct.innerHTML = `Sản phẩm ${newProduct} đã được thêm vào đầu danh sách.`;
             printTable();
         }
     }
     document.querySelector("#addProduct").addEventListener("click", addProduct);
     function hideTable () {
+        //hàm này dùng để ẩn màn hình danh sách sản phẩm
+        document.querySelector("#countProducts").innerHTML = "";
         document.querySelector("#showTable").innerHTML = '';
     }
     document.querySelector("#hideTable").addEventListener("click", hideTable);
+    function showInputToEdit (index) {
+        table += "<table>" +
+            "<tr id='headingRow'>" +
+            "<th class='ordinalNumbers'>Ordinal numbers</th>" +
+            "<th class='product' style='text-align: center'>Product Name</th>" +
+            "<th class='editProduct'>Edit Product</th>" +
+            "<th class='deleteProduct'>Delete Product</th>" +
+            "</tr>";
+        for (let i=1; i<=products.length; i++) {
+            if (i == index) {
+                table += `<tr>
+            <td>${i}</td>
+            <td  class='product'>
+            <input
+            id="newValue${i}"
+            type="text"
+            value="${products[i-1]}"></td>
+            <td><button
+            id="editButton${i}"
+            type="button"
+            onclick="editProduct(${i})">Edit</button></td>
+            <td><button
+            id="deleteButton${i}"
+            type="button"
+            onclick="deleteProduct(${i-1})">Delete</button></td>
+            </tr>`;
+            } else {
+                table += `<tr>
+            <td>${i}</td>
+            <td  id="newValue${i}">${products[i-1]}</td>
+            <td><button
+            id="editButton${i}"
+            type="button"
+            onclick="showInputToEdit(${i})">Edit</button></td>
+            <td><button
+            id="deleteButton${i}"
+            type="button"
+            onclick="deleteProduct(${i-1})">Delete</button></td>
+            </tr>`;
+            }
+
+        }
+        table += "</table>";
+        document.querySelector("#countProducts").innerHTML =
+            `The number of products: ${products.length}`;
+        document.querySelector("#showTable").innerHTML = table;
+        table = '';
+    }
+    function editProduct (index) {
+        products[index-1] = document.querySelector(`#newValue${index}`).value;
+        printTable();
+    }
+    function deleteProduct (index) {
+        products.splice(index, 1);
+        printTable();
+    }
+
 </script>
 </body>
 </html>

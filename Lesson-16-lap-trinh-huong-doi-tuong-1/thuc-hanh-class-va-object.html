@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài giảng] Thực hành Class và Object (Quiz)</title>
+</head>
+<body>
+<script>
+  function students (id, name, age, adress) {
+    this.id = id;
+    this.name = name;
+    this.age = age;
+    this.adress = adress;
+    this.getInfo = function () {
+      return `ID: ${this.id}<br>Name: ${this.name}<br>Age: ${this.age}<br>Adress: ${this.adress}`;
+    }
+  }
+  let student = new students(1, "Đoàn Hưởng", 18, "HCM, VN");
+  document.write(student.getInfo());
+  console.log(student);
+</script>
+</body>
+</html>

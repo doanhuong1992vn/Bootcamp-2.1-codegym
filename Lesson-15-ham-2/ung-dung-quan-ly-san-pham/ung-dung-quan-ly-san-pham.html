@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Ứng dụng quản lý sản phẩm sử dụng hàm</title>
+    <link rel="stylesheet" href="css-ung-dung-quan-ly-san-pham.css">
+</head>
+<body>
+<h1>[*Bài tập] Ứng dụng quản lý sản phẩm sử dụng hàm</h1>
+<label><strong>Add New Product</strong></label><br>
+<input id="newProduct" type="text" placeholder="New Product">
+<button id="addProduct" type="button">Add</button><br>
+<p id="toError" style="color: red"></p>
+<p id="addedProduct" style="color: limegreen"></p>
+<button id="printTable" type="button">Display All Products</button>
+<button id="hideTable" type="button">Hide All Products</button>
+<p id="showTable"></p>
+
+
+<script>
+    let products = [
+        "Nước mắm",
+        "Muối",
+        "Mì tôm",
+        "Tương ớt",
+        "Tương cà",
+        "Nước tương",
+        "Mắm tôm",
+        "Bánh",
+        "Kẹo",
+        "Bia",
+        "Rượu",
+        "Thuốc lá"
+    ];
+    let table = '';
+    function printTable () {
+        table += "<table>" +
+            "<tr id='headingRow'>" +
+            "<th class='ordinalNumbers'>Ordinal numbers</th>" +
+            "<th class='product' style='text-align: center'>Product Name</th>" +
+            "<th class='editProduct'>Edit Product</th>" +
+            "<th class='deleteProduct'>Delete Product</th>" +
+            "</tr>";
+        for (let i=1; i<=products.length; i++) {
+            table += `<tr>
+            <td>${i}</td>
+            <td  class='product'>${products[i-1]}</td>
+            <td><button type="button">Edit</button></td>
+            <td><button type="button">Delete</button></td>
+            </tr>`;
+        }
+        table += "</table>";
+        document.querySelector("#showTable").innerHTML = table;
+        // document.querySelector("#printTable").removeEventListener("click", printTable);
+        table = '';
+    }
+    document.querySelector("#printTable").addEventListener("click", printTable);
+
+    function addProduct () {
+        let newProduct = document.querySelector("#newProduct").value;
+        let toError = document.querySelector("#toError");
+        let addedProduct = document.querySelector("#addedProduct");
+        let checkProduct = products.some(function(product) {
+            return product == newProduct;
+        })
+        if (newProduct == "") {
+            toError.innerHTML = "Vui lòng nhập sản phẩm muốn thêm";
+        } else if (checkProduct) {
+            toError.innerHTML = "Sản phẩm đã có trong danh sách rồi!";
+        } else {
+            products.push(newProduct);
+            toError.innerHTML = '';
+            addedProduct.innerHTML = `Sản phẩm ${newProduct} đã được thêm vào cuối danh sách.`;
+            printTable();
+        }
+    }
+    document.querySelector("#addProduct").addEventListener("click", addProduct);
+    function hideTable () {
+        document.querySelector("#showTable").innerHTML = '';
+    }
+    document.querySelector("#hideTable").addEventListener("click", hideTable);
+</script>
+</body>
+</html>

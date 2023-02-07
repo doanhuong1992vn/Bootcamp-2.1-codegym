@@ -79,7 +79,7 @@
             toError.innerHTML = "Vui lòng nhập sản phẩm muốn thêm";
         } else if (checkProduct) {
             toError.innerHTML = "Sản phẩm đã có trong danh sách rồi!";
-        } else {
+        } else if (confirm("Xác nhận thêm sản phẩm: ")) {
             products.unshift(newProduct);
             toError.innerHTML = '';
             addedProduct.innerHTML = `Sản phẩm ${newProduct} đã được thêm vào đầu danh sách.`;
@@ -142,12 +142,16 @@
         table = '';
     }
     function editProduct (index) {
-        products[index-1] = document.querySelector(`#newValue${index}`).value;
-        printTable();
+        if (confirm("Xác nhận sửa tên sản phẩm: ")) {
+            products[index-1] = document.querySelector(`#newValue${index}`).value;
+            printTable();
+        }
     }
     function deleteProduct (index) {
-        products.splice(index, 1);
-        printTable();
+        if (confirm("Xác nhận xóa sản phẩm: ")) {
+            products.splice(index, 1);
+            printTable();
+        }
     }
 
 </script>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Xây dựng lớp mô tả Temperature</title>
+</head>
+<body style="text-align: center">
+<button type="button" style="width: 200px; height: 100px">Convert Temperature</button>
+<script>
+  function Temperature (valueC) {
+    this.valueC = valueC;
+    this.convertF = function() {
+      return this.valueC*1.8+32;
+    }
+    this.convertK = function(){
+      return this.valueC+273.15;
+    }
+  }
+  function creatTempObj () {
+    let value = Number(prompt("Nhập vào nhiệt độ C hiện tại: "));
+    let temperature = new Temperature(value);
+    document.write(`Nhiệt độ C: ${temperature.valueC}<sup>o</sup>C<br>`);
+    document.write(`Nhiệt độ F: ${temperature.convertF()}<sup>o</sup>F<br>`);
+    document.write(`Nhiệt độ K: ${temperature.convertK()}<sup>o</sup>K<br>`);
+  }
+  document.querySelector("button").addEventListener("click", creatTempObj);
+</script>
+</body>
+</html>

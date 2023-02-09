@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Funny circles</title>
+</head>
+<body style="text-align: center">
+<canvas width="1000px" height="500px" style="border: 1px solid #d3d3d3">
+</canvas>
+
+<script>
+    // function MyCircle(x, y, radius) {
+    //     this.x = x;
+    //     this.y = y;
+    //     this.radius = radius;
+    // }
+    // function randomColor () {
+    //     let red = Math.round(Math.random()*255);
+    //     let green = Math.round(Math.random()*255);
+    //     let blue = Math.round(Math.random()*255);
+    //     return `rgba(${red}, ${green}, ${blue}, ${Math.random()})`;
+    // }
+    // function creatCircle () {
+    //     let canvas = document.querySelector("canvas").getContext("2d");
+    //     let x = Math.round(Math.random()*window.innerWidth);
+    //     let y = Math.round(Math.random()*window.innerHeight);
+    //     let radius = Math.round(Math.random()*100);
+    //     let circle = new MyCircle(x, y, radius);
+    //     canvas.beginPath();
+    //     canvas.arc(circle.x, circle.y, circle.radius, 0, 2*Math.PI);
+    //     canvas.fillStyle = randomColor();
+    //     canvas.fill();
+    // }
+    // let count = parseInt(prompt("Nhập số vòng tròn muốn vẽ: "));
+    // for (let i=1; i<=count; i++) {
+    //     creatCircle();
+    // }
+//Đoạn code phía trên đúng nhưng những hình tròn chưa di chuyển
+
+//Phía dưới là phẩn mở rộng của bài toán: cho các hình tròn di chuyển
+    //chương trình hoạt động tốt khi có khoảng 10 hình tròn
+    function MyCircle(canvasWidth, canvasHeight, color) {
+        this.canvasWidth = canvasWidth;
+        this.canvasHeight = canvasHeight;
+        this.radius = Math.round(Math.random()*50)+20;
+        this.speedX = 0.5;
+        this.speedY = 0.5;
+        this.x = Math.floor(Math.random()*(this.canvasWidth-2*this.radius))+this.radius;
+        this.y = Math.floor(Math.random()*(this.canvasHeight-2*this.radius))+this.radius;
+        this.color = color;
+        this.move = function(){
+            this.x += this.speedX;
+            this.y += this.speedY;
+            this.left = this.x - this.radius;
+            this.top = this.y - this.radius;
+            this.right = this.x + this.radius;
+            this.bottom = this.y + this.radius;
+        }
+        this.checkCollision = function() {
+            if(this.left <= 0 || this.right >= this.canvasWidth)
+                this.speedX = -this.speedX;
+            if(this.top <= 0 || this.bottom >= this.canvasHeight)
+                this.speedY = -this.speedY;
+        }
+        this.draw = function () {
+            context.beginPath();
+            context.arc(this.x, this.y, this.radius, 0, 2*Math.PI);
+            context.fillStyle = this.color;
+            context.fill();
+        }
+    }
+    function randomColor () {
+        let red = Math.round(Math.random()*255);
+        let green = Math.round(Math.random()*255);
+        let blue = Math.round(Math.random()*255);
+        return `rgba(${red}, ${green}, ${blue}, ${Math.random()})`;
+    }
+    let canvas = document.querySelector("canvas");
+    let context = canvas.getContext("2d");
+    function creatCircle () {
+        let circle = new MyCircle(canvas.width, canvas.height, randomColor());
+        setInterval(function() {
+            circle.move();
+            circle.checkCollision();
+            context.clearRect(0,0,canvas.width,canvas.height);//dòng này để xóa hình tròn đi rồi vẽ lại ở dòng sau
+            circle.draw(context);
+        }, 2);
+    }
+    let count = parseInt(prompt("Nhập số vòng tròn muốn vẽ: "));
+    for (let i=1; i<=count; i++) {
+        creatCircle();
+    }
+    /*
+    Đã hoàn thiện. Nhưng vì 1 lý do nào đó mà dường như chương trình chỉ ưu tiên
+    cho hình tròn đầu tiên chạy rõ ràng, những hình tròn khác có chạy nhưng ko thấy
+    được rõ ràng. Có lẽ trong mỗi khoảnh khắc (phần nghìn milisecond) chương trình chỉ vẽ
+    ra được 1 hình tròn duy nhất, sau đó xóa đi rồi vẽ tiếp hình khác.
+     */
+</script>
+</body>
+</html>

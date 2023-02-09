@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Xây dựng lớp Date</title>
+</head>
+<body>
+
+<script>
+  function NewDate (day, month, year) {
+    this.day = day;
+    this.month = month;
+    this.year = year;
+    this.getDay = function() {
+      return this.day;
+    }
+    this.getMonth = function() {
+      return this.month;
+    }
+    this.getYear = function() {
+      return this.year;
+    }
+    this.setDay = function(day) {
+      return this.day = day;
+    }
+    this.setMonth = function(month) {
+      return this.month = month;
+    }
+    this.setYear = function(year) {
+      return this.year = year;
+    }
+    this.setDate = function(day2, month2, year2) {
+      this.day = day2;
+      this.month = month2;
+      this.year = year2;
+      return this;
+    }
+    this.toString2 = function() {
+      return `${this.day}/${this.month}/${this.year}`;
+    }
+  }
+  //tạo đối tượng date bằng hàm constructor object NewDate()
+  let date = new NewDate(8, 2, 2023);
+  //và các biến day, month, year để hứng giá trị ngày, tháng, năm trong đối tượng date
+  let day = date.getDay();
+  let month = date.getMonth();
+  let year = date.getYear();
+  alert(`Today is: ${day}/${month}/${year}`);
+  //gán các giá trị mới cho biến day, month, year
+  day = date.setDay(9);
+  month = date.setMonth(2);
+  year = date.setYear(2023);
+  // console.log(date.toString2())
+  alert(`Tomorow is: ${day}/${month}/${year}`);
+  //tạo biến today để hứng giá trị trả về của date khi dùng tới hàm setDate
+  // let today = date.setDate(10, 2, 2023);
+  // //tại sao ở dòng trên phải khai báo 1 biến để hứng hàm setDate?
+  // //tại sao khi không khai báo biến để hứng thì code ko thực hiện?
+  // console.log(today)
+  // console.log(date)
+  // let todayString = today.toString2();
+  // console.log(todayString)
+  alert(`New day is ${date.setDate(10, 2, 2023).toString2()}`);
+  //bởi vì nếu ko khai báo biến để hứng thì khi thể hiện ra sẽ phải viết dài dòng trong hàm alert
+</script>
+</body>
+</html>

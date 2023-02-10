@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Funny circles</title>
+</head>
+<body style="text-align: center">
+<canvas width="1000px" height="500px" style="border: 1px solid #d3d3d3">
+</canvas>
+<script>
+  function MyCircle(x, y, radius) {
+      this.x = x;
+      this.y = y;
+      this.radius = radius;
+  }
+  function randomColor () {
+      let red = Math.round(Math.random()*255);
+      let green = Math.round(Math.random()*255);
+      let blue = Math.round(Math.random()*255);
+      return `rgba(${red}, ${green}, ${blue}, ${Math.random()})`;
+  }
+  function creatCircle () {
+      let canvas = document.querySelector("canvas").getContext("2d");
+      let x = Math.round(Math.random()*window.innerWidth);
+      let y = Math.round(Math.random()*window.innerHeight);
+      let radius = Math.round(Math.random()*100);
+      let circle = new MyCircle(x, y, radius);
+      canvas.beginPath();
+      canvas.arc(circle.x, circle.y, circle.radius, 0, 2*Math.PI);
+      canvas.fillStyle = randomColor();
+      canvas.fill();
+  }
+  let count = parseInt(prompt("Nhập số vòng tròn muốn vẽ: "));
+  for (let i=1; i<=count; i++) {
+      creatCircle();
+  }
+  //Đoạn code phía trên đúng nhưng những hình tròn chưa di chuyển
+</script>
+</body>
+</html>

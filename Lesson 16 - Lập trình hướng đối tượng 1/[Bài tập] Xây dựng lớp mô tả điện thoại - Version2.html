@@ -15,17 +15,22 @@
 <body>
 <div id="mobile1">
     <p><span id="nameMobile1"></span>
-        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <span id="status1"></span>
-        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <span id="battery1"></span>%</p>
-    <button id="newMess1" type="button">New Message</button><br>
+    <button id="newMess1" type="button">New Message</button>
+    <br>
     <button id="inbox1" type="button">Inbox<sup id="countInbox1"></sup></button>
     <button id="sentMess1" type="button">Sent<sup id="countSentMess1"></sup></button>
-    <button id="draftMess1" type="button">Draft<sup id="countDraft1"></sup></button><br><br><br><hr>
-    <button id="chargeBattery1" type="button">Charge Battery</button><br>
+    <button id="draftMess1" type="button">Draft<sup id="countDraft1"></sup></button>
+    <br><br><br>
+    <hr>
+    <button id="chargeBattery1" type="button">Charge Battery</button>
+    <br>
     <button id="turnOn1" type="button">TURN ON</button>
-    <button id="turnOff1" type="button">TURN OFF</button><br>
+    <button id="turnOff1" type="button">TURN OFF</button>
+    <br>
     <button id="checkStatus1" type="button">Active Status</button>
 </div>
 <div id="mobile2">
@@ -34,13 +39,18 @@
         <span id="status2"></span>
         &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
         <span id="battery2"></span>%</p>
-    <button id="newMess2" type="button">New Message</button><br>
+    <button id="newMess2" type="button">New Message</button>
+    <br>
     <button id="inbox2" type="button">Inbox<sup id="countInbox2"></sup></button>
     <button id="sentMess2" type="button">Sent<sup id="countSentMess2"></sup></button>
-    <button id="draftMess2" type="button">Draft<sup id="countDraft2"></sup></button><br><br><br><hr>
-    <button id="chargeBattery2" type="button">Charge Battery</button><br>
+    <button id="draftMess2" type="button">Draft<sup id="countDraft2"></sup></button>
+    <br><br><br>
+    <hr>
+    <button id="chargeBattery2" type="button">Charge Battery</button>
+    <br>
     <button id="turnOn2" type="button">TURN ON</button>
-    <button id="turnOff2" type="button">TURN OFF</button><br>
+    <button id="turnOff2" type="button">TURN OFF</button>
+    <br>
     <button id="checkStatus2" type="button">Active Status</button>
 </div>
 
@@ -75,134 +85,120 @@
     let turnOff2 = document.querySelector("#turnOff2");
     let checkStatus2 = document.querySelector("#checkStatus2");
 
-    function Mobile(userId, nameMobile){
+    function Mobile(userId, nameMobile) {
         this.userId = userId;
-        this.nameMobile = nameMobile;
+        this.name = nameMobile;
         this.powerON = true;
         this.battery = 15;
         this.draftMess = [];// lưu tin nhắn đang soạn thảo
         this.inbox = [];// lưu tin nhắn trong hộp thư đến
-        this.sentMessBox = [];//lưu tin nhắn đã gửi
-        this.getPower = function() {
+        this.sentMessage = [];//lưu tin nhắn đã gửi
+        this.displayPower = function () {
             if (this.powerON) {
                 return "ON";
             } else return "OFF";
         }
-        this.checkPower = function() {
+        this.checkPower = function () {
             if (this.powerON) {
-                alert(`Your mobile is ON`);
+                alert(`${this.name} mobile is ON`);
             } else {
-                if (confirm(`Your mobile is OFF. Would you like to TURN ON?`)) {
+                if (confirm(`${this.name} mobile is OFF. Would you like to TURN ON?`)) {
                     this.powerON = true;
-                    alert(`Your mobile is ON.`);
+                    alert(`${this.name} mobile is ON.`);
                 }
             }
         }
-        this.turnOn = function() {
+        this.turnOn = function () {
             this.powerON = true;
-            return alert(`Your mobile is ON`);
+            return alert(`${this.name} mobile is ON`);
         }
-        this.turnOff = function(){
+        this.turnOff = function () {
             this.powerON = false;
-            alert(`Your mobile is OFF`);
+            alert(`${this.name} mobile is OFF`);
         }
-        this.checkLowBattery = function(){
+        this.checkLowBattery = function () {
             if (this.battery < 5) {
                 this.powerON = false;
-                alert(`Your mobile is OFF`);
+                alert(`${this.name} mobile is OFF`);
             }
         }
-        this.onChargeBattery = function() {
+        this.onChargeBattery = function () {
             if (this.powerON) {
-                if (this.battery >=100) {
-                    alert(`Full Battery!!!`);
+                if (this.battery >= 100) {
+                    alert(`${this.name} Full Battery!!!`);
                 } else {
                     this.battery += 5;
                 }
             }
         }
-        this.textMessAndSend = function() {
+        this.setInbox = function (massage) {
             if (this.powerON) {
                 this.battery--;
-                let yourMess = prompt(`Write a message:`);
+                this.inbox.push(massage);
+                alert(`${this.name} have a message`);
+            }
+            this.checkLowBattery();
+        }
+        this.getInbox = function () {
+            if (this.powerON) {
+                this.battery--;
+                if (this.inbox.length <= 0) {
+                    alert(`${this.name} don't have message`);
+                } else {
+                    let message = this.inbox.join("\n");
+                    alert(`${this.name} have ${this.inbox.length} messages in Inbox:\n${message}`);
+                }
+            }
+            this.checkLowBattery();
+        }
+        this.textAndSend = function (mobile) {
+            if (this.powerON) {
+                this.battery--;
+                let message = prompt(`Write a message:`);
                 if (confirm(`Do you want to send message?`)) {
-                    if (this.userId === 1) {
-                        mess_1_To_2 = yourMess;
-                        this.sentMessage.push(yourMess);
-                        alert("Your message has been sent");
-                        return true;
-                    } else {
-                        mess_2_To_1 = yourMess;
-                        this.sentMessage.push(yourMess);
-                        alert("Your message has been sent");
-                        return true;
-                    }
+                    this.sentMessage.push(message);
+                    alert("Your message has been sent");
+                    mobile.setInbox(message)
                 } else {
-                    this.draftMess.push(yourMess);
+                    this.draftMess.push(message);
                     alert(`Saved in Draft Message`);
-                    return false;
                 }
             }
             this.checkLowBattery();
         }
-        this.receiveMess = function() {
-            if (this.powerON) {
-                this.battery--;
-                if (this.userId === 1) {
-                    this.inbox.push(mess_2_To_1);
-                    alert(`Mobile 1 have a message`);
-                } else {
-                    this.inbox.push(mess_1_To_2);
-                    alert(`Mobile ${this.userId} have a message`);
-                }
-            }
-            this.checkLowBattery();
-        }
-        this.checkInbox = function() {
-            if (this.powerON) {
-                this.battery--;
-                if (this.inbox.length <= 0){
-                    alert(`You don't have message`);
-                } else {
-                    let stringInbox = this.inbox.join("\n");
-                    alert(`You have ${this.inbox.length} messages in Inbox:\n${stringInbox}`);
-                }
-            }
-            this.checkLowBattery();
-        }
-        this.checkSentMess = function(){
+        this.getSentMess = function () {
             if (this.powerON) {
                 this.battery--;
                 if (this.sentMessage.length <= 0) {
-                    alert("You don't have sent message");
+                    alert(`${this.name} don't have sent message`);
                 } else {
-                    let stringSentMess = this.sentMessage.join("\n");
-                    alert(`You have ${this.sentMessage.length} messages in Sent Message:\n${stringSentMess}`);
+                    let sentMessage = this.sentMessage.join("\n");
+                    alert(`${this.name} have ${this.sentMessage.length} messages in Sent Message:\n${sentMessage}`);
                 }
             }
             this.checkLowBattery();
         }
-        this.checkDraft = function(){
+        this.getDraft = function () {
             if (this.powerON) {
                 this.battery--;
                 if (this.draftMess.length <= 0) {
                     alert("You don't have draft message");
                 } else {
                     let stringDraftMess = this.draftMess.join("\n");
-                    alert(`You have ${this.draftMess.length} messages in Sent Message:\n${stringDraftMess}`);
+                    alert(`${this.name} have ${this.draftMess.length} messages in Sent Message:\n${stringDraftMess}`);
                 }
             }
             this.checkLowBattery();
         }
     }
 
-    let mess_1_To_2, mess_2_To_1;
-    let mobile1 = new Mobile(1, "iPhone");
+    let mobile1 = new Mobile(1, "iphone");
     showMobile1();
-    let mobile2 = new Mobile(2, "Nokia");
+    let mobile2 = new Mobile(2, "androi");
     showMobile2();
-    function showMobile1 () {
-        nameMobile1.innerHTML = mobile1.nameMobile;
+
+    function showMobile1() {
+        nameMobile1.innerHTML = mobile1.name;
         statusMobile1.innerHTML = mobile1.displayPower();
         battery1.innerHTML = mobile1.battery;
         countInbox1.innerHTML = mobile1.inbox.length;
@@ -210,8 +206,9 @@
         countDraftMess1.innerHTML = mobile1.draftMess.length;
         setInterval(showMobile1, 1000);
     }
-    function showMobile2 () {
-        nameMobile2.innerHTML = mobile2.nameMobile;
+
+    function showMobile2() {
+        nameMobile2.innerHTML = mobile2.name;
         statusMobile2.innerHTML = mobile2.displayPower();
         battery2.innerHTML = mobile2.battery;
         countInbox2.innerHTML = mobile2.inbox.length;
@@ -219,29 +216,56 @@
         countDraftMess2.innerHTML = mobile2.draftMess.length;
         setInterval(showMobile2, 1000);
     }
-    newMess1.addEventListener("click", function(){
-        if (mobile1.textAndSend()){
-        mobile2.setInbox();
-    }});
-    inbox1.addEventListener("click", function(){mobile1.getInbox()});
-    sentMess1.addEventListener("click", function(){mobile1.getSentMess()});
-    draftMess1.addEventListener("click", function () {mobile1.getDraft()});
-    chargeBattery1.addEventListener("click", function(){mobile1.onChargeBattery()});
-    turnOn1.addEventListener("click", function (){mobile1.turnOn()});
-    turnOff1.addEventListener("click", function (){mobile1.turnOff()});
-    checkStatus1.addEventListener("click", function (){mobile1.checkPower()});
 
-    newMess2.addEventListener("click", function(){
-        if (mobile2.textAndSend()){
-            mobile1.setInbox();
-        }});
-    inbox2.addEventListener("click", function(){mobile2.getInbox()});
-    sentMess2.addEventListener("click", function(){mobile2.getSentMess()});
-    draftMess2.addEventListener("click", function(){mobile2.getDraft()});
-    chargeBattery2.addEventListener("click", function(){mobile2.onChargeBattery()});
-    turnOn2.addEventListener("click", function (){mobile2.turnOn()});
-    turnOff2.addEventListener("click", function (){mobile2.turnOff()});
-    checkStatus2.addEventListener("click", function (){mobile2.checkPower()});
+    newMess1.addEventListener("click", function () {
+        mobile1.textAndSend(mobile2)
+    });
+    inbox1.addEventListener("click", function () {
+        mobile1.getInbox()
+    });
+    sentMess1.addEventListener("click", function () {
+        mobile1.getSentMess()
+    });
+    draftMess1.addEventListener("click", function () {
+        mobile1.getDraft()
+    });
+    chargeBattery1.addEventListener("click", function () {
+        mobile1.onChargeBattery()
+    });
+    turnOn1.addEventListener("click", function () {
+        mobile1.turnOn()
+    });
+    turnOff1.addEventListener("click", function () {
+        mobile1.turnOff()
+    });
+    checkStatus1.addEventListener("click", function () {
+        mobile1.checkPower()
+    });
+
+    newMess2.addEventListener("click", function () {
+        mobile2.textAndSend(mobile1);
+    });
+    inbox2.addEventListener("click", function () {
+        mobile2.getInbox()
+    });
+    sentMess2.addEventListener("click", function () {
+        mobile2.getSentMess()
+    });
+    draftMess2.addEventListener("click", function () {
+        mobile2.getDraft()
+    });
+    chargeBattery2.addEventListener("click", function () {
+        mobile2.onChargeBattery()
+    });
+    turnOn2.addEventListener("click", function () {
+        mobile2.turnOn()
+    });
+    turnOff2.addEventListener("click", function () {
+        mobile2.turnOff()
+    });
+    checkStatus2.addEventListener("click", function () {
+        mobile2.checkPower()
+    });
 </script>
 </body>
 </html>

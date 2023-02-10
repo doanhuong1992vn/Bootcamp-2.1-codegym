@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Xây dựng lớp Hình Tròn</title>
+</head>
+<body>
+
+<script>
+  function MyCircle (radius, color) {
+    this.radius = radius;
+    this.color = color;
+    this.getRadius = function() {
+      return this.radius;
+    }
+    this.getColor = function () {
+      return this.color;
+    }
+    this.getArea = function() {
+      let area = (Math.pow(this.radius, 2)*Math.PI).toFixed(2);
+      return area;
+    }
+    this.setRadius = function(newRadius) {
+      return this.radius = newRadius;
+    }
+    this.setColor = function(newColor) {
+      return this.color = newColor
+    }
+  }
+  let myCircle = new MyCircle(3, "đỏ");
+  let radiusCircle = myCircle.getRadius();
+  let colorCircle = myCircle.getColor();
+  let areaCircle = myCircle.getArea();
+  alert(`Hình tròn 1 có bán kính ${radiusCircle}cm và màu ${colorCircle}. Diện tích là ${areaCircle}cm2`);
+  radiusCircle = myCircle.setRadius(4);
+  colorCircle = myCircle.setColor("xanh");
+  areaCircle = myCircle.getArea();
+  alert(`Hình tròn 1 mới có bán kính ${radiusCircle}cm và màu ${colorCircle}. Diện tích là ${areaCircle}cm2`);
+  let myCircle2 = new MyCircle(5, "vàng");
+  let radiusCircle2 = myCircle2.getRadius();
+  let colorCircle2 = myCircle2.getColor();
+  let areaCircle2 = myCircle2.getArea();
+  alert(`Hình tròn 2 có bán kính ${radiusCircle2}cm và màu ${colorCircle2}. Diện tích là ${areaCircle2}cm2`);
+  radiusCircle2 = myCircle2.setRadius(6);
+  colorCircle2 = myCircle2.setColor("hồng");
+  areaCircle2 = myCircle2.getArea();
+  alert(`Hình tròn 2 mới có bán kính ${radiusCircle2}cm và màu ${colorCircle2}. Diện tích là ${areaCircle2}cm2`);
+
+
+</script>
+</body>
+</html>

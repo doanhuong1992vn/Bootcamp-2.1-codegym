@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Xây dựng lớp mô tả hình chữ nhật</title>
+</head>
+<body style="text-align: center">
+<canvas width="1000px" height="450px" style="border: 1px solid black"></canvas>
+<br>
+<button type="button">Thay đổi chiều ngang</button>
+<button type="button">Thay đổi chiều cao</button>
+<br>
+<p></p>
+<p></p>
+<script>
+  function Rectangle (width, height) {
+    this.width = width;
+    this.height = height;
+    this.setWidth = function(newWidth){
+        this.width = newWidth
+    }
+    this.setHeight = function(newHeight){
+        this.height = newHeight
+    }
+    this.getArea = function() {
+      return this.width*this.height;
+    }
+    this.getPerimeter = function() {
+      return 2*(this.width+this.height);
+    }
+    this.draw = function() {
+        context.beginPath();
+        context.rect(50, 50, this.width, this.height);
+        context.stroke();
+    }
+  }
+  let canvas = document.querySelector("canvas");
+  let context = canvas.getContext("2d");
+  let width = parseInt(prompt(`Nhập chiều ngang hình chữ nhật:`));
+  let height = parseInt(prompt(`Nhập chiều cao hình chữ nhật:`));
+  let rectangle = new Rectangle(width, height);
+  rectangle.draw();
+  function changeWidth() {
+      let newWidth = parseInt(prompt(`Nhập vào chiều ngang mới: `));
+      rectangle.setWidth(newWidth);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      rectangle.draw();
+      document.querySelectorAll("p")[0].innerHTML =
+          `Hình chữ nhật trên có diện tích = ${rectangle.getArea()}px<sup>2</sup><br>`;
+      document.querySelectorAll("p")[1].innerHTML =
+          `Hình chữ nhật trên có chu vi = ${rectangle.getPerimeter()}px`;
+  }
+  document.querySelectorAll("button")[0].addEventListener("click", changeWidth);
+  function changeHeight() {
+      let newHeight = parseInt(prompt(`Nhập vào chiều cao mới: `));
+      rectangle.setHeight(newHeight);
+      context.clearRect(0, 0, canvas.width, canvas.height);
+      rectangle.draw();
+      document.querySelectorAll("p")[0].innerHTML =
+          `Hình chữ nhật trên có diện tích = ${rectangle.getArea()}px<sup>2</sup><br>`;
+      document.querySelectorAll("p")[1].innerHTML =
+          `Hình chữ nhật trên có chu vi = ${rectangle.getPerimeter()}px`;
+  }
+  document.querySelectorAll("button")[1].addEventListener("click", changeHeight);
+  document.querySelectorAll("p")[0].innerHTML =
+      `Hình chữ nhật trên có diện tích = ${rectangle.getArea()}px<sup>2</sup><br>`;
+  document.querySelectorAll("p")[1].innerHTML =
+      `Hình chữ nhật trên có chu vi = ${rectangle.getPerimeter()}px`;
+</script>
+</body>
+</html>

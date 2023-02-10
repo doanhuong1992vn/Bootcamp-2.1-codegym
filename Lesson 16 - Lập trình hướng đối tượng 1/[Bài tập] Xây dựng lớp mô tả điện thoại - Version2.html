@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Xây dựng lớp mô tả điện thoại</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background-color: grey;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+<div id="mobile1">
+    <p><span id="nameMobile1"></span>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        <span id="status1"></span>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        <span id="battery1"></span>%</p>
+    <button id="newMess1" type="button">New Message</button>
+    <br>
+    <button id="inbox1" type="button">Inbox<sup id="countInbox1"></sup></button>
+    <button id="sentMess1" type="button">Sent<sup id="countSentMess1"></sup></button>
+    <button id="draftMess1" type="button">Draft<sup id="countDraft1"></sup></button>
+    <br><br><br>
+    <hr>
+    <button id="chargeBattery1" type="button">Charge Battery</button>
+    <br>
+    <button id="turnOn1" type="button">TURN ON</button>
+    <button id="turnOff1" type="button">TURN OFF</button>
+    <br>
+    <button id="checkStatus1" type="button">Active Status</button>
+</div>
+<div id="mobile2">
+    <p><span id="nameMobile2"></span>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        <span id="status2"></span>
+        &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp
+        <span id="battery2"></span>%</p>
+    <button id="newMess2" type="button">New Message</button>
+    <br>
+    <button id="inbox2" type="button">Inbox<sup id="countInbox2"></sup></button>
+    <button id="sentMess2" type="button">Sent<sup id="countSentMess2"></sup></button>
+    <button id="draftMess2" type="button">Draft<sup id="countDraft2"></sup></button>
+    <br><br><br>
+    <hr>
+    <button id="chargeBattery2" type="button">Charge Battery</button>
+    <br>
+    <button id="turnOn2" type="button">TURN ON</button>
+    <button id="turnOff2" type="button">TURN OFF</button>
+    <br>
+    <button id="checkStatus2" type="button">Active Status</button>
+</div>
+
+<script>
+    let nameMobile1 = document.querySelector("#nameMobile1");
+    let statusMobile1 = document.querySelector("#status1");
+    let battery1 = document.querySelector("#battery1");
+    let inbox1 = document.querySelector("#inbox1");
+    let countInbox1 = document.querySelector("#countInbox1");
+    let newMess1 = document.querySelector("#newMess1");
+    let sentMess1 = document.querySelector("#sentMess1");
+    let countSentMess1 = document.querySelector("#countSentMess1");
+    let draftMess1 = document.querySelector("#draftMess1");
+    let countDraftMess1 = document.querySelector("#countDraft1");
+    let chargeBattery1 = document.querySelector("#chargeBattery1");
+    let turnOn1 = document.querySelector("#turnOn1");
+    let turnOff1 = document.querySelector("#turnOff1");
+    let checkStatus1 = document.querySelector("#checkStatus1");
+
+    let nameMobile2 = document.querySelector("#nameMobile2");
+    let statusMobile2 = document.querySelector("#status2");
+    let battery2 = document.querySelector("#battery2");
+    let inbox2 = document.querySelector("#inbox2");
+    let countInbox2 = document.querySelector("#countInbox2");
+    let newMess2 = document.querySelector("#newMess2");
+    let sentMess2 = document.querySelector("#sentMess2");
+    let countSentMess2 = document.querySelector("#countSentMess2");
+    let draftMess2 = document.querySelector("#draftMess2");
+    let countDraftMess2 = document.querySelector("#countDraft2");
+    let chargeBattery2 = document.querySelector("#chargeBattery2");
+    let turnOn2 = document.querySelector("#turnOn2");
+    let turnOff2 = document.querySelector("#turnOff2");
+    let checkStatus2 = document.querySelector("#checkStatus2");
+
+    function Mobile(userId, nameMobile) {
+        this.userId = userId;
+        this.name = nameMobile;
+        this.powerON = true;
+        this.battery = 15;
+        this.draftMess = [];// lưu tin nhắn đang soạn thảo
+        this.inbox = [];// lưu tin nhắn trong hộp thư đến
+        this.sentMessage = [];//lưu tin nhắn đã gửi
+        this.displayPower = function () {
+            if (this.powerON) {
+                return "ON";
+            } else return "OFF";
+        }
+        this.checkPower = function () {
+            if (this.powerON) {
+                alert(`${this.name} mobile is ON`);
+            } else {
+                if (confirm(`${this.name} mobile is OFF. Would you like to TURN ON?`)) {
+                    this.powerON = true;
+                    alert(`${this.name} mobile is ON.`);
+                }
+            }
+        }
+        this.turnOn = function () {
+            this.powerON = true;
+            return alert(`${this.name} mobile is ON`);
+        }
+        this.turnOff = function () {
+            this.powerON = false;
+            alert(`${this.name} mobile is OFF`);
+        }
+        this.checkLowBattery = function () {
+            if (this.battery < 5) {
+                this.powerON = false;
+                alert(`${this.name} mobile is OFF`);
+            }
+        }
+        this.onChargeBattery = function () {
+            if (this.powerON) {
+                if (this.battery >= 100) {
+                    alert(`${this.name} Full Battery!!!`);
+                } else {
+                    this.battery += 5;
+                }
+            }
+        }
+        this.setInbox = function (massage) {
+            if (this.powerON) {
+                this.battery--;
+                this.inbox.push(massage);
+                alert(`${this.name} have a message`);
+            }
+            this.checkLowBattery();
+        }
+        this.getInbox = function () {
+            if (this.powerON) {
+                this.battery--;
+                if (this.inbox.length <= 0) {
+                    alert(`${this.name} don't have message`);
+                } else {
+                    let message = this.inbox.join("\n");
+                    alert(`${this.name} have ${this.inbox.length} messages in Inbox:\n${message}`);
+                }
+            }
+            this.checkLowBattery();
+        }
+        this.textAndSend = function (mobile) {
+            if (this.powerON) {
+                this.battery--;
+                let message = prompt(`Write a message:`);
+                if (confirm(`Do you want to send message?`)) {
+                    this.sentMessage.push(message);
+                    alert("Your message has been sent");
+                    mobile.setInbox(message)
+                } else {
+                    this.draftMess.push(message);
+                    alert(`Saved in Draft Message`);
+                }
+            }
+            this.checkLowBattery();
+        }
+        this.getSentMess = function () {
+            if (this.powerON) {
+                this.battery--;
+                if (this.sentMessage.length <= 0) {
+                    alert(`${this.name} don't have sent message`);
+                } else {
+                    let sentMessage = this.sentMessage.join("\n");
+                    alert(`${this.name} have ${this.sentMessage.length} messages in Sent Message:\n${sentMessage}`);
+                }
+            }
+            this.checkLowBattery();
+        }
+        this.getDraft = function () {
+            if (this.powerON) {
+                this.battery--;
+                if (this.draftMess.length <= 0) {
+                    alert("You don't have draft message");
+                } else {
+                    let stringDraftMess = this.draftMess.join("\n");
+                    alert(`${this.name} have ${this.draftMess.length} messages in Sent Message:\n${stringDraftMess}`);
+                }
+            }
+            this.checkLowBattery();
+        }
+    }
+
+    let mobile1 = new Mobile(1, "iphone");
+    showMobile1();
+    let mobile2 = new Mobile(2, "androi");
+    showMobile2();
+
+    function showMobile1() {
+        nameMobile1.innerHTML = mobile1.name;
+        statusMobile1.innerHTML = mobile1.displayPower();
+        battery1.innerHTML = mobile1.battery;
+        countInbox1.innerHTML = mobile1.inbox.length;
+        countSentMess1.innerHTML = mobile1.sentMessage.length;
+        countDraftMess1.innerHTML = mobile1.draftMess.length;
+        setInterval(showMobile1, 1000);
+    }
+
+    function showMobile2() {
+        nameMobile2.innerHTML = mobile2.name;
+        statusMobile2.innerHTML = mobile2.displayPower();
+        battery2.innerHTML = mobile2.battery;
+        countInbox2.innerHTML = mobile2.inbox.length;
+        countSentMess2.innerHTML = mobile2.sentMessage.length;
+        countDraftMess2.innerHTML = mobile2.draftMess.length;
+        setInterval(showMobile2, 1000);
+    }
+
+    newMess1.addEventListener("click", function () {
+        mobile1.textAndSend(mobile2)
+    });
+    inbox1.addEventListener("click", function () {
+        mobile1.getInbox()
+    });
+    sentMess1.addEventListener("click", function () {
+        mobile1.getSentMess()
+    });
+    draftMess1.addEventListener("click", function () {
+        mobile1.getDraft()
+    });
+    chargeBattery1.addEventListener("click", function () {
+        mobile1.onChargeBattery()
+    });
+    turnOn1.addEventListener("click", function () {
+        mobile1.turnOn()
+    });
+    turnOff1.addEventListener("click", function () {
+        mobile1.turnOff()
+    });
+    checkStatus1.addEventListener("click", function () {
+        mobile1.checkPower()
+    });
+
+    newMess2.addEventListener("click", function () {
+        mobile2.textAndSend(mobile1);
+    });
+    inbox2.addEventListener("click", function () {
+        mobile2.getInbox()
+    });
+    sentMess2.addEventListener("click", function () {
+        mobile2.getSentMess()
+    });
+    draftMess2.addEventListener("click", function () {
+        mobile2.getDraft()
+    });
+    chargeBattery2.addEventListener("click", function () {
+        mobile2.onChargeBattery()
+    });
+    turnOn2.addEventListener("click", function () {
+        mobile2.turnOn()
+    });
+    turnOff2.addEventListener("click", function () {
+        mobile2.turnOff()
+    });
+    checkStatus2.addEventListener("click", function () {
+        mobile2.checkPower()
+    });
+</script>
+</body>
+</html>

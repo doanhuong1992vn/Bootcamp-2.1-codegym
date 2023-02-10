@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body style="text-align: center">
+<canvas id="canvas" width="1000px" height="500px" style="border: 1px solid #d3d3d3">
+</canvas>
+<script>
+  function Ball(mapWidth, mapHeight){
+    this.mapWidth = mapWidth;
+    this.mapHeight = mapHeight;
+    this.radius = 20;
+    this.speedX = 1;
+    this.speedY = 1;
+    this.cx = Math.floor(Math.random()*(this.mapWidth-2*this.radius)) +this.radius;
+    this.cy = Math.floor(Math.random()*(this.mapHeight-2*this.radius)) +this.radius;
+    this.move = function(){
+        this.cx += this.speedX;
+        this.cy += this.speedY;
+        this.left = this.cx - this.radius;
+        this.top = this.cy - this.radius;
+        this.right = this.cx + this.radius;
+        this.bottom = this.cy + this.radius;
+    }
+    this.checkCollision = function() {
+        if(this.left <= 0 || this.right >= this.mapWidth)
+            this.speedX = -this.speedX;
+        if(this.top <= 0 || this.bottom >= this.mapHeight)
+            this.speedY = -this.speedY;
+    }
+    this.draw = function(context){
+        context.beginPath();
+        context.fillStyle = "red";
+        context.arc(this.cx,this.cy,this.radius,0,Math.PI*2,true);
+        context.closePath();
+        context.fill();
+    }
+  }
+  let canvas;
+  let context;
+  let ball;
+  window.onload = function(){
+    canvas = document.getElementById("canvas");
+    context = canvas.getContext("2d");
+    ball = new Ball(canvas.width,canvas.height);
+    setInterval("update()",10);
+  }
+  function update(){
+      ball.move();
+      ball.checkCollision();
+      draw();
+  }
+  function draw(){
+      context.clearRect(0,0,canvas.width,canvas.height);
+      ball.draw(context);
+  }
+
+//cố gắng tìm cách hiện 1 lúc nhiều ball nhưng chưa được
+  // function Ball(mapWidth, mapHeight){
+  //     this.mapWidth = mapWidth;
+  //     this.mapHeight = mapHeight;
+  //     this.radius = 20;
+  //     this.speedX = 1;
+  //     this.speedY = 1;
+  //     this.cx = Math.floor(Math.random()*(this.mapWidth-2*this.radius)) +this.radius;
+  //     this.cy = Math.floor(Math.random()*(this.mapHeight-2*this.radius)) +this.radius;
+  //     this.move = function(ball){
+  //         ball.cx += ball.speedX;
+  //         ball.cy += ball.speedY;
+  //         ball.left = ball.cx - ball.radius;
+  //         ball.top = ball.cy - ball.radius;
+  //         ball.right = ball.cx + ball.radius;
+  //         ball.bottom = ball.cy + ball.radius;
+  //     }
+  //     this.checkCollision = function(ball) {
+  //         if(ball.left <= 0 || ball.right >= ball.mapWidth)
+  //             ball.speedX = -ball.speedX;
+  //         if(ball.top <= 0 || ball.bottom >= ball.mapHeight)
+  //             ball.speedY = -ball.speedY;
+  //     }
+  //     this.draw = function(ball, context){
+  //         context.beginPath();
+  //         context.fillStyle = "red";
+  //         context.arc(ball.cx,ball.cy,ball.radius,0,Math.PI*2,true);
+  //         context.closePath();
+  //         context.fill();
+  //     }
+  // }
+  // let canvas;
+  // let context;
+  // // let ball;
+  // window.onload = function(){
+  //     canvas = document.getElementById("canvas");
+  //     context = canvas.getContext("2d");
+  //     let ball = new Ball(canvas.width,canvas.height);
+  //     setInterval("update(ball)",10);
+  // }
+  // function update(ball){
+  //     ball.move(ball);
+  //     ball.checkCollision(ball);
+  //     draw(ball);
+  // }
+  // function draw(ball){
+  //     context.clearRect(0,0,canvas.width,canvas.height);
+  //     ball.draw(ball, context);
+  // }
+
+
+  //thuộc tính được tạo bên ngoài constructor object
+  // Ball.prototype.move = function(){
+  //     this.cx += this.speedX;
+  //     this.cy += this.speedY;
+  //     this.left = this.cx - this.radius;
+  //     this.top = this.cy - this.radius;
+  //     this.right = this.cx + this.radius;
+  //     this.bottom = this.cy + this.radius;
+  // }
+  // Ball.prototype.checkCollision = function(shapes) {
+  //     if(this.left <= 0 || this.right >= this.mapWidth)
+  //         this.speedX = -this.speedX;
+  //     if(this.top <= 0 || this.bottom >= this.mapHeight)
+  //         this.speedY = -this.speedY;
+  // }
+  // Ball.prototype.draw = function(context){
+  //     context.beginPath();
+  //     context.fillStyle = "red";
+  //     context.arc(this.cx,this.cy,this.radius,0,Math.PI*2,true);
+  //     context.closePath();
+  //     context.fill();
+  // }
+</script>
+</body>
+</html>

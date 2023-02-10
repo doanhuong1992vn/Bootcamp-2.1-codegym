@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài giảng] Class và Object Demo</title>
+</head>
+<body>
+<script>
+    function Mobile (id, name) {
+        this.id = id;
+        this.name = name;
+        this.message = "";
+        this.setdMess = function(message){
+            this.message = message;
+        }
+        this.getMessage = function(){
+            return this.message;
+        }
+        this.sendMessage = function(message, mobile){
+            mobile.setdMess(message);
+        }
+    }
+    let iphone = new Mobile(1, "iphone");
+    let androi = new Mobile(2, "androi");
+    let message = prompt("Write message:", "Xin chào androi");
+    iphone.sendMessage(message, androi);
+    document.write(androi.getMessage());
+</script>
+</body>
+</html>

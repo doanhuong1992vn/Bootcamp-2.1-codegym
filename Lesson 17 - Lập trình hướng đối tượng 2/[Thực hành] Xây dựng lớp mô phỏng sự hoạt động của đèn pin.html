@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Thực hành] Xây dựng lớp mô phỏng sự hoạt động của đèn pin</title>
+    <style>
+        div {
+            width: 200px;
+            height: 200px;
+            background-color: darkgrey;
+            position: relative;
+        }
+        body {
+            text-align: center;
+            position: relative;
+            align-items: center;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+<input type="range" min="0" max="10"><br>
+<div></div><br>
+<button id="onButton" type="button">Turn On</button>
+<button id="offButton" type="button">Turn Off</button>
+<button id="chargeButton" type="button">Charge Battery</button>
+<script>
+  function Battery () {
+      this.energy = 5;
+      this.getEnergy = function(){
+          return this.energy;
+      }
+      this.decreaseEnergy = function (){
+          if (this.energy > 0) {
+              --this.energy;
+          }
+      }
+      this.increaseEnergy = function () {
+          if (this.energy < 10) {
+              this.energy++;
+          }
+      }
+  }
+  function FlashLamp (battery){
+      this.status = false;
+      this.battery = battery;
+      this.getBatteryInfo = function(){
+          return this.battery.getEnergy();
+      }
+      this.turnOff = function () {
+          this.status = false;
+      }
+      this.turnOn = function () {
+          if (this.getBatteryInfo() > 0) {
+              this.status = true;
+          } else this.turnOff();
+      }
+  }
+
+  let battery1 = new Battery();
+  let lamp1 = new FlashLamp(battery1);
+  let inputBattery = document.querySelector("input");
+  let divLamp = document.querySelector("div");
+  let onButton = document.querySelector("#onButton");
+  let offButton = document.querySelector("#offButton");
+  let chargeButton = document.querySelector("#chargeButton");
+
+  function update() {
+      inputBattery.value = battery1.getEnergy();
+      if (lamp1.status) {
+          divLamp.style.backgroundColor = "yellow";
+      } else {
+          divLamp.style.backgroundColor = "darkgrey";
+      }
+  }
+  update();
+  let timeout, interval;
+  function turnOnLamp () {
+      onButton.removeEventListener("click", turnOnLamp);
+      if (battery1.getEnergy() === 0) {
+          alert("The battery is out!!!");
+          turnOffLamp();
+      } else {
+          lamp1.turnOn();
+          battery1.decreaseEnergy();
+          console.log(lamp1.getBatteryInfo());
+          timeout = setTimeout(turnOnLamp, 2000);
+      }
+      update()
+  }
+  onButton.addEventListener("click", turnOnLamp);
+  function turnOffLamp () {
+      lamp1.turnOff();
+      onButton.addEventListener("click", turnOnLamp);
+      clearTimeout(timeout);
+      update()
+  }
+  offButton.addEventListener("click", turnOffLamp);
+  function chargeBattery () {
+      battery1.increaseEnergy()
+      if (battery1.getEnergy() === 10) {
+          alert("Full Battery!!!");
+          stopCharge();
+      }
+      update()
+  }
+
+  chargeButton.addEventListener("click", continueCharge);
+  function continueCharge() {
+      interval = setInterval(chargeBattery, 1000);
+      chargeButton.removeEventListener("click", continueCharge);
+      chargeButton.innerHTML = "Stop Charge";
+      chargeButton.addEventListener("click", stopCharge);
+      update()
+  }
+  function stopCharge () {
+      clearInterval(interval);
+      chargeButton.removeEventListener("click", stopCharge);
+      chargeButton.innerHTML = "Charge Battery";
+      chargeButton.addEventListener("click", continueCharge);
+      update()
+  }
+</script>
+</body>
+</html>

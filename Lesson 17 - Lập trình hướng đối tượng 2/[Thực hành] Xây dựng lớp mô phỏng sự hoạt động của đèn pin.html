@@ -25,6 +25,16 @@
 <button id="onButton" type="button">Turn On</button>
 <button id="offButton" type="button">Turn Off</button>
 <button id="chargeButton" type="button">Charge Battery</button>
+<p>Hướng dẫn sử dụng:<br>
+<ul style="text-align: left">
+    <li>Turn On: Bật đèn, mất 10% pin, click tiếp cũng ko mất nhiều hơn</li>
+    <li>Khi đèn sáng thì mỗi 2 giây giảm 10% pin</li>
+    <li>Pin hết thì đèn tự tắt, phải sạc pin mới bật lại được</li>
+    <li>Turn Off: Tắt đèn</li>
+    <li>Charge Battery: Sạc pin, mỗi 1 giây sạc được 10% pin</li>
+    <li>Có thể vừa bật đèn vừa sạc pin, pin đầy tự động ngắt sạc</li>
+    <li>Stop Charge: Dừng sạc, nút này chỉ hiện ra khi đang sạc</li>
+</ul></p>
 <script>
   function Battery () {
       this.energy = 5;

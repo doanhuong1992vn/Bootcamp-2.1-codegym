@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Game đơn giản - di chuyển đối tượng</title>
+</head>
+<body>
+<div id="game"></div>
+<script>
+    function Hero(image, size) {
+        this.image = image;
+        this.top = 0;
+        this.left = 0;
+        this.size = size;
+        this.speed = 200;
+
+
+        this.getHeroElement = function () {
+            return `<img width="${this.size}"
+    height="${this.size}"
+    src="${this.image}"
+    style="top: ${this.top}px; left: ${this.left}px; position:absolute;"/>`;
+        }
+
+        this.moveRight = function () {
+            this.left += this.speed;
+            console.log('ok: ' + this.left);
+        }
+        this.moveLeft = function () {
+            this.left -= this.speed;
+        }
+        this.moveDown = function () {
+            this.top += this.speed;
+        }
+        this.moveUp = function () {
+            this.top -= this.speed;
+        }
+    }
+
+    var hero = new Hero("turndown.png", 200);
+
+    function toMoveRight() {
+        if (hero.left <= window.innerWidth - hero.size && hero.top <= 0) {
+            hero.moveRight();
+        } else if (hero.left >= window.innerWidth - hero.size && hero.top <= window.innerHeight - hero.size) {
+            hero.moveDown();
+        } else if (hero.top >= window.innerHeight - hero.size && hero.left >= 200) {
+            hero.moveLeft();
+        } else {
+            hero.moveUp();
+        }
+        document.getElementById('game').innerHTML = hero.getHeroElement();
+        setTimeout(toMoveRight, 500)
+    }
+
+    toMoveRight();
+</script>
+</body>
+</html>

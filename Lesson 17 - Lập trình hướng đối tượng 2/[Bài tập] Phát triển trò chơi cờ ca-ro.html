@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Phát triển trò chơi cờ ca-ro</title>
+    <style>
+        table {
+            text-align: center;
+            border: 1px solid blue;
+            border-collapse: collapse;
+            color: red;
+        }
+        td {
+            width: 40px;
+            height: 40px;
+            border: 1px solid blue;
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+<button type="button" onclick="start()">Start</button>
+<table id="gameBoard">
+</table>
+<script>
+    function Cell (x, y) {
+        this.x = x;
+        this.y = y;
+        this.value = "Empty";
+        this.getHtml = function () {
+            return `<td id="cell-${x}-${y}" onclick="play(${x}, ${y})"></td>`;
+        }
+        this.draw = function () {
+            let cellDraw = document.getElementById(`cell-${x}-${y}`);
+            switch (this.value) {
+                case "O":
+                    cellDraw.innerHTML = "O";
+                    break;
+                case "X":
+                    cellDraw.innerHTML = "X";
+                    break;
+                default:
+                    cellDraw.innerHTML = "";
+            }
+        }
+    }
+    function GameBoard () {
+        this.rows = 20;
+        this.cols = 20;
+        this.turn = "O";
+        this.arr = [];
+        this.isWin = false;
+        this.draw = function () {
+            let tableGame = document.getElementById("gameBoard");
+            let table = "";
+            for (let i=0; i<this.rows; i++) {
+                table += "<tr>";
+                this.arr[i] = [];
+                for (let j=0; j<this.cols; j++) {
+                    let newCell = new Cell(i, j);
+                    this.arr[i].push(newCell);
+                    table += newCell.getHtml();
+                }
+                table += "</tr>";
+            }
+            tableGame.innerHTML = table;
+        }
+        this.play = function (x, y) {
+            if (this.isWin) {
+                return;
+            }
+            let cell = this.arr[x][y]; //this.arr[x][y] chính là 1 newCell được tạo ra từ this.draw
+            if (cell.value === "Empty") {
+                cell.value = this.turn;
+                cell.draw();
+                if (this.turn === "O") {
+                    this.turn = "X";
+                } else {
+                    this.turn = "O";
+                }
+            } else {
+                alert("Cell is not empty!!!");
+            }
+        }
+        this.check = function () {
+            for (let i=0; i<this.rows; i++) {
+                for (let j=0; j<this.cols; j++) {
+                    let horizontal_5_O = this.arr[i][j].value === "O"
+                        && this.arr[i][j+1].value === "O"
+                        && this.arr[i][j+2].value === "O"
+                        && this.arr[i][j+3].value === "O"
+                        && this.arr[i][j+4].value === "O";
+                    let vertical_5_O = this.arr[i][j].value === "O"
+                        && this.arr[i+1][j].value === "O"
+                        && this.arr[i+2][j].value === "O"
+                        && this.arr[i+3][j].value === "O"
+                        && this.arr[i+4][j].value === "O";
+                    let rightDiagonal_5_O = this.arr[i][j].value === "O"
+                        && this.arr[i+1][j+1].value === "O"
+                        && this.arr[i+2][j+2].value === "O"
+                        && this.arr[i+3][j+3].value === "O"
+                        && this.arr[i+4][j+4].value === "O";
+                    let leftDiagonal_5_O = this.arr[i][j].value === "O"
+                        && this.arr[i-1][j+1].value === "O"
+                        && this.arr[i-2][j+2].value === "O"
+                        && this.arr[i-3][j+3].value === "O"
+                        && this.arr[i-4][j+4].value === "O";
+
+                    let horizontal_5_X = this.arr[i][j].value === "X"
+                        && this.arr[i][j+1].value === "X"
+                        && this.arr[i][j+2].value === "X"
+                        && this.arr[i][j+3].value === "X"
+                        && this.arr[i][j+4].value === "X";
+                    let vertical_5_X = this.arr[i][j].value === "X"
+                        && this.arr[i+1][j].value === "X"
+                        && this.arr[i+2][j].value === "X"
+                        && this.arr[i+3][j].value === "X"
+                        && this.arr[i+4][j].value === "X";
+                    let rightDiagonal_5_X = this.arr[i][j].value === "X"
+                        && this.arr[i+1][j+1].value === "X"
+                        && this.arr[i+2][j+2].value === "X"
+                        && this.arr[i+3][j+3].value === "X"
+                        && this.arr[i+4][j+4].value === "X";
+                    let leftDiagonal_5_X = this.arr[i][j].value === "X"
+                        && this.arr[i-1][j+1].value === "X"
+                        && this.arr[i-2][j+2].value === "X"
+                        && this.arr[i-3][j+3].value === "X"
+                        && this.arr[i-4][j+4].value === "X";
+                    if (horizontal_5_O || vertical_5_O || rightDiagonal_5_O || leftDiagonal_5_O) {
+                        this.isWin = true;
+                        alert("Player 'O' won !!!");
+                    } else if (horizontal_5_X || vertical_5_X || rightDiagonal_5_X || leftDiagonal_5_X) {
+                        this.isWin = true;
+                        alert("Player 'X' won !!!");
+                    }
+                }
+            }
+        }
+    }
+    let gameBoard;
+    function start () {
+        gameBoard = new GameBoard();
+        gameBoard.draw();
+    }
+    start();
+    function play (x, y) {
+        gameBoard.play(x, y);
+        gameBoard.check()
+    }
+</script>
+</body>
+</html>

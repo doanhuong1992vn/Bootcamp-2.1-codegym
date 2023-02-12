@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[Bài tập] Phát triển chương trình thể hiện sự tương tác giữa hai đối tượng: công tắc và bóng đèn</title>
+</head>
+<body>
+<div style="width: 200px; height: 200px; background-color: gray"></div>
+<label for="switchButton">Công tắc: </label>
+<input id="switchButton" type="checkbox" style="width: 50px; height: 50px">
+<script>
+    function ElectricLamp () {
+        this.status = false;
+        this.getStatus = function () {
+            return this.status;
+        }
+    }
+    function SwitchButton (lamp) {
+        this.status = false;
+        this.lamp = lamp;
+        this.switchOff = function () {
+            this.status = false;
+            this.lamp.status = this.status;
+        }
+        this.switchOn = function () {
+            this.status = true;
+            this.lamp.status = this.status;
+        }
+    }
+    let lamp = new ElectricLamp();
+    let switchButton = new SwitchButton(lamp);
+    let div = document.querySelector("div");
+    let input = document.querySelector("input");
+    function update(){
+        if (lamp.getStatus()){
+            div.style.backgroundColor = "yellow";
+        } else {
+            div.style.backgroundColor = "gray";
+        }
+    }
+    function connectToLamp () {
+        if (input.checked) {
+            switchButton.switchOn();
+        }  else {
+            switchButton.switchOff();
+        }
+        update();
+    }
+    input.addEventListener("click", connectToLamp)
+</script>
+</body>
+</html>

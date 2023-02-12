@@ -47,14 +47,14 @@
         img5.src = imageArray[4][indexImg5];
         isWinGame();
     }
-    window.onload = refreshImg();
+    refreshImg();
     function isWinGame () {
         //tạo hàm isWinGame để luôn luôn check xem các ảnh có cùng loại với nhau ko rồi thay đổi css box-shadow của ảnh
         //khi các chỉ mục trong mảng bằng nhau thì chứng tỏ 5 ảnh là cùng loại -> win
-        if (indexImg1 == indexImg2
-            && indexImg1 == indexImg3
-            && indexImg1 == indexImg4
-            && indexImg1 == indexImg5) {
+        if (indexImg1 === indexImg2
+            && indexImg1 === indexImg3
+            && indexImg1 === indexImg4
+            && indexImg1 === indexImg5) {
             document.querySelector("#img1").style.boxShadow = "red 4px 4px 9px";
             document.querySelector("#img2").style.boxShadow = "red 4px 4px 9px";
             document.querySelector("#img3").style.boxShadow = "red 4px 4px 9px";
@@ -73,8 +73,20 @@
     khi chỉ mục đang là 2 thì gán nó về 0 và dùng chỉ mục 0 để thay đổi hình ảnh hiển thị
     khi chỉ mục < 2 thì tăng chỉ mục lên 1 rồi thực hiện thay đổi hình ảnh
      */
+    // function changeImg (indexImg, img, index) {
+    //     if (indexImg === 2) {
+    //         indexImg = 0;
+    //         img.src = imageArray[index][indexImg];
+    //     } else {
+    //         indexImg++;
+    //         img.src = imageArray[index][indexImg];
+    //     }
+    //     isWinGame();
+    // }
+    // document.querySelector("#img1").addEventListener("click", changeImg(indexImg1, img1, 0));
+    // vẫn chưa hiểu tại sao sử dụng cách truyền tham số như phía trên thì ko được?
     function changeImg1 () {
-        if (indexImg1 == 2) {
+        if (indexImg1 === 2) {
             indexImg1 = 0;
             img1.src = imageArray[0][indexImg1];
         } else {
@@ -85,7 +97,7 @@
     }
     document.querySelector("#img1").addEventListener("click", changeImg1);
     function changeImg2 () {
-        if (indexImg2 == 2) {
+        if (indexImg2 === 2) {
             indexImg2 = 0;
             img2.src = imageArray[1][indexImg2];
         } else {
@@ -96,7 +108,7 @@
     }
     document.querySelector("#img2").addEventListener("click", changeImg2);
     function changeImg3 () {
-        if (indexImg3 == 2) {
+        if (indexImg3 === 2) {
             indexImg3 = 0;
             img3.src = imageArray[2][indexImg3];
         } else {
@@ -107,7 +119,7 @@
     }
     document.querySelector("#img3").addEventListener("click", changeImg3);
     function changeImg4 () {
-        if (indexImg4 == 2) {
+        if (indexImg4 === 2) {
             indexImg4 = 0;
             img4.src = imageArray[3][indexImg4];
         } else {
@@ -118,7 +130,7 @@
     }
     document.querySelector("#img4").addEventListener("click", changeImg4);
     function changeImg5 () {
-        if (indexImg5 == 2) {
+        if (indexImg5 === 2) {
             indexImg5 = 0;
             img5.src = imageArray[4][indexImg5];
         } else {

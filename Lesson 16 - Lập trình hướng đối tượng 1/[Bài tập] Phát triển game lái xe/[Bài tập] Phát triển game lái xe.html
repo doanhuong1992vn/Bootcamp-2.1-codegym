@@ -1,23 +1,80 @@
 <!DOCTYPE html>
-<html>
-<body>
-
-<p>Image to use:</p>
-<img id="scream" width="220" height="277" src="image/mouse.png" alt="The Scream">
-
-<p>Canvas:</p>
-<canvas id="myCanvas" width="240" height="297" style="border:1px solid #d3d3d3;">
-  Your browser does not support the HTML5 canvas tag.
-</canvas>
-
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Phát triển game lái xe</title>
+</head>
+<body style="text-align: center" onkeydown="gameBoard.moveCar(event)">
+<canvas width="1000px" height="550px" style="border: 1px solid blue"></canvas>
 <script>
-  window.onload = function() {
-    var c = document.getElementById("myCanvas");
-    var ctx = c.getContext("2d");
-    var img = document.getElementById("scream");
-    ctx.drawImage(img, 10, 10);
-  }
+    let canvas = document.querySelector("canvas");
+    let context = canvas.getContext("2d");
+    function Car () {
+        this.x = 450;
+        this.y = 225;
+        this.width = 100;
+        this.speed = 1;
+        this.orientation = "up";
+        this.draw = function(){
+            context.beginPath();
+            context.rect(this.x, this.y, this.width, this.width);
+            context.fillStyle = "blue";
+            context.fill();
+        }
+        this.move = function(){
+            switch (this.orientation) {
+                case "up":
+                    this.y -= this.speed;
+                    break;
+                case "down":
+                    this.y += this.speed;
+                    break;
+                case "left":
+                    this.x -= this.speed;
+                    break;
+                case "right":
+                    this.x += this.speed;
+                    break;
+            }
+        }
+    }
+    function GameBoard () {
+        this.car = new Car();
+        this.render = function(){
+            context.clearRect(0, 0, canvas.width, canvas.height);
+            this.car.draw();
+        }
+        this.moveCar = function (event) {
+            switch (event.which) {
+                case 37:
+                    this.car.orientation = "left";
+                    break;
+                case 38:
+                    this.car.orientation = "up";
+                    break;
+                case 39:
+                    this.car.orientation = "right";
+                    break;
+                case 40:
+                    this.car.orientation = "down";
+                    break;
+                case 17:
+                    this.car.speed = 10;
+                    break;
+                case 16:
+                    this.car.speed = 1;
+                    break;
+            }
+            this.car.move();
+            this.render();
+        }
+    }
+    let gameBoard = new GameBoard();
+    gameBoard.car.draw();
+    setInterval(function(){
+        gameBoard.car.move();
+        gameBoard.render();
+    }, 100)
 </script>
-
 </body>
 </html>

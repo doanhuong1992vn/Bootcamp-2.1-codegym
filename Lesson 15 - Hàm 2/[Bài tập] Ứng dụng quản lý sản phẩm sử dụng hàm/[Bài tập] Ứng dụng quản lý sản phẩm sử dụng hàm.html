@@ -102,7 +102,7 @@
             "<th class='deleteProduct'>Delete Product</th>" +
             "</tr>";
         for (let i=1; i<=products.length; i++) {
-            if (i == index) {
+            if (i === index) {
                 table += `<tr>
             <td>${i}</td>
             <td  class='product'>
@@ -133,7 +133,6 @@
             onclick="deleteProduct(${i-1})">Delete</button></td>
             </tr>`;
             }
-
         }
         table += "</table>";
         document.querySelector("#countProducts").innerHTML =

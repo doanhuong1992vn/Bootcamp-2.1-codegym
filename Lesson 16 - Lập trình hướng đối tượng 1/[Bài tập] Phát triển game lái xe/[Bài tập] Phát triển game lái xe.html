@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>[*Bài tập] Phát triển game lái xe</title>
+</head>
+<body style="text-align: center" onkeydown="gameBoard.moveCar(event)">
+
+<script>
+    document.querySelector("body").innerHTML =
+        `<canvas width="${window.innerWidth*95/100}px"
+        height="${window.innerHeight*95/100}px" style="border: 1px solid blue"></canvas>`
+    let canvas = document.querySelector("canvas");
+    let context = canvas.getContext("2d");
+    function Car () {
+        this.width = 75;
+        this.x = (canvas.width - this.width)/2;
+        this.y = (canvas.height - this.width)/2;
+        this.speed = 1;
+        this.orientation = "up";
+        this.draw = function(){
+            context.beginPath();
+            context.rect(this.x, this.y, this.width, this.width);
+            context.fillStyle = "blue";
+            context.fill();
+
+        }
+        this.move = function(){
+            switch (this.orientation) {
+                case "up":
+                    this.y -= this.speed;
+                    break;
+                case "down":
+                    this.y += this.speed;
+                    break;
+                case "left":
+                    this.x -= this.speed;
+                    break;
+                case "right":
+                    this.x += this.speed;
+                    break;
+            }
+        }
+    }
+    function Stone (){
+        this.width = 100;
+        this.height = 100;
+        this.left = Math.floor(Math.random()*(canvas.width-this.width))+this.width;
+        this.top = Math.floor(Math.random()*(canvas.height-this.height))+this.height;
+        // this.image.onload = function () {
+        //     context.drawImage(this.image, this.left, this.top);
+        // }
+        // this.image = new Image();
+        // this.draw = function(){
+        // this.image.onload = function(){
+        //     context.drawImage(this.image, this.left, this.top, this.width, this.height);
+        // }
+        // this.image.src = "/image/stone.png";
+        // }
+    }
+    function GameBoard () {
+        this.car = new Car();
+        this.stone = new Stone();
+        this.render = function(){
+            context.clearRect(0, 0, canvas.width, canvas.width);
+            this.car.draw();
+            // this.stone.draw();
+        }
+        this.getGameOver = function() {
+            context.beginPath();
+            context.font = "200px Georgia";
+            context.textAlign = "center";
+            context.fillStyle = "red";
+            context.fillText("Game Over", canvas.width/2, canvas.height/2);
+        }
+        this.checkCollision = function() {
+            if (this.car.x <= 0
+                || this.car.x+this.car.width>=canvas.width
+                || this.car.y <= 0
+                || this.car.y+this.car.width>=canvas.height) {
+                context.clearRect(0, 0, canvas.width, canvas.height);
+                this.getGameOver();
+                clearInterval(interval);
+            }
+        }
+        this.moveCar = function (event) {
+            switch (event.which) {
+                case 37:
+                    this.car.orientation = "left";
+                    break;
+                case 38:
+                    this.car.orientation = "up";
+                    break;
+                case 39:
+                    this.car.orientation = "right";
+                    break;
+                case 40:
+                    this.car.orientation = "down";
+                    break;
+                case 17:
+                    this.car.speed = 10;
+                    break;
+                case 16:
+                    this.car.speed = 1;
+                    break;
+            }
+            this.car.move();
+            // this.render();
+            // this.checkCollision();
+        }
+
+    }
+
+    let gameBoard = new GameBoard();
+    let interval = setInterval(function(){
+        gameBoard.render();
+        gameBoard.car.move();
+        stone.onload();
+        gameBoard.checkCollision(interval);
+    }, 100)
+    let stone = new Image();
+    function getStone(){
+        let x = Math.floor(Math.random()*(canvas.width-200))+100;
+        let y = Math.floor(Math.random()*(canvas.height-200))+100;
+        stone.onload = function (){
+            context.drawImage(stone, x, y, 100, 100);
+        }
+        stone.src = "./image/stone.png";
+        setTimeout(getStone, 2000)
+    }
+    setTimeout(getStone, 2000)
+</script>
+</body>
+</html>

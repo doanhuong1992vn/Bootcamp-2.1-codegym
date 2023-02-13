@@ -8,24 +8,25 @@
 
 <script>
     document.querySelector("body").innerHTML =
-        `<canvas width="${window.innerWidth*95/100}px"
-        height="${window.innerHeight*95/100}px" style="border: 1px solid blue"></canvas>`
+        `<canvas width="${window.innerWidth * 95 / 100}px"
+        height="${window.innerHeight * 95 / 100}px" style="border: 1px solid blue"></canvas>`
     let canvas = document.querySelector("canvas");
     let context = canvas.getContext("2d");
-    function Car () {
+
+    function Car() {
         this.width = 75;
-        this.x = (canvas.width - this.width)/2;
-        this.y = (canvas.height - this.width)/2;
+        this.x = (canvas.width - this.width) / 2;
+        this.y = (canvas.height - this.width) / 2;
         this.speed = 1;
         this.orientation = "up";
-        this.draw = function(){
+        this.draw = function () {
             context.beginPath();
             context.rect(this.x, this.y, this.width, this.width);
             context.fillStyle = "blue";
             context.fill();
 
         }
-        this.move = function(){
+        this.move = function () {
             switch (this.orientation) {
                 case "up":
                     this.y -= this.speed;
@@ -42,45 +43,48 @@
             }
         }
     }
-    function Stone (){
-        this.width = 100;
-        this.height = 100;
-        this.left = Math.floor(Math.random()*(canvas.width-this.width))+this.width;
-        this.top = Math.floor(Math.random()*(canvas.height-this.height))+this.height;
-        // this.image.onload = function () {
-        //     context.drawImage(this.image, this.left, this.top);
-        // }
-        // this.image = new Image();
-        // this.draw = function(){
-        // this.image.onload = function(){
-        //     context.drawImage(this.image, this.left, this.top, this.width, this.height);
-        // }
-        // this.image.src = "/image/stone.png";
-        // }
+    function Stone(left, top) {
+        this.image = new Image()
+        this.width = 75;
+        this.left = left;
+        this.top = top;
+        this.onload = function () {
+            context.drawImage(this.image, this.left, this.top, this.width, this.width);
+            this.image.src = "./image/stone.png";
+        }
     }
-    function GameBoard () {
+
+    function GameBoard() {
         this.car = new Car();
-        this.stone = new Stone();
-        this.render = function(){
+        this.render = function () {
             context.clearRect(0, 0, canvas.width, canvas.width);
             this.car.draw();
-            // this.stone.draw();
         }
-        this.getGameOver = function() {
+        this.getGameOver = function () {
             context.beginPath();
             context.font = "200px Georgia";
             context.textAlign = "center";
             context.fillStyle = "red";
-            context.fillText("Game Over", canvas.width/2, canvas.height/2);
+            context.fillText("Game Over", canvas.width / 2, canvas.height / 2);
         }
-        this.checkCollision = function() {
+        this.checkCollision = function (stone) {
             if (this.car.x <= 0
-                || this.car.x+this.car.width>=canvas.width
+                || this.car.x + this.car.width >= canvas.width
                 || this.car.y <= 0
-                || this.car.y+this.car.width>=canvas.height) {
+                || this.car.y + this.car.width >= canvas.height
+                /*
+                2 dòng bên dưới là thuật toán xét va chạm giữa 2 hình chữ nhật ( xe car và hòn đá )
+                https://techmaster.vn/posts/35809/thuat-toan-kiem-tra-2-hinh-chu-nhat-co-giao-nhau-khong
+                 */
+                || (this.car.x+this.car.width >= stone.left
+                    && stone.left+stone.width >= this.car.x
+                    && this.car.y+ this.car.width >= stone.top
+                    && stone.top+stone.width >= this.car.y))
+            {
                 context.clearRect(0, 0, canvas.width, canvas.height);
                 this.getGameOver();
-                clearInterval(interval);
+                clearInterval(interval1);
+                clearInterval(interval2);
             }
         }
         this.moveCar = function (event) {
@@ -105,30 +109,35 @@
                     break;
             }
             this.car.move();
-            // this.render();
-            // this.checkCollision();
         }
 
     }
 
     let gameBoard = new GameBoard();
-    let interval = setInterval(function(){
+    let interval1 = setInterval(function () {
         gameBoard.render();
         gameBoard.car.move();
         stone.onload();
-        gameBoard.checkCollision(interval);
+        gameBoard.checkCollision(stone);
     }, 100)
-    let stone = new Image();
-    function getStone(){
-        let x = Math.floor(Math.random()*(canvas.width-200))+100;
-        let y = Math.floor(Math.random()*(canvas.height-200))+100;
-        stone.onload = function (){
-            context.drawImage(stone, x, y, 100, 100);
+    let stone;
+
+    let interval2 = setInterval(function () {
+        /*
+        lấy giá trị ngẫu nhiên cho tọa độ của stone
+         */
+        let left, top;
+        if (gameBoard.car.x+gameBoard.car.width>canvas.width/2){
+            left = Math.floor(Math.random() * gameBoard.car.x-75) + 75;
+            top = Math.floor(Math.random() * gameBoard.car.y-75) + 75;
+        } else {
+            left = Math.ceil(Math.random() * (canvas.width-gameBoard.car.x-gameBoard.car.width-75)) + gameBoard.car.x+gameBoard.car.width+75;
+            top = Math.ceil(Math.random() * (canvas.height-gameBoard.car.y-gameBoard.car.width-75)) + gameBoard.car.y+gameBoard.car.width+75;
         }
-        stone.src = "./image/stone.png";
-        setTimeout(getStone, 2000)
-    }
-    setTimeout(getStone, 2000)
+        stone = new Stone(left, top);
+        stone.onload();
+        gameBoard.checkCollision(stone);
+    }, 2000)
 </script>
 </body>
 </html>

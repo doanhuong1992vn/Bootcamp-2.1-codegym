@@ -7,9 +7,10 @@
         body {
             margin: 0;
             position: relative;
+            width: 100vw;
+            height: 100vh;
             background-color: #000000;
         }
-
         canvas {
             border: 1px solid #000000;
             border-left-color: grey;
@@ -18,11 +19,21 @@
             left: 50%;
             transform: translate(-50%);
         }
+        #startButton {
+            position: absolute;
+            left: 15%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            width: 100px;
+            height: 50px;
+            font-size: 25px;
+            text-align: center;
+        }
     </style>
 </head>
 <body onkeydown="gameBoard.moveCar(event)">
 <canvas></canvas>
-
+<button id="startButton" type="button">START</button>
 <script>
     let canvas = document.querySelector("canvas");
     canvas.width = window.innerWidth / 3;
@@ -59,7 +70,6 @@
             }
         }
     }
-
     function Stone() {
         this.image = new Image()
         this.width = canvas.width * 0.15;
@@ -67,10 +77,6 @@
         this.x = Math.floor(Math.random() * (canvas.width - this.width));
         this.y = -this.height;
         this.speed = speed;
-        this.draw = function () {
-            context.drawImage(this.image, this.x, this.y, this.width, this.height);
-            this.image.src = "./image/stone.png";
-        }
         this.move = function () {
             if (this.y >= canvas.height) {
                 this.x = Math.floor(Math.random() * (canvas.width - this.width));
@@ -93,11 +99,13 @@
             {
                 gameBoard.getGameOver();
                 clearInterval(interval);
-                clearTimeout(timeout2);
-                clearTimeout(timeout3);
-                clearTimeout(timeout4);
-                clearTimeout(timeout5);
             }
+        }
+        this.draw = function (car, gameBoard) {
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+            this.image.src = "./image/stone.png";
+            this.checkCollision(car, gameBoard);
+            this.move();
         }
     }
     function Road() {
@@ -107,9 +115,6 @@
             this.road.src = "./image/road.png";
         }
     }
-    console.log(canvas.height);
-    console.log(canvas.height*0.075);
-
     function RoadLane() {
         this.width = canvas.width*0.02;
         this.height = canvas.height*0.075;
@@ -117,6 +122,13 @@
         this.x2 = canvas.width*0.05 + canvas.width*0.9/3*2 - this.width/2;
         this.y = -12*this.height;
         this.speed = speed;
+        this.move = function () {
+            if (this.y >= canvas.height) {
+                this.y = -this.height;
+            } else {
+                this.y += this.speed;
+            }
+        }
         this.draw = function () {
             context.fillStyle = "#ffffff";
             context.fillRect(this.x1, this.y, this.width, this.height);
@@ -126,7 +138,6 @@
             context.fillRect(this.x1, this.y+8*this.height, this.width, this.height);
             context.fillRect(this.x1, this.y+10*this.height, this.width, this.height);
             context.fillRect(this.x1, this.y+12*this.height, this.width, this.height);
-
             context.fillRect(this.x2, this.y, this.width, this.height);
             context.fillRect(this.x2, this.y+2*this.height, this.width, this.height);
             context.fillRect(this.x2, this.y+4*this.height, this.width, this.height);
@@ -134,13 +145,7 @@
             context.fillRect(this.x2, this.y+8*this.height, this.width, this.height);
             context.fillRect(this.x2, this.y+10*this.height, this.width, this.height);
             context.fillRect(this.x2, this.y+12*this.height, this.width, this.height);
-        }
-        this.move = function () {
-            if (this.y >= canvas.height) {
-                this.y = -this.height;
-            } else {
-                this.y += this.speed;
-            }
+            this.move();
         }
     }
     function GameBoard() {
@@ -150,10 +155,15 @@
         this.render = function () {
             context.clearRect(0, 0, canvas.width, canvas.height);
             this.road.draw();
-            this.score++;
-            context.font = "50px Georgia";
+        }
+        this.getScore = function(){
+            this.score+=0.5;
+            context.font = `${canvas.width*0.08}px Georgia`;
             context.fillStyle = "red";
-            context.fillText(`${this.score}`, canvas.width*0.06, canvas.height*0.05);
+            context.fillText(`${Math.floor(this.score)}`, canvas.width*0.06, canvas.height*0.05);
+        }
+        this.bonus = function(){
+            this.score+=100;
         }
         this.getGameOver = function () {
             context.beginPath();
@@ -162,17 +172,14 @@
             context.fillStyle = "red";
             context.fillText(`Game Over`, canvas.width / 2, canvas.height / 2 - 40);
             context.font = "35px Georgia";
-            context.fillText(`Your Scores: ${this.score}`, canvas.width / 2, canvas.height / 2 + 40);
+            context.fillText(`Your Scores: ${Math.floor(this.score)+1}`, canvas.width / 2, canvas.height / 2 + 40);
+            // document.getElementById("startButton").addEventListener("click", start);
         }
         this.checkCollision = function () {
             if (this.car.x <= 0 || this.car.x + this.car.width >= canvas.width
                 || this.car.y <= 0 || this.car.y >= canvas.height) {
                 this.getGameOver();
                 clearInterval(interval);
-                clearTimeout(timeout2);
-                clearTimeout(timeout3);
-                clearTimeout(timeout4);
-                clearTimeout(timeout5);
             }
         }
         this.moveCar = function (event) {
@@ -199,126 +206,115 @@
             this.car.move();
         }
     }
+    function Coin () {
+        this.image = new Image()
+        this.width = canvas.height * 0.062;
+        this.height = canvas.height * 0.062;
+        this.x = Math.floor(Math.random() * (canvas.width - this.width));
+        this.y = -this.height;
+        this.y2 = canvas.height - this.y;
+        this.speed = speed;
+        this.hide = function(){
+            this.y = this.y2;
+        }
+        this.move = function () {
+            if (this.y >= canvas.height) {
+                this.x = Math.floor(Math.random() * (canvas.width - this.width));
+                this.y = -this.height;
+            } else {
+                this.y += this.speed;
+            }
+        }
+        this.checkCollision = function(car, gameBoard){
+            if (this.x + this.width >= car.x && car.x + car.width >= this.x
+                && this.y + this.height >= car.y && car.y + car.height >= this.y)
+            {
+                gameBoard.bonus();
+                this.hide();
+            }
+        }
+        this.draw = function (car, gameBoard) {
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+            this.image.src = "./image/coin.png";
+            this.checkCollision(car, gameBoard);
+            this.move();
+        }
+    }
 
-    let gameBoard = new GameBoard();
-    let stone1 = new Stone();
-    let stone2, stone3, stone4, stone5;
-    let roadLane1 = new RoadLane();
-    roadLane1.y = 0;
-    let roadLane2, roadLane3;
-    let interval = setInterval(function () {
-        gameBoard.render();
-        roadLane1.draw();
-        stone1.draw();
-        gameBoard.car.draw();
-        gameBoard.checkCollision();
-        stone1.checkCollision(gameBoard.car, gameBoard);
-        roadLane1.move();
-        stone1.move();
-    }, 100)
 
-    let timeout2 = setTimeout(function () {
-        stone2 = new Stone();
-        roadLane2 = new RoadLane();
-        clearInterval(interval);
-        interval = setInterval(function () {
+    // function start(){
+        let gameBoard = new GameBoard();
+        let stone1 = new Stone();
+        let stone2, stone3, stone4, stone5;
+        let roadLane1 = new RoadLane();
+        roadLane1.y = 0;
+        let roadLane2, roadLane3;
+
+        let interval = setInterval(function () {
             gameBoard.render();
             roadLane1.draw();
-            roadLane2.draw();
-            stone1.draw();
-            stone2.draw();
+            roadLane1.speed += canvas.height*0.005*0.005;
+            if (typeof roadLane2 === "object") roadLane2.draw();
+            if (typeof roadLane2 === "object") roadLane2.speed = roadLane1.speed;
+            if (typeof roadLane3 === "object") roadLane3.draw();
+            if (typeof roadLane3 === "object") roadLane3.speed = roadLane1.speed;
+            if (typeof coin1 === "object") coin1.draw(gameBoard.car, gameBoard);
+            if (typeof coin1 === "object") coin1.speed = roadLane1.speed;
+            if (typeof coin2 === "object") coin2.draw(gameBoard.car, gameBoard);
+            if (typeof coin2 === "object") coin2.speed = roadLane1.speed;
+            if (typeof coin3 === "object") coin3.draw(gameBoard.car, gameBoard);
+            if (typeof coin3 === "object") coin3.speed = roadLane1.speed;
+            if (typeof coin4 === "object") coin4.draw(gameBoard.car, gameBoard);
+            if (typeof coin4 === "object") coin4.speed = roadLane1.speed;
+            if (typeof coin5 === "object") coin5.draw(gameBoard.car, gameBoard);
+            if (typeof coin5 === "object") coin5.speed = roadLane1.speed;
+            stone1.draw(gameBoard.car, gameBoard);
+            stone1.speed = roadLane1.speed;
+            if (typeof stone2 === "object") stone2.draw(gameBoard.car, gameBoard);
+            if (typeof stone2 === "object") stone2.speed = roadLane1.speed;
+            if (typeof stone3 === "object") stone3.draw(gameBoard.car, gameBoard);
+            if (typeof stone3 === "object") stone3.speed = roadLane1.speed;
+            if (typeof stone4 === "object") stone4.draw(gameBoard.car, gameBoard);
+            if (typeof stone4 === "object") stone4.speed = roadLane1.speed;
+            if (typeof stone5 === "object") stone5.draw(gameBoard.car, gameBoard);
+            if (typeof stone5 === "object") stone5.speed = roadLane1.speed;
             gameBoard.car.draw();
+            gameBoard.car.speed = roadLane1.speed;
             gameBoard.checkCollision();
-            stone1.checkCollision(gameBoard.car, gameBoard);
-            stone2.checkCollision(gameBoard.car, gameBoard);
-            roadLane1.move();
-            roadLane2.move();
-            stone1.move();
-            stone2.move();
-        }, 100)
-    }, 4000);
-    let timeout3 = setTimeout(function () {
-        stone3 = new Stone();
-        roadLane3 = new RoadLane();
-        clearInterval(interval);
-        interval = setInterval(function () {
-            gameBoard.render();
-            roadLane1.draw();
-            roadLane2.draw();
-            roadLane3.draw();
-            stone1.draw();
-            stone2.draw();
-            stone3.draw();
-            gameBoard.car.draw();
-            gameBoard.checkCollision();
-            stone1.checkCollision(gameBoard.car, gameBoard);
-            stone2.checkCollision(gameBoard.car, gameBoard);
-            stone3.checkCollision(gameBoard.car, gameBoard);
-            roadLane1.move();
-            roadLane2.move();
-            roadLane3.move();
-            stone1.move();
-            stone2.move();
-            stone3.move();
-        }, 100)
-    }, 8000);
-    let timeout4 = setTimeout(function () {
-        stone4 = new Stone();
-        clearInterval(interval);
-        interval = setInterval(function () {
-            gameBoard.render();
-            roadLane1.draw();
-            roadLane2.draw();
-            roadLane3.draw();
-            stone1.draw();
-            stone2.draw();
-            stone3.draw();
-            stone4.draw();
-            gameBoard.car.draw();
-            gameBoard.checkCollision();
-            stone1.checkCollision(gameBoard.car, gameBoard);
-            stone2.checkCollision(gameBoard.car, gameBoard);
-            stone3.checkCollision(gameBoard.car, gameBoard);
-            stone4.checkCollision(gameBoard.car, gameBoard);
-            roadLane1.move();
-            roadLane2.move();
-            roadLane3.move();
-            stone1.move();
-            stone2.move();
-            stone3.move();
-            stone4.move();
-        }, 100)
-    }, 12000);
-    let timeout5 = setTimeout(function () {
-        stone5 = new Stone();
-        clearInterval(interval);
-        interval = setInterval(function () {
-            gameBoard.render();
-            roadLane1.draw();
-            roadLane2.draw();
-            roadLane3.draw();
-            stone1.draw();
-            stone2.draw();
-            stone3.draw();
-            stone4.draw();
-            stone5.draw();
-            gameBoard.car.draw();
-            gameBoard.checkCollision();
-            stone1.checkCollision(gameBoard.car, gameBoard);
-            stone2.checkCollision(gameBoard.car, gameBoard);
-            stone3.checkCollision(gameBoard.car, gameBoard);
-            stone4.checkCollision(gameBoard.car, gameBoard);
-            stone5.checkCollision(gameBoard.car, gameBoard);
-            roadLane1.move();
-            roadLane2.move();
-            roadLane3.move();
-            stone1.move();
-            stone2.move();
-            stone3.move();
-            stone4.move();
-            stone5.move();
-        }, 100)
-    }, 16000);
+            gameBoard.getScore();
+        }, 50);
+        let coin1, coin2, coin3, coin4, coin5;
+        let timeoutCoin1 = setTimeout(function(){
+            coin1 = new Coin();
+        }, 2000)
+        let timeout2 = setTimeout(function () {
+            stone2 = new Stone();
+            roadLane2 = new RoadLane();
+        }, 4000);
+        let timeoutCoin2 = setTimeout(function(){
+            coin2 = new Coin();
+        }, 6000)
+        let timeout3 = setTimeout(function () {
+            stone3 = new Stone();
+            roadLane3 = new RoadLane();
+        }, 8000);
+        let timeoutCoin3 = setTimeout(function(){
+            coin3 = new Coin();
+        }, 10000)
+        let timeout4 = setTimeout(function () {
+            stone4 = new Stone();
+        }, 12000);
+        let timeoutCoin4 = setTimeout(function(){
+            coin4 = new Coin();
+        }, 14000)
+        let timeout5 = setTimeout(function () {
+            stone5 = new Stone();
+        }, 16000);
+        let timeoutCoin5 = setTimeout(function(){
+            coin5 = new Coin();
+        }, 18000)
+    // }
+    // start();
 </script>
 </body>
 </html>

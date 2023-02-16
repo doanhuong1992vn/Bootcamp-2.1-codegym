@@ -2,9 +2,5 @@
 <project version="4">
   <component name="VcsDirectoryMappings">
     <mapping directory="" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Lesson 17 - Lập trình hướng đối tượng 2/Tham khảo/CaseStudy_Module1_GamePikachu" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Lesson 17 - Lập trình hướng đối tượng 2/Tham khảo/CaseStudy_Module1_GamePuzzle" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Lesson 17 - Lập trình hướng đối tượng 2/Tham khảo/module-case-study" vcs="Git" />
-    <mapping directory="$PROJECT_DIR$/Lesson 17 - Lập trình hướng đối tượng 2/Tham khảo/shootgame" vcs="Git" />
   </component>
 </project>

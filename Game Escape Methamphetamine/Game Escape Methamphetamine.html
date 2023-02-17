@@ -2,11 +2,12 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>[*Bài tập] Phát triển game lái xe</title>
+    <title>Game Escape Methamphetamine</title>
     <link rel="stylesheet" href="style/style.css">
 </head>
 <body onkeydown="gameBoard.car.move(event)">
 <canvas></canvas>
+<p id="nameGame">Evade Methamphetamine</p>
 <p id="instruct">HƯỚNG DẪN</p>
 <img id="image" src="./image/instruct.png" alt="instruct image">
 <ul id="rule">
@@ -15,9 +16,9 @@
     <li>Đâm vào đá hoặc ra ngoài đường đua thì thua</li>
 </ul>
 <p id="challenge">Bạn sẽ trụ được bao lâu?</p>
-<button id="startButton" type="button" onclick="reStart()">START</button>
 <div id="highScore">High Score<br>1408</div>
 <img id="background" src="image/background.png" alt="roadBackground">
+<img id="startImg" src="image/startBtn.png" onclick="reStart()" >
 <script>
     let canvas = document.querySelector("canvas");
     let context = canvas.getContext("2d");
@@ -28,6 +29,10 @@
     let roadBg = document.querySelector("#background");
     roadBg.width = CW;
     roadBg.height = CH;
+    let startImg = document.querySelector("#startImg");
+    startImg.width = CW / 4;
+    startImg.height = CW / 4;
+
     function Road() {
         this.road = new Image();
         this.draw = function () {
@@ -214,6 +219,7 @@
             context.fillText(`Game Over`, CW / 2, CH / 2 - 40);
             context.font = "35px Georgia";
             context.fillText(`Your Scores: ${Math.floor(this.score + 0.5)}`, CW / 2, CH / 2 + 40);
+            startImg.style.display = "block";
         }
         this.checkCollision = function () {
             if (this.car.x + this.car.width <= 0 || this.car.x >= CW
@@ -247,8 +253,10 @@
 
     function reStart() {
         clearLoopRender();
-        roadBg.width = 0;
-        roadBg.height = 0;
+        setTimeout(function(){
+            roadBg.style.display = "none";
+        }, 50);
+        startImg.style.display = "none";
         context.clearRect(0, 0, CW, CH);
         stone = [];
         coin = [];

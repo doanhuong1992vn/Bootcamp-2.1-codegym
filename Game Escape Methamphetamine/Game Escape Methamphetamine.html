@@ -17,8 +17,8 @@
 </ul>
 <p id="challenge">Bạn sẽ trụ được bao lâu?</p>
 <div id="highScore">High Score<br>1408</div>
-<img id="background" src="image/background.png" alt="roadBackground">
-<img id="startImg" src="image/startBtn.png" onclick="reStart()" >
+<img id="background" src="image/background.png" alt="Road Background">
+<img id="startImg" src="image/startBtn.png" onclick="reStart()" alt="Start Button">
 <script>
     let canvas = document.querySelector("canvas");
     let context = canvas.getContext("2d");
@@ -68,7 +68,7 @@
     }
 
     function Car() {
-        this.car = new Image();
+        this.image = new Image();
         this.width = CW * 0.11;
         this.height = CH * 0.15;
         this.x = (CW - this.width) / 2;
@@ -78,8 +78,8 @@
             if (this.speed < 1.5 * this.width) this.speed = 2 * speed;
         }
         this.draw = function () {
-            context.drawImage(this.car, this.x, this.y, this.width, this.height);
-            this.car.src = "./image/car.png";
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+            this.image.src = "./image/car.png";
         }
         this.move = function (event) {
             switch (event.which) {
@@ -122,7 +122,8 @@
             if ((this.x + this.width * 0.25) + this.width * 0.5 >= (car.x + car.width * 0.1)
                 && (car.x + car.width * 0.1) + car.width * 0.8 >= (this.x + this.width * 0.25)
                 && (this.y + this.height * 0.1) + this.height * 0.8 >= (car.y + car.height * 0.1)
-                && (car.y + car.height * 0.1) + car.height * 0.8 >= (this.y + this.height * 0.1)) {
+                && (car.y + car.height * 0.1) + car.height * 0.8 >= (this.y + this.height * 0.1))
+            {
                 this.collisionAudio.play();
                 gameBoard.getGameOver();
                 clearLoopRender();
@@ -184,10 +185,6 @@
         this.audioGameOver = new Audio("audio/game-over.mp3");
         this.score = 0;
         this.highScore = [0, 1408];
-        this.render = function () {
-            context.clearRect(0, 0, CW, CH);
-            this.road.draw();
-        }
         this.getScore = function () {
             this.audioEngine.play();
             this.audioEngine.loop = true;
@@ -212,7 +209,6 @@
                 return b - a
             });
             document.querySelector("#highScore").innerHTML = `High Score<br>${this.highScore[0]}`;
-            context.beginPath();
             context.font = "75px Georgia";
             context.textAlign = "center";
             context.fillStyle = "red";
@@ -229,7 +225,6 @@
             }
         }
     }
-
     let interval, gameBoard;
     let stone = [];
     let coin = [];
@@ -255,9 +250,9 @@
         clearLoopRender();
         setTimeout(function(){
             roadBg.style.display = "none";
+            startImg.style.display = "none";
         }, 50);
-        startImg.style.display = "none";
-        context.clearRect(0, 0, CW, CH);
+        // context.clearRect(0, 0, CW, CH);
         stone = [];
         coin = [];
         roadLane = [];
@@ -278,7 +273,7 @@
             new RoadLane(0),
         );
         interval = setInterval(function () {
-            gameBoard.render();
+            gameBoard.road.draw();
             roadLane[0].draw(speed);
             roadLane[1].draw(speed);
             roadLane[2].draw(speed);

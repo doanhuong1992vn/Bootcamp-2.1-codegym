@@ -18,7 +18,7 @@ document.querySelector("#button1").addEventListener("click", convertC);
 //Bài 2: Chuyển từ mét sang feet:
 function convertFeet () {
     let a2 = document.querySelector("#input2").value;
-    let p2 = document.querySelector("#p2");
+    let p2 = document.querySelector("#challenge");
     if (a2 === "") {
         p2.style.color = "red";
         p2.innerHTML = "Vui lòng nhập số mét muốn chuyển đổi!";

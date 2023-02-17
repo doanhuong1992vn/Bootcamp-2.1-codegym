@@ -3,49 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <title>[*Bài tập] Phát triển game lái xe</title>
-    <style>
-        body {
-            margin: 0;
-            position: relative;
-            width: 100vw;
-            height: 100vh;
-            background-color: #000000;
-        }
-        canvas {
-            border: 1px solid #000000;
-            border-left-color: grey;
-            border-right-color: grey;
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%);
-        }
-        #startButton {
-            position: absolute;
-            left: 15%;
-            top: 50%;
-            transform: translate(-50%, -50%);
-            width: 100px;
-            height: 50px;
-            font-size: 25px;
-            text-align: center;
-        }
-        div {
-            position: absolute;
-            left: 85%;
-            top: 25%;
-            transform: translate(-50%, -50%);
-            width: 300px;
-            height: 150px;
-            font-size: 50px;
-            text-align: center;
-            color: blue;
-        }
-    </style>
+    <link rel="stylesheet" href="style/style.css">
 </head>
-<body onkeydown="gameBoard.moveCar(event)">
+<body onkeydown="gameBoard.car.move(event)">
 <canvas></canvas>
+<p id="instruct">HƯỚNG DẪN</p>
+<img id="image" src="./image/instruct.png" alt="instruct image">
+<ul id="rule">
+    <li>Trụ 1 giây được 10 điểm</li>
+    <li>Chạm đồng xu được 100 điểm</li>
+    <li>Đâm vào đá hoặc ra ngoài đường đua thì thua</li>
+</ul>
+<p id="challenge">Bạn sẽ trụ được bao lâu?</p>
 <button id="startButton" type="button" onclick="reStart()">START</button>
-<div></div>
+<div id="highScore">High Score<br>1408</div>
+<img id="background" src="image/background.png" alt="roadBackground">
 <script>
     let canvas = document.querySelector("canvas");
     let context = canvas.getContext("2d");
@@ -53,6 +25,9 @@
     canvas.height = window.innerHeight * 99.2 / 100;
     const CW = canvas.width;
     const CH = canvas.height;
+    let roadBg = document.querySelector("#background");
+    roadBg.width = CW;
+    roadBg.height = CH;
     function Road() {
         this.road = new Image();
         this.draw = function () {
@@ -60,13 +35,17 @@
             this.road.src = "./image/road.png";
         }
     }
-    function RoadLane() {
+
+    function RoadLane(y) {
         this.width = CW * 0.02;
-        this.height = CH * 0.075;
+        this.height = CH / 13;
         this.x1 = CW * 0.05 + CW * 0.9 / 3 - this.width / 2;
         this.x2 = CW * 0.05 + CW * 0.9 / 3 * 2 - this.width / 2;
-        this.y = -12 * this.height;
+        this.y = y;
         this.speed = speed;
+        this.setSpeed = function (speed) {
+            this.speed = speed;
+        }
         this.move = function () {
             if (this.y >= CH) {
                 this.y = -this.height;
@@ -74,37 +53,47 @@
                 this.y += this.speed;
             }
         }
-        this.draw = function () {
+        this.draw = function (speed) {
             context.fillStyle = "#ffffff";
             context.fillRect(this.x1, this.y, this.width, this.height);
-            context.fillRect(this.x1, this.y + 2 * this.height, this.width, this.height);
-            context.fillRect(this.x1, this.y + 4 * this.height, this.width, this.height);
-            context.fillRect(this.x1, this.y + 6 * this.height, this.width, this.height);
-            context.fillRect(this.x1, this.y + 8 * this.height, this.width, this.height);
-            context.fillRect(this.x1, this.y + 10 * this.height, this.width, this.height);
-            context.fillRect(this.x1, this.y + 12 * this.height, this.width, this.height);
             context.fillRect(this.x2, this.y, this.width, this.height);
-            context.fillRect(this.x2, this.y + 2 * this.height, this.width, this.height);
-            context.fillRect(this.x2, this.y + 4 * this.height, this.width, this.height);
-            context.fillRect(this.x2, this.y + 6 * this.height, this.width, this.height);
-            context.fillRect(this.x2, this.y + 8 * this.height, this.width, this.height);
-            context.fillRect(this.x2, this.y + 10 * this.height, this.width, this.height);
-            context.fillRect(this.x2, this.y + 12 * this.height, this.width, this.height);
             this.move();
+            this.setSpeed(speed);
         }
     }
+
     function Car() {
         this.car = new Image();
         this.width = CW * 0.11;
         this.height = CH * 0.15;
         this.x = (CW - this.width) / 2;
         this.y = CH - this.height;
-        this.speed = speedCar;
+        this.speed = 2 * speed;
+        this.setSpeed = function (speed) {
+            if (this.speed < 1.5 * this.width) this.speed = 2 * speed;
+        }
         this.draw = function () {
             context.drawImage(this.car, this.x, this.y, this.width, this.height);
             this.car.src = "./image/car.png";
         }
+        this.move = function (event) {
+            switch (event.which) {
+                case 37:
+                    this.x -= this.speed;
+                    break;
+                case 38:
+                    this.y -= this.speed;
+                    break;
+                case 39:
+                    this.x += this.speed;
+                    break;
+                case 40:
+                    this.y += this.speed;
+                    break;
+            }
+        }
     }
+
     function Stone() {
         this.image = new Image()
         this.collisionAudio = new Audio("audio/collision.mp3");
@@ -113,6 +102,9 @@
         this.x = Math.floor(Math.random() * (CW - this.width));
         this.y = -this.height;
         this.speed = speed;
+        this.setSpeed = function (speed) {
+            this.speed = speed;
+        }
         this.move = function () {
             if (this.y >= CH) {
                 this.x = Math.floor(Math.random() * (CW - this.width));
@@ -122,12 +114,6 @@
             }
         }
         this.checkCollision = function (car, gameBoard) {
-            /*
-            Điều kiện if bên dưới là thuật toán xét va chạm giữa 2 hình chữ nhật ( xe car và hòn đá )
-            https://techmaster.vn/posts/35809/thuat-toan-kiem-tra-2-hinh-chu-nhat-co-giao-nhau-khong
-            đừng copy thuật toán của link phía trên vì nó bị sai, soi mãi mới biết chỗ để sửa
-            sau đó tự nhân chia thêm để xét va chạm chi tiết hơn, tránh các vùng trống xung quanh của hình ảnh
-            */
             if ((this.x + this.width * 0.25) + this.width * 0.5 >= (car.x + car.width * 0.1)
                 && (car.x + car.width * 0.1) + car.width * 0.8 >= (this.x + this.width * 0.25)
                 && (this.y + this.height * 0.1) + this.height * 0.8 >= (car.y + car.height * 0.1)
@@ -137,13 +123,15 @@
                 clearLoopRender();
             }
         }
-        this.draw = function (car, gameBoard) {
+        this.draw = function (car, gameBoard, speed) {
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
             this.image.src = "./image/stone.png";
             this.checkCollision(car, gameBoard);
             this.move();
+            this.setSpeed(speed);
         }
     }
+
     function Coin() {
         this.image = new Image();
         this.width = CH * 0.062;
@@ -152,6 +140,9 @@
         this.y = -this.height;
         this.y2 = CH - this.y;
         this.speed = speed;
+        this.setSpeed = function (speed) {
+            this.speed = speed;
+        }
         this.hide = function () {
             this.y = this.y2;
         }
@@ -170,13 +161,15 @@
                 this.hide();
             }
         }
-        this.draw = function (car, gameBoard) {
+        this.draw = function (car, gameBoard, speed) {
             context.drawImage(this.image, this.x, this.y, this.width, this.height);
             this.image.src = "./image/coin.png";
             this.checkCollision(car, gameBoard);
             this.move();
+            this.setSpeed(speed);
         }
     }
+
     function GameBoard() {
         this.car = new Car();
         this.road = new Road();
@@ -185,7 +178,7 @@
         this.audioBonus = new Audio("audio/bonus.mp3");
         this.audioGameOver = new Audio("audio/game-over.mp3");
         this.score = 0;
-        this.highScore = [0, 1000];
+        this.highScore = [0, 1408];
         this.render = function () {
             context.clearRect(0, 0, CW, CH);
             this.road.draw();
@@ -198,6 +191,7 @@
             this.score += 0.5;
             context.font = `${CW * 0.08}px Georgia`;
             context.fillStyle = "red";
+            context.textAlign = "left";
             context.fillText(`${Math.floor(this.score)}`, CW * 0.06, CH * 0.05);
         }
         this.bonus = function () {
@@ -209,8 +203,10 @@
             this.audioRelax.src = "";
             this.audioGameOver.play();
             this.highScore.push(Math.floor(this.score + 0.5));
-            this.highScore.sort(function(a,b){return b-a});
-            document.querySelector("div").innerHTML = `High Score<br>${this.highScore[0]}`;
+            this.highScore.sort(function (a, b) {
+                return b - a
+            });
+            document.querySelector("#highScore").innerHTML = `High Score<br>${this.highScore[0]}`;
             context.beginPath();
             context.font = "75px Georgia";
             context.textAlign = "center";
@@ -220,35 +216,14 @@
             context.fillText(`Your Scores: ${Math.floor(this.score + 0.5)}`, CW / 2, CH / 2 + 40);
         }
         this.checkCollision = function () {
-            if (this.car.x+this.car.width <= 0 || this.car.x >= CW
-                || this.car.y+this.car.height <= 0 || this.car.y >= CH) {
+            if (this.car.x + this.car.width <= 0 || this.car.x >= CW
+                || this.car.y + this.car.height <= 0 || this.car.y >= CH) {
                 this.getGameOver();
                 clearLoopRender();
             }
         }
-        this.moveCar = function (event) {
-            switch (event.which) {
-                case 37:
-                    this.car.x -= this.car.speed;
-                    break;
-                case 38:
-                    this.car.y -= this.car.speed;
-                    break;
-                case 39:
-                    this.car.x += this.car.speed;
-                    break;
-                case 40:
-                    this.car.y += this.car.speed;
-                    break;
-                case 17:
-                    this.car.speed = speedCar * 3;
-                    break;
-                case 16:
-                    this.car.speed = speedCar;
-                    break;
-            }
-        }
     }
+
     let interval, gameBoard;
     let stone = [];
     let coin = [];
@@ -256,7 +231,7 @@
     let timeoutCoin1, timeoutCoin2, timeoutCoin3, timeoutCoin4, timeoutCoin5;
     let timeoutStone1, timeoutStone2, timeoutStone3, timeoutStone4;
     let speed = CH * 0.005;
-    let speedCar = CH * 0.006;
+
     function clearLoopRender() {
         clearInterval(interval);
         clearTimeout(timeoutCoin1);
@@ -269,53 +244,55 @@
         clearTimeout(timeoutStone3);
         clearTimeout(timeoutStone4);
     }
-    function reStart () {
+
+    function reStart() {
         clearLoopRender();
+        roadBg.width = 0;
+        roadBg.height = 0;
         context.clearRect(0, 0, CW, CH);
         stone = [];
         coin = [];
         roadLane = [];
         speed = CH * 0.005;
-        speedCar = CH * 0.006;
         start();
     }
+
     function start() {
         gameBoard = new GameBoard();
         stone.push(new Stone());
-        roadLane.push(new RoadLane());
-        roadLane[0].y = 0;
+        roadLane.push(
+            new RoadLane(CH - CH / 13),
+            new RoadLane(CH - 3 * CH / 13),
+            new RoadLane(CH - 5 * CH / 13),
+            new RoadLane(CH - 7 * CH / 13),
+            new RoadLane(CH - 9 * CH / 13),
+            new RoadLane(CH - 11 * CH / 13),
+            new RoadLane(0),
+        );
         interval = setInterval(function () {
             gameBoard.render();
-            roadLane[0].draw();
-            roadLane[0].speed += CH * 0.005 * 0.005;
-            if (typeof roadLane[1] === "object") roadLane[1].draw();
-            if (typeof roadLane[1] === "object") roadLane[1].speed = roadLane[0].speed;
-            if (typeof roadLane[2] === "object") roadLane[2].draw();
-            if (typeof roadLane[2] === "object") roadLane[2].speed = roadLane[0].speed;
-            if (typeof coin[0] === "object") coin[0].draw(gameBoard.car, gameBoard);
-            if (typeof coin[0] === "object") coin[0].speed = roadLane[0].speed;
-            if (typeof coin[1] === "object") coin[1].draw(gameBoard.car, gameBoard);
-            if (typeof coin[1] === "object") coin[1].speed = roadLane[0].speed;
-            if (typeof coin[2] === "object") coin[2].draw(gameBoard.car, gameBoard);
-            if (typeof coin[2] === "object") coin[2].speed = roadLane[0].speed;
-            if (typeof coin[3] === "object") coin[3].draw(gameBoard.car, gameBoard);
-            if (typeof coin[3] === "object") coin[3].speed = roadLane[0].speed;
-            if (typeof coin[4] === "object") coin[4].draw(gameBoard.car, gameBoard);
-            if (typeof coin[4] === "object") coin[4].speed = roadLane[0].speed;
-            stone[0].draw(gameBoard.car, gameBoard);
-            stone[0].speed = roadLane[0].speed;
-            if (typeof stone[1] === "object") stone[1].draw(gameBoard.car, gameBoard);
-            if (typeof stone[1] === "object") stone[1].speed = roadLane[0].speed;
-            if (typeof stone[2] === "object") stone[2].draw(gameBoard.car, gameBoard);
-            if (typeof stone[2] === "object") stone[2].speed = roadLane[0].speed;
-            if (typeof stone[3] === "object") stone[3].draw(gameBoard.car, gameBoard);
-            if (typeof stone[3] === "object") stone[3].speed = roadLane[0].speed;
-            if (typeof stone[4] === "object") stone[4].draw(gameBoard.car, gameBoard);
-            if (typeof stone[4] === "object") stone[4].speed = roadLane[0].speed;
+            roadLane[0].draw(speed);
+            roadLane[1].draw(speed);
+            roadLane[2].draw(speed);
+            roadLane[3].draw(speed);
+            roadLane[4].draw(speed);
+            roadLane[5].draw(speed);
+            roadLane[6].draw(speed);
+            if (typeof coin[0] === "object") coin[0].draw(gameBoard.car, gameBoard, speed);
+            if (typeof coin[1] === "object") coin[1].draw(gameBoard.car, gameBoard, speed);
+            if (typeof coin[2] === "object") coin[2].draw(gameBoard.car, gameBoard, speed);
+            if (typeof coin[3] === "object") coin[3].draw(gameBoard.car, gameBoard, speed);
+            if (typeof coin[4] === "object") coin[4].draw(gameBoard.car, gameBoard, speed);
+            stone[0].draw(gameBoard.car, gameBoard, speed);
+            if (typeof stone[1] === "object") stone[1].draw(gameBoard.car, gameBoard, speed);
+            if (typeof stone[2] === "object") stone[2].draw(gameBoard.car, gameBoard, speed);
+            if (typeof stone[3] === "object") stone[3].draw(gameBoard.car, gameBoard, speed);
+            if (typeof stone[4] === "object") stone[4].draw(gameBoard.car, gameBoard, speed);
             gameBoard.car.draw();
-            gameBoard.car.speed = roadLane[0].speed;
+            gameBoard.car.setSpeed(speed);
             gameBoard.checkCollision();
             gameBoard.getScore();
+            speed += speed * 0.001;
         }, 50);
         timeoutCoin1 = setTimeout(function () {
             coin.push(new Coin());
@@ -334,11 +311,9 @@
         }, 18000)
         timeoutStone1 = setTimeout(function () {
             stone.push(new Stone());
-            roadLane.push(new RoadLane());
         }, 4000);
         timeoutStone2 = setTimeout(function () {
             stone.push(new Stone());
-            roadLane.push(new RoadLane());
         }, 8000);
         timeoutStone3 = setTimeout(function () {
             stone.push(new Stone());

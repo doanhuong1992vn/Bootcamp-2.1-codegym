@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    let arr = [
+        [1, 1, 1, 1, 1],
+        [2, 3, 4, 5, 6],
+        [3, 3, 3, 3, 3],
+        [4, 4, 4, 4]
+    ]
+    for (let i = 0; i < arr.length; i++) {
+        let total = 0;
+        for (let j = 0; j < arr[i].length; j++) {
+            total += arr[i][j];
+        }
+        console.log(total)
+    }
+    arr[3].push(0);
+    //Đối với trường hợp độ dài của các hàng bằng nhau:
+    for (let i=0; i<arr[0].length; i++){
+        let total = 0;
+        for (let j = 0; j<arr.length; j++){
+            total += arr[j][i];
+        }
+        console.log(total)
+    }
+    //Đôí với trường hợp độ dài của các hàng khác nhau,
+    //ta dùng hàm push() để thêm giá trị 0 vào cuối các hàng có độ dài ngắn hơn sao cho độ dài của các hàng bằng nhau
+    //sau đó ta dùng vòng lặp như phía trên
+
+
+
+</script>
+</body>
+</html>

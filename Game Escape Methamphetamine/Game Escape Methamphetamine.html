@@ -26,7 +26,6 @@
     canvas.height = window.innerHeight * 99.2 / 100;
     const CW = canvas.width;
     const CH = canvas.height;
-
     let roadBg = document.querySelector("#background");
     roadBg.width = CW;
     roadBg.height = CH;
@@ -36,15 +35,11 @@
     let logo = document.querySelector("#logo");
     logo.width = CW;
     logo.height = CH/10;
-
     let speed = CH * 0.005;
-
     function Road() {
         this.road = new Image();
         this.road.src = "./image/road.png";
-        this.draw = function () {
-            context.drawImage(this.road, 0, 0, CW, CH);
-        }
+        this.draw = ()=> context.drawImage(this.road, 0, 0, CW, CH)
     }
     function RoadLane(y) {
         this.width = CW * 0.02;
@@ -53,9 +48,7 @@
         this.x2 = CW * 0.05 + CW * 0.9 / 3 * 2 - this.width / 2;
         this.y = y;
         this.speed = speed;
-        this.setSpeed = function (speed) {
-            this.speed = speed;
-        }
+        this.setSpeed = (speed) => this.speed = speed;
         this.move = function () {
             if (this.y >= CH) {
                 this.y = -this.height;
@@ -79,12 +72,8 @@
         this.x = (CW - this.width) / 2;
         this.y = CH - this.height;
         this.speed = 2 * speed;
-        this.setSpeed = function (speed) {
-            if (this.speed < 1.5 * this.width) this.speed = 2 * speed;
-        }
-        this.draw = function () {
-            context.drawImage(this.image, this.x, this.y, this.width, this.height);
-        }
+        this.setSpeed = (speed)=> {if (this.speed < 1.5 * this.width) this.speed = 2 * speed};
+        this.draw = ()=> context.drawImage(this.image, this.x, this.y, this.width, this.height);
         this.move = function (event) {
             switch (event.which) {
                 case 37:
@@ -98,7 +87,6 @@
                     break;
                 case 40:
                     this.y += this.speed;
-                    // break;
             }
         }
     }
@@ -127,14 +115,11 @@
             this.score += 100;
         }
         this.getGameOver = function () {
-            // this.car.drawAccident();
             this.audioEngine.src = "";
             this.audioRelax.src = "";
             this.audioGameOver.play();
             this.highScore.push(Math.floor(this.score + 0.5));
-            this.highScore.sort(function (a, b) {
-                return b - a
-            });
+            this.highScore.sort((a, b)=> {return b - a});
             document.querySelector("#highScore").innerHTML = `High Score<br>${this.highScore[0]}`;
             context.font = "75px Georgia";
             context.textAlign = "center";
@@ -161,9 +146,7 @@
         this.x = Math.floor(Math.random() * (CW - this.width));
         this.y = -this.height;
         this.speed = speed;
-        this.setSpeed = function (speed) {
-            this.speed = speed;
-        }
+        this.setSpeed = (speed)=> this.speed = speed;
         this.move = function () {
             if (this.y >= CH) {
                 this.x = Math.floor(Math.random() * (CW - this.width));
@@ -200,12 +183,8 @@
         this.y2 = CH - this.y;
         this.speed = speed;
         this.image.src = "./image/coin.png";
-        this.setSpeed = function (speed) {
-            this.speed = speed;
-        }
-        this.hide = function () {
-            this.y = this.y2;
-        }
+        this.setSpeed = (speed)=> this.speed = speed;
+        this.hide = ()=> this.y = this.y2;
         this.move = function () {
             if (this.y >= CH) {
                 this.x = Math.floor(Math.random() * (CW - this.width));
@@ -228,83 +207,39 @@
             this.setSpeed(speed);
         }
     }
-
     let interval, gameBoard;
     let stone = [];
     let coin = [];
     let roadLane = [];
-    let timeoutCoin1, timeoutCoin2, timeoutCoin3, timeoutCoin4, timeoutCoin5;
-    let timeoutStone1, timeoutStone2, timeoutStone3, timeoutStone4;
-    function clearLoopRender() {
-        clearInterval(interval);
-        clearTimeout(timeoutCoin1);
-        clearTimeout(timeoutCoin2);
-        clearTimeout(timeoutCoin3);
-        clearTimeout(timeoutCoin4);
-        clearTimeout(timeoutCoin5);
-        clearTimeout(timeoutStone1);
-        clearTimeout(timeoutStone2);
-        clearTimeout(timeoutStone3);
-        clearTimeout(timeoutStone4);
-    }
+    let timeout = [];
     function start() {
         gameBoard = new GameBoard();
         stone.push(new Stone());
         roadLane.push(
-            new RoadLane(CH - CH / 13),
-            new RoadLane(CH - 3 * CH / 13),
-            new RoadLane(CH - 5 * CH / 13),
-            new RoadLane(CH - 7 * CH / 13),
-            new RoadLane(CH - 9 * CH / 13),
-            new RoadLane(CH - 11 * CH / 13),
             new RoadLane(0),
+            new RoadLane(2*CH/13),
+            new RoadLane(4*CH/13),
+            new RoadLane(6*CH/13),
+            new RoadLane(8*CH/13),
+            new RoadLane(10*CH/13),
+            new RoadLane(12*CH/13),
         );
-        timeoutCoin1 = setTimeout(function () {
-            coin.push(new Coin());
-        }, 2000)
-        timeoutCoin2 = setTimeout(function () {
-            coin.push(new Coin());
-        }, 6000)
-        timeoutCoin3 = setTimeout(function () {
-            coin.push(new Coin());
-        }, 10000)
-        timeoutCoin4 = setTimeout(function () {
-            coin.push(new Coin());
-        }, 14000)
-        timeoutCoin5 = setTimeout(function () {
-            coin.push(new Coin());
-        }, 18000)
-        timeoutStone1 = setTimeout(function () {
-            stone.push(new Stone());
-        }, 4000);
-        timeoutStone2 = setTimeout(function () {
-            stone.push(new Stone());
-        }, 8000);
-        timeoutStone3 = setTimeout(function () {
-            stone.push(new Stone());
-        }, 12000);
-        timeoutStone4 = setTimeout(function () {
-            stone.push(new Stone());
-        }, 16000);
+        timeout.push(
+            setTimeout(()=> coin.push(new Coin()), 2000),
+            setTimeout(()=> coin.push(new Coin()), 6000),
+            setTimeout(()=> coin.push(new Coin()), 10000),
+            setTimeout(()=> coin.push(new Coin()), 14000),
+            setTimeout(()=> coin.push(new Coin()), 18000),
+            setTimeout(()=> stone.push(new Stone()), 4000),
+            setTimeout(()=> stone.push(new Stone()), 8000),
+            setTimeout(()=> stone.push(new Stone()), 12000),
+            setTimeout(()=> stone.push(new Stone()), 16000),
+        )
         interval = setInterval(function () {
             gameBoard.road.draw();
-            roadLane[0].draw(speed);
-            roadLane[1].draw(speed);
-            roadLane[2].draw(speed);
-            roadLane[3].draw(speed);
-            roadLane[4].draw(speed);
-            roadLane[5].draw(speed);
-            roadLane[6].draw(speed);
-            if (typeof coin[0] === "object") coin[0].draw(gameBoard.car, gameBoard, speed);
-            if (typeof coin[1] === "object") coin[1].draw(gameBoard.car, gameBoard, speed);
-            if (typeof coin[2] === "object") coin[2].draw(gameBoard.car, gameBoard, speed);
-            if (typeof coin[3] === "object") coin[3].draw(gameBoard.car, gameBoard, speed);
-            if (typeof coin[4] === "object") coin[4].draw(gameBoard.car, gameBoard, speed);
-            stone[0].draw(gameBoard.car, gameBoard, speed);
-            if (typeof stone[1] === "object") stone[1].draw(gameBoard.car, gameBoard, speed);
-            if (typeof stone[2] === "object") stone[2].draw(gameBoard.car, gameBoard, speed);
-            if (typeof stone[3] === "object") stone[3].draw(gameBoard.car, gameBoard, speed);
-            if (typeof stone[4] === "object") stone[4].draw(gameBoard.car, gameBoard, speed);
+            roadLane.forEach(lane => lane.draw(speed))
+            coin.forEach(coin => coin.draw(gameBoard.car, gameBoard, speed))
+            stone.forEach(stone => stone.draw(gameBoard.car, gameBoard, speed))
             gameBoard.car.draw();
             gameBoard.car.setSpeed(speed);
             gameBoard.checkCollision();
@@ -312,16 +247,20 @@
             speed += speed * 0.001;
         }, 50);
     }
+    function clearLoopRender() {
+        clearInterval(interval);
+        timeout.forEach(timeout => clearTimeout(timeout));
+    }
     function reStart() {
         clearLoopRender();
         setTimeout(function(){
             roadBg.style.display = "none";
             startImg.style.display = "none";
         }, 50);
-        // context.clearRect(0, 0, CW, CH);
         stone = [];
         coin = [];
         roadLane = [];
+        timeout = [];
         speed = CH * 0.005;
         start();
     }

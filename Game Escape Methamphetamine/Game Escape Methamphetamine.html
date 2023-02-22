@@ -48,7 +48,7 @@
         this.x2 = CW * 0.05 + CW * 0.9 / 3 * 2 - this.width / 2;
         this.y = y;
         this.speed = speed;
-        this.setSpeed = (speed) => this.speed = speed;
+        this.setSpeed = speed => this.speed = speed;
         this.move = function () {
             if (this.y >= CH) {
                 this.y = -this.height;
@@ -72,7 +72,7 @@
         this.x = (CW - this.width) / 2;
         this.y = CH - this.height;
         this.speed = 2 * speed;
-        this.setSpeed = (speed)=> {if (this.speed < 1.5 * this.width) this.speed = 2 * speed};
+        this.setSpeed = speed => {if (this.speed < 1.5 * this.width) this.speed = 2 * speed};
         this.draw = ()=> context.drawImage(this.image, this.x, this.y, this.width, this.height);
         this.move = function (event) {
             switch (event.which) {
@@ -98,7 +98,7 @@
         this.audioBonus = new Audio("audio/bonus.mp3");
         this.audioGameOver = new Audio("audio/game-over.mp3");
         this.score = 0;
-        this.highScore = [0, 1408];
+        this.highScore = [1408];
         this.getScore = function () {
             this.audioEngine.play();
             this.audioEngine.loop = true;
@@ -115,6 +115,7 @@
             this.score += 100;
         }
         this.getGameOver = function () {
+            clearLoopRender();
             this.audioEngine.src = "";
             this.audioRelax.src = "";
             this.audioGameOver.play();
@@ -133,7 +134,6 @@
             if (this.car.x + this.car.width <= 0 || this.car.x >= CW
                 || this.car.y + this.car.height <= 0 || this.car.y >= CH) {
                 this.getGameOver();
-                clearLoopRender();
             }
         }
     }
@@ -146,7 +146,7 @@
         this.x = Math.floor(Math.random() * (CW - this.width));
         this.y = -this.height;
         this.speed = speed;
-        this.setSpeed = (speed)=> this.speed = speed;
+        this.setSpeed = speed => this.speed = speed;
         this.move = function () {
             if (this.y >= CH) {
                 this.x = Math.floor(Math.random() * (CW - this.width));
@@ -164,7 +164,6 @@
                 this.collisionAudio.play();
                 car.image.src = "./image/accident1.png";
                 gameBoard.getGameOver();
-                clearLoopRender();
             }
         }
         this.draw = function (car, gameBoard, speed) {
@@ -180,11 +179,15 @@
         this.height = CH * 0.062;
         this.x = Math.floor(Math.random() * (CW - this.width));
         this.y = -this.height;
-        this.y2 = CH - this.y;
+        this.x2 = Math.floor(Math.random() * (CW - this.width));
+        this.y2 = this.y - CH;
         this.speed = speed;
         this.image.src = "./image/coin.png";
-        this.setSpeed = (speed)=> this.speed = speed;
-        this.hide = ()=> this.y = this.y2;
+        this.setSpeed = speed => this.speed = speed;
+        this.hide = function(){
+            this.x = this.x2;
+            this.y = this.y2;
+        }
         this.move = function () {
             if (this.y >= CH) {
                 this.x = Math.floor(Math.random() * (CW - this.width));

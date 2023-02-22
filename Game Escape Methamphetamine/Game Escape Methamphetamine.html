@@ -26,15 +26,19 @@
     canvas.height = window.innerHeight * 99.2 / 100;
     const CW = canvas.width;
     const CH = canvas.height;
+
     let roadBg = document.querySelector("#background");
     roadBg.width = CW;
     roadBg.height = CH;
     let startImg = document.querySelector("#startImg");
-    startImg.width = CW / 4;
-    startImg.height = CW / 4;
+    startImg.width = CW/4;
+    startImg.height = CW/4;
     let logo = document.querySelector("#logo");
     logo.width = CW;
     logo.height = CH/10;
+
+    let speed = CH * 0.005;
+
     function Road() {
         this.road = new Image();
         this.road.src = "./image/road.png";
@@ -94,7 +98,57 @@
                     break;
                 case 40:
                     this.y += this.speed;
-                    break;
+                    // break;
+            }
+        }
+    }
+    function GameBoard() {
+        this.car = new Car();
+        this.road = new Road();
+        this.audioEngine = new Audio("audio/engine.mp3");
+        this.audioRelax = new Audio("audio/relax.mp3");
+        this.audioBonus = new Audio("audio/bonus.mp3");
+        this.audioGameOver = new Audio("audio/game-over.mp3");
+        this.score = 0;
+        this.highScore = [0, 1408];
+        this.getScore = function () {
+            this.audioEngine.play();
+            this.audioEngine.loop = true;
+            this.audioRelax.play();
+            this.audioRelax.loop = true;
+            this.score += 0.5;
+            context.font = `${CW * 0.08}px Georgia`;
+            context.fillStyle = "red";
+            context.textAlign = "left";
+            context.fillText(`${Math.floor(this.score)}`, CW * 0.06, CH * 0.05);
+        }
+        this.bonus = function () {
+            this.audioBonus.play();
+            this.score += 100;
+        }
+        this.getGameOver = function () {
+            // this.car.drawAccident();
+            this.audioEngine.src = "";
+            this.audioRelax.src = "";
+            this.audioGameOver.play();
+            this.highScore.push(Math.floor(this.score + 0.5));
+            this.highScore.sort(function (a, b) {
+                return b - a
+            });
+            document.querySelector("#highScore").innerHTML = `High Score<br>${this.highScore[0]}`;
+            context.font = "75px Georgia";
+            context.textAlign = "center";
+            context.fillStyle = "red";
+            context.fillText(`Game Over`, CW / 2, CH / 2 - 40);
+            context.font = "35px Georgia";
+            context.fillText(`Your Scores: ${Math.floor(this.score + 0.5)}`, CW / 2, CH / 2 + 40);
+            startImg.style.display = "block";
+        }
+        this.checkCollision = function () {
+            if (this.car.x + this.car.width <= 0 || this.car.x >= CW
+                || this.car.y + this.car.height <= 0 || this.car.y >= CH) {
+                this.getGameOver();
+                clearLoopRender();
             }
         }
     }
@@ -174,63 +228,13 @@
             this.setSpeed(speed);
         }
     }
-    function GameBoard() {
-        this.car = new Car();
-        this.road = new Road();
-        this.audioEngine = new Audio("audio/engine.mp3");
-        this.audioRelax = new Audio("audio/relax.mp3");
-        this.audioBonus = new Audio("audio/bonus.mp3");
-        this.audioGameOver = new Audio("audio/game-over.mp3");
-        this.score = 0;
-        this.highScore = [0, 1408];
-        this.getScore = function () {
-            this.audioEngine.play();
-            this.audioEngine.loop = true;
-            this.audioRelax.play();
-            this.audioRelax.loop = true;
-            this.score += 0.5;
-            context.font = `${CW * 0.08}px Georgia`;
-            context.fillStyle = "red";
-            context.textAlign = "left";
-            context.fillText(`${Math.floor(this.score)}`, CW * 0.06, CH * 0.05);
-        }
-        this.bonus = function () {
-            this.audioBonus.play();
-            this.score += 100;
-        }
-        this.getGameOver = function () {
-            // this.car.drawAccident();
-            this.audioEngine.src = "";
-            this.audioRelax.src = "";
-            this.audioGameOver.play();
-            this.highScore.push(Math.floor(this.score + 0.5));
-            this.highScore.sort(function (a, b) {
-                return b - a
-            });
-            document.querySelector("#highScore").innerHTML = `High Score<br>${this.highScore[0]}`;
-            context.font = "75px Georgia";
-            context.textAlign = "center";
-            context.fillStyle = "red";
-            context.fillText(`Game Over`, CW / 2, CH / 2 - 40);
-            context.font = "35px Georgia";
-            context.fillText(`Your Scores: ${Math.floor(this.score + 0.5)}`, CW / 2, CH / 2 + 40);
-            startImg.style.display = "block";
-        }
-        this.checkCollision = function () {
-            if (this.car.x + this.car.width <= 0 || this.car.x >= CW
-                || this.car.y + this.car.height <= 0 || this.car.y >= CH) {
-                this.getGameOver();
-                clearLoopRender();
-            }
-        }
-    }
+
     let interval, gameBoard;
     let stone = [];
     let coin = [];
     let roadLane = [];
     let timeoutCoin1, timeoutCoin2, timeoutCoin3, timeoutCoin4, timeoutCoin5;
     let timeoutStone1, timeoutStone2, timeoutStone3, timeoutStone4;
-    let speed = CH * 0.005;
     function clearLoopRender() {
         clearInterval(interval);
         clearTimeout(timeoutCoin1);

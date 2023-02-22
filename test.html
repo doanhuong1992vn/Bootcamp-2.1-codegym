@@ -6,34 +6,71 @@
 </head>
 <body>
 <script>
-    let arr = [
-        [1, 1, 1, 1, 1],
-        [2, 3, 4, 5, 6],
-        [3, 3, 3, 3, 3],
-        [4, 4, 4, 4]
-    ]
-    for (let i = 0; i < arr.length; i++) {
-        let total = 0;
-        for (let j = 0; j < arr[i].length; j++) {
-            total += arr[i][j];
-        }
-        console.log(total)
-    }
-    arr[3].push(0);
-    //Đối với trường hợp độ dài của các hàng bằng nhau:
-    for (let i=0; i<arr[0].length; i++){
-        let total = 0;
-        for (let j = 0; j<arr.length; j++){
-            total += arr[j][i];
-        }
-        console.log(total)
-    }
-    //Đôí với trường hợp độ dài của các hàng khác nhau,
-    //ta dùng hàm push() để thêm giá trị 0 vào cuối các hàng có độ dài ngắn hơn sao cho độ dài của các hàng bằng nhau
-    //sau đó ta dùng vòng lặp như phía trên
+    // let arr = [
+    //     [1, 1, 1, 1, 1],
+    //     [2, 3, 4, 5, 6],
+    //     [3, 3, 3, 3, 3],
+    //     [4, 4, 4, 4]
+    // ]
+    // for (let i = 0; i < arr.length; i++) {
+    //     let total = 0;
+    //     for (let j = 0; j < arr[i].length; j++) {
+    //         total += arr[i][j];
+    //     }
+    //     console.log(total)
+    // }
+    // arr[3].push(0);
+    // //Đối với trường hợp độ dài của các hàng bằng nhau:
+    // for (let i=0; i<arr[0].length; i++){
+    //     let total = 0;
+    //     for (let j = 0; j<arr.length; j++){
+    //         total += arr[j][i];
+    //     }
+    //     console.log(total)
+    // }
+    // //Đôí với trường hợp độ dài của các hàng khác nhau,
+    // //ta dùng hàm push() để thêm giá trị 0 vào cuối các hàng có độ dài ngắn hơn sao cho độ dài của các hàng bằng nhau
+    // //sau đó ta dùng vòng lặp như phía trên
 
-
-
+    // function doubleArray(array) {
+    //     let newArray = [];
+    //     for (let i = 0; i < array.length; i++) {
+    //         newArray.push(array[i] * 2);
+    //     }
+    //     return newArray;
+    // }
+    //
+    // let myArray = [1, 2, 3, 4];
+    // let newArray = doubleArray(myArray);
+    // console.log(doubleArray(myArray))
+    // console.log(newArray); // [2, 4, 6, 8]
+    // console.log(myArray); // [1, 2, 3, 4]
+// var numbers = [1, 2];
+// numbers[3] = 3;
+// document.write(numbers.length);
+// console.log(numbers)
+    // class Person()
+    // var email = "info@codegym.vn";
+    // var pattern = /^[\w\.]+@[\w\.]+$/;
+    // if (pattern.test(email)){
+    //     document.write("valid email");
+    // } else {
+    //     document.write("invalid email");
+    // }
+    // function swap(a,b){
+    //     let temp = a.value;
+    //     a.value = b.value;
+    //     b.value = temp;
+    // }
+    // let a = {value: 5};
+    // let b = {value: 10};
+    // swap(a, b);
+    // document.write(a.value +" "+b.value);
+// let num = 0;
+//  while(num++ < 10){
+//      num++;
+//  }
+// console.log(num)
 </script>
 </body>
 </html>

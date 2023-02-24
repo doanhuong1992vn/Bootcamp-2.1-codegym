@@ -5,7 +5,7 @@
     <title>Game Escape Methamphetamine</title>
     <link rel="stylesheet" href="style/style.css">
 </head>
-<body onkeydown="gameBoard.car.move(event)">
+<body onkeydown="gameBoard.car.onkeydown(event)" onkeyup="gameBoard.car.onkeyup(event)">
 <canvas></canvas>
 <img id="logo" src="image/logo.png" alt="Logo Image">
 <p id="instruct">HƯỚNG DẪN</p>
@@ -30,17 +30,19 @@
     roadBg.width = CW;
     roadBg.height = CH;
     let startImg = document.querySelector("#startImg");
-    startImg.width = CW/4;
-    startImg.height = CW/4;
+    startImg.width = CW / 4;
+    startImg.height = CW / 4;
     let logo = document.querySelector("#logo");
     logo.width = CW;
-    logo.height = CH/10;
+    logo.height = CH / 10;
     let speed = CH * 0.005;
+
     function Road() {
         this.road = new Image();
         this.road.src = "./image/road.png";
-        this.draw = ()=> context.drawImage(this.road, 0, 0, CW, CH)
+        this.draw = () => context.drawImage(this.road, 0, 0, CW, CH)
     }
+
     function RoadLane(y) {
         this.width = CW * 0.02;
         this.height = CH / 13;
@@ -64,6 +66,7 @@
             this.setSpeed(speed);
         }
     }
+
     function Car() {
         this.image = new Image();
         this.image.src = "./image/car.png";
@@ -72,24 +75,64 @@
         this.x = (CW - this.width) / 2;
         this.y = CH - this.height;
         this.speed = 2 * speed;
-        this.setSpeed = speed => {if (this.speed < 1.5 * this.width) this.speed = 2 * speed};
-        this.draw = ()=> context.drawImage(this.image, this.x, this.y, this.width, this.height);
-        this.move = function (event) {
+        this.isMovingLeft = false;
+        this.isMovingRight = false;
+        this.isMovingUp = false;
+        this.isMovingDown = false;
+        this.setSpeed = speed => {
+            if (this.speed < 1.5 * this.width) this.speed = 2 * speed
+        };
+        this.draw = () => context.drawImage(this.image, this.x, this.y, this.width, this.height);
+        this.onkeyup = function (event) {
             switch (event.which) {
                 case 37:
-                    this.x -= this.speed;
+                    this.isMovingLeft = false;
                     break;
                 case 38:
-                    this.y -= this.speed;
+                    this.isMovingUp = false;
                     break;
                 case 39:
-                    this.x += this.speed;
+                    this.isMovingRight = false;
                     break;
                 case 40:
+                    this.isMovingDown = false;
+                    break;
+            }
+        }
+        this.onkeydown = function (event) {
+            switch (event.which) {
+                case 37:
+                    this.isMovingLeft = true;
+                    break;
+                case 38:
+                    this.isMovingUp = true;
+                    break;
+                case 39:
+                    this.isMovingRight = true;
+                    break;
+                case 40:
+                    this.isMovingDown = true;
+                    break;
+            }
+        }
+        this.move = function () {
+            switch (true){
+                case (this.isMovingLeft === true):
+                    this.x -= this.speed;
+                    break;
+                case (this.isMovingRight === true):
+                    this.x += this.speed;
+                    break;
+                case (this.isMovingUp === true):
+                    this.y -= this.speed;
+                    break;
+                case (this.isMovingDown === true):
                     this.y += this.speed;
+                    break;
             }
         }
     }
+
     function GameBoard() {
         this.car = new Car();
         this.road = new Road();
@@ -120,7 +163,9 @@
             this.audioRelax.src = "";
             this.audioGameOver.play();
             this.highScore.push(Math.floor(this.score + 0.5));
-            this.highScore.sort((a, b)=> {return b - a});
+            this.highScore.sort((a, b) => {
+                return b - a
+            });
             document.querySelector("#highScore").innerHTML = `High Score<br>${this.highScore[0]}`;
             context.font = "75px Georgia";
             context.textAlign = "center";
@@ -137,6 +182,7 @@
             }
         }
     }
+
     function Stone() {
         this.image = new Image()
         this.image.src = "./image/stone.png";
@@ -159,8 +205,7 @@
             if ((this.x + this.width * 0.25) + this.width * 0.5 >= (car.x + car.width * 0.1)
                 && (car.x + car.width * 0.1) + car.width * 0.8 >= (this.x + this.width * 0.25)
                 && (this.y + this.height * 0.1) + this.height * 0.8 >= (car.y + car.height * 0.1)
-                && (car.y + car.height * 0.1) + car.height * 0.8 >= (this.y + this.height * 0.1))
-            {
+                && (car.y + car.height * 0.1) + car.height * 0.8 >= (this.y + this.height * 0.1)) {
                 this.collisionAudio.play();
                 car.image.src = "./image/accident1.png";
                 gameBoard.getGameOver();
@@ -173,6 +218,7 @@
             this.setSpeed(speed);
         }
     }
+
     function Coin() {
         this.image = new Image();
         this.width = CH * 0.062;
@@ -184,7 +230,7 @@
         this.speed = speed;
         this.image.src = "./image/coin.png";
         this.setSpeed = speed => this.speed = speed;
-        this.hide = function(){
+        this.hide = function () {
             this.x = this.x2;
             this.y = this.y2;
         }
@@ -210,33 +256,35 @@
             this.setSpeed(speed);
         }
     }
+
     let interval, gameBoard;
     let stone = [];
     let coin = [];
     let roadLane = [];
     let timeout = [];
+
     function start() {
         gameBoard = new GameBoard();
         stone.push(new Stone());
         roadLane.push(
             new RoadLane(0),
-            new RoadLane(2*CH/13),
-            new RoadLane(4*CH/13),
-            new RoadLane(6*CH/13),
-            new RoadLane(8*CH/13),
-            new RoadLane(10*CH/13),
-            new RoadLane(12*CH/13),
+            new RoadLane(2 * CH / 13),
+            new RoadLane(4 * CH / 13),
+            new RoadLane(6 * CH / 13),
+            new RoadLane(8 * CH / 13),
+            new RoadLane(10 * CH / 13),
+            new RoadLane(12 * CH / 13),
         );
         timeout.push(
-            setTimeout(()=> coin.push(new Coin()), 2000),
-            setTimeout(()=> coin.push(new Coin()), 6000),
-            setTimeout(()=> coin.push(new Coin()), 10000),
-            setTimeout(()=> coin.push(new Coin()), 14000),
-            setTimeout(()=> coin.push(new Coin()), 18000),
-            setTimeout(()=> stone.push(new Stone()), 4000),
-            setTimeout(()=> stone.push(new Stone()), 8000),
-            setTimeout(()=> stone.push(new Stone()), 12000),
-            setTimeout(()=> stone.push(new Stone()), 16000),
+            setTimeout(() => coin.push(new Coin()), 2000),
+            setTimeout(() => coin.push(new Coin()), 6000),
+            setTimeout(() => coin.push(new Coin()), 10000),
+            setTimeout(() => coin.push(new Coin()), 14000),
+            setTimeout(() => coin.push(new Coin()), 18000),
+            setTimeout(() => stone.push(new Stone()), 4000),
+            setTimeout(() => stone.push(new Stone()), 8000),
+            setTimeout(() => stone.push(new Stone()), 12000),
+            setTimeout(() => stone.push(new Stone()), 16000),
         )
         interval = setInterval(function () {
             gameBoard.road.draw();
@@ -244,19 +292,22 @@
             coin.forEach(coin => coin.draw(gameBoard.car, gameBoard, speed))
             stone.forEach(stone => stone.draw(gameBoard.car, gameBoard, speed))
             gameBoard.car.draw();
+            gameBoard.car.move();
             gameBoard.car.setSpeed(speed);
             gameBoard.checkCollision();
             gameBoard.getScore();
             speed += speed * 0.001;
         }, 50);
     }
+
     function clearLoopRender() {
         clearInterval(interval);
         timeout.forEach(timeout => clearTimeout(timeout));
     }
+
     function reStart() {
         clearLoopRender();
-        setTimeout(function(){
+        setTimeout(function () {
             roadBg.style.display = "none";
             startImg.style.display = "none";
         }, 50);

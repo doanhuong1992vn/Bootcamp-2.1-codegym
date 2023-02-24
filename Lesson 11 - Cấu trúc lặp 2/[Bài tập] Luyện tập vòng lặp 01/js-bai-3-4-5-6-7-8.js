@@ -9,20 +9,14 @@ function printFibonacci(n) {
         toString.innerText = ""
     } else {
 //Dưới đây là khối code chính để tính toán:
-        let arr = [], n2 = 0, n1 = 1, nNext;
-        if (n == 1) {
-            arr[0] = 0;
-            toString.innerText = `${n} số đầu tiên trong dãy Fibonacci là: ${arr}`;
-        } else if (n == 2) {
-            arr = [0, 1];
+        let arr = [0, 1];
+        if (n === 1) {
+            toString.innerText = `${n} số đầu tiên trong dãy Fibonacci là: ${arr[0]}`;
+        } else if (n === 2) {
             toString.innerText = `${n} số đầu tiên trong dãy Fibonacci là: ${arr}`;
         } else if (n > 2) {
-            arr = [0, 1];
             for (let i = 2; i < n; i++) {
-                nNext = n1 + n2;
-                n2 = n1;
-                n1 = nNext;
-                arr[i] = nNext;
+                arr[i] = arr[i-1]+arr[i-2];
             }
             toString.innerText = `${n} số đầu tiên trong dãy Fibonacci là: ${arr}`;
         }

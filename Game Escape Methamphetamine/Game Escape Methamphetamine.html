@@ -36,14 +36,14 @@
     logo.width = CW;
     logo.height = CH / 10;
     let speed = CH * 0.005;
-
+    let highScore = [1408];
     function Road() {
         this.road = new Image();
         this.road.src = "./image/road.png";
         this.draw = () => context.drawImage(this.road, 0, 0, CW, CH)
     }
 
-    function RoadLane(y) {
+    function RoadLane(y, speed) {
         this.width = CW * 0.02;
         this.height = CH / 13;
         this.x1 = CW * 0.05 + CW * 0.9 / 3 - this.width / 2;
@@ -59,11 +59,11 @@
             }
         }
         this.draw = function (speed) {
+            this.move();
+            this.setSpeed(speed);
             context.fillStyle = "#ffffff";
             context.fillRect(this.x1, this.y, this.width, this.height);
             context.fillRect(this.x2, this.y, this.width, this.height);
-            this.move();
-            this.setSpeed(speed);
         }
     }
 
@@ -74,13 +74,13 @@
         this.height = CH * 0.15;
         this.x = (CW - this.width) / 2;
         this.y = CH - this.height;
-        this.speed = 2 * speed;
+        this.speed = 1.5 * speed;
         this.isMovingLeft = false;
         this.isMovingRight = false;
         this.isMovingUp = false;
         this.isMovingDown = false;
         this.setSpeed = speed => {
-            if (this.speed < 1.5 * this.width) this.speed = 2 * speed
+            if (this.speed < this.width) this.speed = 1.5 * speed
         };
         this.draw = () => context.drawImage(this.image, this.x, this.y, this.width, this.height);
         this.onkeyup = function (event) {
@@ -141,7 +141,6 @@
         this.audioBonus = new Audio("audio/bonus.mp3");
         this.audioGameOver = new Audio("audio/game-over.mp3");
         this.score = 0;
-        this.highScore = [1408];
         this.getScore = function () {
             this.audioEngine.play();
             this.audioEngine.loop = true;
@@ -162,11 +161,9 @@
             this.audioEngine.src = "";
             this.audioRelax.src = "";
             this.audioGameOver.play();
-            this.highScore.push(Math.floor(this.score + 0.5));
-            this.highScore.sort((a, b) => {
-                return b - a
-            });
-            document.querySelector("#highScore").innerHTML = `High Score<br>${this.highScore[0]}`;
+            highScore.push(Math.floor(this.score + 0.5));
+            highScore.sort((a, b) => {return b - a});
+            document.querySelector("#highScore").innerHTML = `High Score<br>${highScore[0]}`;
             context.font = "75px Georgia";
             context.textAlign = "center";
             context.fillStyle = "red";
@@ -212,10 +209,10 @@
             }
         }
         this.draw = function (car, gameBoard, speed) {
-            context.drawImage(this.image, this.x, this.y, this.width, this.height);
-            this.checkCollision(car, gameBoard);
             this.move();
             this.setSpeed(speed);
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+            this.checkCollision(car, gameBoard);
         }
     }
 
@@ -250,10 +247,10 @@
             }
         }
         this.draw = function (car, gameBoard, speed) {
-            context.drawImage(this.image, this.x, this.y, this.width, this.height);
-            this.checkCollision(car, gameBoard);
             this.move();
             this.setSpeed(speed);
+            context.drawImage(this.image, this.x, this.y, this.width, this.height);
+            this.checkCollision(car, gameBoard);
         }
     }
 
@@ -267,13 +264,13 @@
         gameBoard = new GameBoard();
         stone.push(new Stone());
         roadLane.push(
-            new RoadLane(0),
-            new RoadLane(2 * CH / 13),
-            new RoadLane(4 * CH / 13),
-            new RoadLane(6 * CH / 13),
-            new RoadLane(8 * CH / 13),
-            new RoadLane(10 * CH / 13),
-            new RoadLane(12 * CH / 13),
+            new RoadLane(0, speed),
+            new RoadLane(2 * CH / 13, speed),
+            new RoadLane(4 * CH / 13, speed),
+            new RoadLane(6 * CH / 13, speed),
+            new RoadLane(8 * CH / 13, speed),
+            new RoadLane(10 * CH / 13, speed),
+            new RoadLane(12 * CH / 13, speed),
         );
         timeout.push(
             setTimeout(() => coin.push(new Coin()), 2000),
@@ -287,6 +284,7 @@
             setTimeout(() => stone.push(new Stone()), 16000),
         )
         interval = setInterval(function () {
+            speed += CH * 0.005 * 0.001;
             gameBoard.road.draw();
             roadLane.forEach(lane => lane.draw(speed))
             coin.forEach(coin => coin.draw(gameBoard.car, gameBoard, speed))
@@ -296,7 +294,6 @@
             gameBoard.car.setSpeed(speed);
             gameBoard.checkCollision();
             gameBoard.getScore();
-            speed += speed * 0.001;
         }, 50);
     }
 

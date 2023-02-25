@@ -1,5 +1,4 @@
 body {
-    /*background-image: url("/Game Escape Methamphetamine/image/background.jpg");*/
     margin: 0;
     position: relative;
     width: 100vw;
@@ -31,17 +30,6 @@ canvas {
 #startImg:active {
     opacity: 0.8;
 }
-
-/*#nameGame {*/
-/*    position: absolute;*/
-/*    left: 16.5%;*/
-/*    top: -2%;*/
-/*    transform: translate(-50%);*/
-/*    text-align: center;*/
-/*    font-size: 30px;*/
-/*    color: #4CAF50;*/
-/*    font-family: "Lucida Grande", "Lucida Sans Unicode", Tahoma, sans-serif;*/
-/*}*/
 #logo {
     position: absolute;
     left: 16.5%;

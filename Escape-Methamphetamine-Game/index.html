@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Escape Methamphetamine</title>
+    <link rel="stylesheet" href="style/style.css">
+</head>
+<body onkeydown="gameBoard.car.onkeydown(event)" onkeyup="gameBoard.car.onkeyup(event)">
+<canvas></canvas>
+<img id="logo" src="image/logo.png" alt="Logo Image">
+<p id="instruct">HƯỚNG DẪN</p>
+<img id="image" src="./image/instruct.png" alt="instruct image">
+<ul id="rule">
+    <li>Trụ 1 giây được 10 điểm</li>
+    <li>Chạm đồng xu được 100 điểm</li>
+    <li>Đâm vào đá hoặc ra ngoài đường đua thì thua</li>
+</ul>
+<p id="challenge">Bạn sẽ trụ được bao lâu?</p>
+<div id="highScore">High Score<br>1408</div>
+<img id="background" src="image/background.png" alt="Road Background">
+<img id="startImg" src="image/startBtn.png" onclick="reStart()" alt="Start Button">
+<script src="main/main.js"></script>
+</body>
+</html>
